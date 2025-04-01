@@ -50,5 +50,15 @@ void AudioPluginAudioProcessorEditor::resized() {
   waveformLabel.setBounds(labelsBounds.removeFromLeft(oneThirdOfWidth));
   bypassLabel.setBounds(labelsBounds.removeFromRight(oneThirdOfWidth));
   rateLabel.setBounds(labelsBounds);
+
+  bounds.removeFromTop(6);
+
+  auto widgetBounds = bounds.removeFromTop(55);
+
+  waveformComboBox.setBounds(widgetBounds.removeFromLeft(oneThirdOfWidth));
+  bypassButton.setBounds(widgetBounds.removeFromRight(oneThirdOfWidth));
+  rateSlider.setBounds(widgetBounds);
+
+  bounds.removeFromTop(18);
 }
 }  // namespace ws
