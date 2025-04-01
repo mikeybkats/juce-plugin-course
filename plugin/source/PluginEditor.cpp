@@ -15,6 +15,16 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
   headerLabel.setJustificationType(juce::Justification::centred);
   addAndMakeVisible(headerLabel);
 
+  waveformLabel.setJustificationType(juce::Justification::centred);
+  addAndMakeVisible(waveformLabel);
+  addAndMakeVisible(waveformComboBox);
+  rateLabel.setJustificationType(juce::Justification::centred);
+  addAndMakeVisible(rateLabel);
+  addAndMakeVisible(rateSlider);
+  bypassLabel.setJustificationType(juce::Justification::centred);
+  addAndMakeVisible(bypassLabel);
+  addAndMakeVisible(bypassButton);
+
   // Make sure that before the constructor has finished, you've set the
   // editor's size to whatever you need it to be.
   setSize(600, 300);
@@ -23,11 +33,22 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}
 
 void AudioPluginAudioProcessorEditor::resized() {
-  background.setBounds(getLocalBounds());
-
   auto bounds = getLocalBounds();
+
+  background.setBounds(bounds);
 
   bounds.removeFromTop(28);
   headerLabel.setBounds(bounds.removeFromTop(18));
+
+  bounds.removeFromTop(12);
+
+  bounds.removeFromLeft(26);
+  bounds.removeFromRight(26);
+
+  auto labelsBounds = bounds.removeFromTop(18);
+  const auto oneThirdOfWidth = labelsBounds.getWidth() / 3;
+  waveformLabel.setBounds(labelsBounds.removeFromLeft(oneThirdOfWidth));
+  bypassLabel.setBounds(labelsBounds.removeFromRight(oneThirdOfWidth));
+  rateLabel.setBounds(labelsBounds);
 }
 }  // namespace ws
