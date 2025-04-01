@@ -27,6 +27,8 @@ juce_add_plugin(
   VST3 # may change this
   PRODUCT_NAME
   "Tremolo" # change this
+  VST3_AUTO_MANIFEST
+  FALSE
 )
 add_library(ws::TremoloCoursePlugin ALIAS TremoloCoursePlugin)
 
