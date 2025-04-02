@@ -24,11 +24,16 @@ juce_add_plugin(
   TRCP # change this
   FORMATS
   Standalone
+  AU
   VST3 # may change this
   PRODUCT_NAME
   "Tremolo" # change this
+  VERSION
+  0.0.0 # 0 forces AU hosts to always refresh
   VST3_AUTO_MANIFEST
   FALSE
+  COPY_PLUGIN_AFTER_BUILD
+  TRUE
 )
 add_library(ws::TremoloCoursePlugin ALIAS TremoloCoursePlugin)
 
@@ -43,10 +48,16 @@ target_include_directories(TremoloCoursePlugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR
 
 # Links to all necessary dependencies. The present ones are recommended by JUCE.
 # If you use one of the additional modules, like the DSP module, you need to specify it here.
-target_link_libraries_system(TremoloCoursePlugin PUBLIC juce::juce_audio_utils PRIVATE juce::juce_dsp)
+target_link_libraries_system(
+  TremoloCoursePlugin
+  PUBLIC
+  juce::juce_audio_utils
+  PRIVATE
+  juce::juce_dsp
+)
 target_link_libraries(
   TremoloCoursePlugin PUBLIC juce::juce_recommended_config_flags juce::juce_recommended_lto_flags
-                         juce::juce_recommended_warning_flags
+                             juce::juce_recommended_warning_flags
 )
 
 # These definitions are recommended by JUCE.
