@@ -1,5 +1,4 @@
 #include "Tremolo/PluginEditor.h"
-#include <juce_graphics/juce_graphics.h>
 #include "Tremolo/PluginProcessor.h"
 
 namespace ws {
@@ -7,7 +6,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor& p)
     : AudioProcessorEditor(&p),
       processorRef(p),
-      rateAttachment{p.getRateParameter(), rateSlider} {
+      rateAttachment{p.getRateParameter(), rateSlider},
+      bypassAttachment{*p.getBypassParameter(), bypassButton} {
   juce::ignoreUnused(processorRef);
 
   background.topColour = juce::Colours::whitesmoke;
@@ -20,11 +20,14 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
   waveformLabel.setJustificationType(juce::Justification::centred);
   addAndMakeVisible(waveformLabel);
   addAndMakeVisible(waveformComboBox);
+
   rateLabel.setJustificationType(juce::Justification::centred);
   addAndMakeVisible(rateLabel);
   addAndMakeVisible(rateSlider);
+
   bypassLabel.setJustificationType(juce::Justification::centred);
   addAndMakeVisible(bypassLabel);
+
   addAndMakeVisible(bypassButton);
 
   // Make sure that before the constructor has finished, you've set the
@@ -53,14 +56,17 @@ void AudioPluginAudioProcessorEditor::resized() {
   bypassLabel.setBounds(labelsBounds.removeFromRight(oneThirdOfWidth));
   rateLabel.setBounds(labelsBounds);
 
-  bounds.removeFromTop(6);
-
-  auto widgetBounds = bounds.removeFromTop(55);
+  auto widgetBounds = bounds.removeFromTop(67);
 
   waveformComboBox.setBounds(widgetBounds.removeFromLeft(oneThirdOfWidth));
-  bypassButton.setBounds(widgetBounds.removeFromRight(oneThirdOfWidth));
-  rateSlider.setBounds(widgetBounds);
 
-  bounds.removeFromTop(18);
+  auto bypassButtonBounds = widgetBounds.removeFromRight(oneThirdOfWidth);
+  bypassButtonBounds.reduce(8, 14);
+  bypassButton.setBounds(bypassButtonBounds);
+
+  rateSlider.setBounds(widgetBounds.reduced(6));
+
+  bounds.removeFromTop(12);
+  bounds.removeFromBottom(16);
 }
 }  // namespace ws

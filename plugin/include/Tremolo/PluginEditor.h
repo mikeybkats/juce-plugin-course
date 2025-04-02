@@ -4,6 +4,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include "PluginProcessor.h"
 #include "Gradient.h"
+#include "BypassButton.h"
 
 namespace ws {
 
@@ -29,7 +30,8 @@ private:
   juce::SliderParameterAttachment rateAttachment;
 
   juce::Label bypassLabel{"bypass label", "BYPASS"};
-  juce::TextButton bypassButton;
+  BypassButton bypassButton;
+  juce::ButtonParameterAttachment bypassAttachment;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessorEditor)
 };
