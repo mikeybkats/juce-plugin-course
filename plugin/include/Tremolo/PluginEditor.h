@@ -1,5 +1,6 @@
 #pragma once
 
+#include <juce_audio_processors/juce_audio_processors.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 #include "PluginProcessor.h"
 #include "Gradient.h"
@@ -25,6 +26,7 @@ private:
 
   juce::Label rateLabel{"rate label", "RATE"};
   juce::Slider rateSlider;
+  juce::SliderParameterAttachment rateAttachment;
 
   juce::Label bypassLabel{"bypass label", "BYPASS"};
   juce::TextButton bypassButton;

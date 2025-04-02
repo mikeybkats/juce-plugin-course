@@ -36,7 +36,18 @@ public:
   void getStateInformation(juce::MemoryBlock& destData) override;
   void setStateInformation(const void* data, int sizeInBytes) override;
 
+  [[nodiscard]] juce::AudioParameterFloat& getRateParameter() noexcept;
+
 private:
+  struct Parameters {
+    Parameters();
+
+    juce::AudioParameterFloat rate;
+
+    JUCE_DECLARE_NON_COPYABLE(Parameters)
+  };
+
+  Parameters parameters;
   Tremolo<float> tremolo;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)

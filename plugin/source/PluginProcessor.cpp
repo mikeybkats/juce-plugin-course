@@ -1,9 +1,15 @@
 #include "Tremolo/PluginProcessor.h"
+#include <juce_audio_processors/juce_audio_processors.h>
 #include <juce_core/juce_core.h>
 #include <juce_dsp/juce_dsp.h>
 #include "Tremolo/PluginEditor.h"
 
 namespace ws {
+AudioPluginAudioProcessor::Parameters::Parameters()
+    : rate{"modulation.rate", "Modulation rate",
+           juce::NormalisableRange<float>{0.1f, 20.f}, 5.f,
+           juce::AudioParameterFloatAttributes{}.withLabel("Hz")} {}
+
 AudioPluginAudioProcessor::AudioPluginAudioProcessor()
     : AudioProcessor(
           BusesProperties()
@@ -131,6 +137,10 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
     buffer.clear(i, 0, buffer.getNumSamples());
   }
 
+  // update the parameters
+  tremolo.setModulationRate(parameters.rate);
+
+  // apply tremolo
   juce::dsp::AudioBlock<float> block{buffer};
   tremolo.process(juce::dsp::ProcessContextReplacing<float>{block});
 }
@@ -157,6 +167,11 @@ void AudioPluginAudioProcessor::setStateInformation(const void* data,
   // block, whose contents will have been created by the getStateInformation()
   // call.
   juce::ignoreUnused(data, sizeInBytes);
+}
+
+juce::AudioParameterFloat&
+AudioPluginAudioProcessor::getRateParameter() noexcept {
+  return parameters.rate;
 }
 }  // namespace ws
 

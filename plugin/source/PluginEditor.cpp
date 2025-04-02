@@ -5,7 +5,9 @@
 namespace ws {
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor& p)
-    : AudioProcessorEditor(&p), processorRef(p) {
+    : AudioProcessorEditor(&p),
+      processorRef(p),
+      rateAttachment{p.getRateParameter(), rateSlider} {
   juce::ignoreUnused(processorRef);
 
   background.topColour = juce::Colours::whitesmoke;
