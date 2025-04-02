@@ -16,10 +16,21 @@ juce::AudioParameterFloat& createModulationRateParameter(
   p.addParameter(parameter.release());
   return parameterReference;
 }
+
+juce::AudioParameterBool& createBypassedParameter(juce::AudioProcessor& p) {
+  auto parameter = std::make_unique<juce::AudioParameterBool>(
+      "bypassed", "Bypass", false,
+      juce::AudioParameterBoolAttributes{}.withStringFromValueFunction(
+          [](auto isBypassed, auto) { return isBypassed ? "Off" : "On"; }));
+  auto& parameterReference = *parameter;
+  p.addParameter(parameter.release());
+  return parameterReference;
+}
 }  // namespace
 
 AudioPluginAudioProcessor::Parameters::Parameters(juce::AudioProcessor& p)
-    : rate{createModulationRateParameter(p)} {}
+    : rate{createModulationRateParameter(p)},
+      bypassed{createBypassedParameter(p)} {}
 
 AudioPluginAudioProcessor::AudioPluginAudioProcessor()
     : AudioProcessor(
@@ -152,6 +163,11 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   // update the parameters
   tremolo.setModulationRate(parameters.rate);
 
+  if (parameters.bypassed) {
+    // don't do any processing if the plugin is bypassed
+    return;
+  }
+
   // apply tremolo
   juce::dsp::AudioBlock<float> block{buffer};
   tremolo.process(juce::dsp::ProcessContextReplacing<float>{block});
@@ -184,6 +200,11 @@ void AudioPluginAudioProcessor::setStateInformation(const void* data,
 juce::AudioParameterFloat&
 AudioPluginAudioProcessor::getRateParameter() noexcept {
   return parameters.rate;
+}
+
+juce::RangedAudioParameter* AudioPluginAudioProcessor::getBypassParameter()
+    const noexcept {
+  return &parameters.bypassed;
 }
 }  // namespace ws
 

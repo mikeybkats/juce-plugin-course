@@ -37,12 +37,14 @@ public:
   void setStateInformation(const void* data, int sizeInBytes) override;
 
   [[nodiscard]] juce::AudioParameterFloat& getRateParameter() noexcept;
+  juce::RangedAudioParameter* getBypassParameter() const noexcept override;
 
 private:
   struct Parameters {
     explicit Parameters(juce::AudioProcessor& p);
 
     juce::AudioParameterFloat& rate;
+    juce::AudioParameterBool& bypassed;
 
     JUCE_DECLARE_NON_COPYABLE(Parameters)
   };
