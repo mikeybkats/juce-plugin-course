@@ -1,19 +1,10 @@
 #pragma once
 
 #include <juce_audio_processors/juce_audio_processors.h>
+#include "Parameters.h"
 #include "Tremolo.h"
 
 namespace ws {
-struct Parameters {
-  using Container = std::vector<std::unique_ptr<juce::AudioProcessorParameter>>;
-  explicit Parameters(Container&);
-
-  juce::AudioParameterFloat& rate;
-  juce::AudioParameterBool& bypassed;
-
-  JUCE_DECLARE_NON_COPYABLE(Parameters)
-};
-
 class AudioPluginAudioProcessor : public juce::AudioProcessor {
 public:
   explicit AudioPluginAudioProcessor(

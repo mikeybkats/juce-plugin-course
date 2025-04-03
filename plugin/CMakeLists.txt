@@ -38,9 +38,16 @@ juce_add_plugin(
 add_library(ws::TremoloCoursePlugin ALIAS TremoloCoursePlugin)
 
 # Sets the source files of the plugin project.
-set(SOURCE_FILES source/PluginEditor.cpp source/PluginProcessor.cpp)
+set(SOURCE_FILES source/PluginEditor.cpp source/PluginProcessor.cpp source/Parameters.cpp)
 # Optional; includes header files in the project file tree in Visual Studio
-set(HEADER_FILES ${INCLUDE_DIR}/PluginEditor.h ${INCLUDE_DIR}/PluginProcessor.h)
+set(HEADER_FILES
+    ${INCLUDE_DIR}/PluginEditor.h
+    ${INCLUDE_DIR}/PluginProcessor.h
+    ${INCLUDE_DIR}/Gradient.h
+    ${INCLUDE_DIR}/Parameters.h
+    ${INCLUDE_DIR}/BypassButton.h
+    ${INCLUDE_DIR}/Tremolo.h
+)
 target_sources(TremoloCoursePlugin PRIVATE ${SOURCE_FILES} ${HEADER_FILES})
 
 # Sets the include directories of the plugin project.
