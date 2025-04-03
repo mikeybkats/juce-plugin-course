@@ -147,8 +147,7 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   }
 
   // apply tremolo
-  juce::dsp::AudioBlock<float> block{buffer};
-  tremolo.process(juce::dsp::ProcessContextReplacing<float>{block});
+  tremolo.process(buffer);
 }
 
 bool AudioPluginAudioProcessor::hasEditor() const {

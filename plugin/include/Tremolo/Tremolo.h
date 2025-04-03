@@ -40,34 +40,24 @@ public:
     }
   }
 
-  template <typename ProcessContext>
-  void process(const ProcessContext& context) noexcept {
-    const auto& inputBlock = context.getInputBlock();
-    auto& outputBlock = context.getOutputBlock();
-
-    // sanity check
-    jassert(inputBlock.getNumSamples() == outputBlock.getNumSamples());
-    jassert(inputBlock.getNumChannels() == outputBlock.getNumChannels());
-
+  void process(juce::AudioBuffer<float>& buffer) noexcept {
     // for each sample
-    for (const auto i :
-         std::views::iota(0, static_cast<int>(inputBlock.getNumSamples()))) {
+    for (const auto i : std::views::iota(0, buffer.getNumSamples())) {
       // generate the LFO value;
       // the argument is added to the generated sample, thus, we pass in 0
       const auto lfoValue = lfos[currentLfo].processSample(0.f);
       // calculate the modulation value
       const auto modulationValue = (1.f + MODULATION_DEPTH * lfoValue);
 
-      for (const auto channel :
-           std::views::iota(0, static_cast<int>(inputBlock.getNumChannels()))) {
+      for (const auto channel : std::views::iota(0, buffer.getNumChannels())) {
         // get the input sample
-        const auto inputSample = inputBlock.getSample(channel, i);
+        const auto inputSample = buffer.getSample(channel, i);
 
         // modulate the sample
         const auto outputSample = modulationValue * inputSample;
 
         // set the output sample
-        outputBlock.setSample(channel, i, outputSample);
+        buffer.setSample(channel, i, outputSample);
       }
     }
   }
