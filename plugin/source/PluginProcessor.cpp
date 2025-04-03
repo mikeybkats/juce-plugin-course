@@ -7,32 +7,33 @@
 namespace ws {
 namespace {
 juce::AudioParameterFloat& createModulationRateParameter(
-    juce::AudioProcessor& p) {
+    Parameters::Container& c) {
   auto parameter = std::make_unique<juce::AudioParameterFloat>(
       "modulation.rate", "Modulation rate",
       juce::NormalisableRange<float>{0.1f, 20.f}, 5.f,
       juce::AudioParameterFloatAttributes{}.withLabel("Hz"));
   auto& parameterReference = *parameter;
-  p.addParameter(parameter.release());
+  c.push_back(std::move(parameter));
   return parameterReference;
 }
 
-juce::AudioParameterBool& createBypassedParameter(juce::AudioProcessor& p) {
+juce::AudioParameterBool& createBypassedParameter(Parameters::Container& c) {
   auto parameter = std::make_unique<juce::AudioParameterBool>(
       "bypassed", "Bypass", false,
       juce::AudioParameterBoolAttributes{}.withStringFromValueFunction(
           [](auto isBypassed, auto) { return isBypassed ? "Off" : "On"; }));
   auto& parameterReference = *parameter;
-  p.addParameter(parameter.release());
+  c.push_back(std::move(parameter));
   return parameterReference;
 }
 }  // namespace
 
-AudioPluginAudioProcessor::Parameters::Parameters(juce::AudioProcessor& p)
-    : rate{createModulationRateParameter(p)},
-      bypassed{createBypassedParameter(p)} {}
+Parameters::Parameters(Container& parameterContainer)
+    : rate{createModulationRateParameter(parameterContainer)},
+      bypassed{createBypassedParameter(parameterContainer)} {}
 
-AudioPluginAudioProcessor::AudioPluginAudioProcessor()
+AudioPluginAudioProcessor::AudioPluginAudioProcessor(
+    Parameters::Container parameterContainer)
     : AudioProcessor(
           BusesProperties()
 #if !JucePlugin_IsMidiEffect
@@ -42,7 +43,10 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
               ),
-      parameters{*this} {
+      parameters{parameterContainer} {
+  std::ranges::for_each(parameterContainer, [this](auto& parameter) {
+    addParameter(parameter.release());
+  });
 }
 
 AudioPluginAudioProcessor::~AudioPluginAudioProcessor() {}

@@ -4,9 +4,20 @@
 #include "Tremolo.h"
 
 namespace ws {
+struct Parameters {
+  using Container = std::vector<std::unique_ptr<juce::AudioProcessorParameter>>;
+  explicit Parameters(Container&);
+
+  juce::AudioParameterFloat& rate;
+  juce::AudioParameterBool& bypassed;
+
+  JUCE_DECLARE_NON_COPYABLE(Parameters)
+};
+
 class AudioPluginAudioProcessor : public juce::AudioProcessor {
 public:
-  AudioPluginAudioProcessor();
+  explicit AudioPluginAudioProcessor(
+      Parameters::Container parameterContainer = {});
   ~AudioPluginAudioProcessor() override;
 
   void prepareToPlay(double sampleRate, int samplesPerBlock) override;
@@ -40,15 +51,6 @@ public:
   juce::RangedAudioParameter* getBypassParameter() const noexcept override;
 
 private:
-  struct Parameters {
-    explicit Parameters(juce::AudioProcessor& p);
-
-    juce::AudioParameterFloat& rate;
-    juce::AudioParameterBool& bypassed;
-
-    JUCE_DECLARE_NON_COPYABLE(Parameters)
-  };
-
   Parameters parameters;
   Tremolo<float> tremolo;
 
