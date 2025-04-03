@@ -43,7 +43,7 @@ public:
 
 private:
   Parameters parameters;
-  Tremolo<float> tremolo;
+  Tremolo tremolo;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };

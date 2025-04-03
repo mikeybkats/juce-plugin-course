@@ -4,7 +4,6 @@
 #include <array>
 
 namespace ws {
-template <typename SampleType>
 class Tremolo {
 public:
   enum LfoWaveform : size_t {
@@ -14,11 +13,10 @@ public:
   };
 
   Tremolo()
-      : lfos{juce::dsp::Oscillator<SampleType>{
-                 [](SampleType phase) { return std::sin(phase); }},
-             juce::dsp::Oscillator<SampleType>{[](SampleType) { return 0; }}} {
-    std::ranges::for_each(
-        lfos, [](auto& lfo) { lfo.setFrequency(SampleType(5), true); });
+      : lfos{juce::dsp::Oscillator<float>{
+                 [](float phase) { return std::sin(phase); }},
+             juce::dsp::Oscillator<float>{[](float) { return 0; }}} {
+    std::ranges::for_each(lfos, [](auto& lfo) { lfo.setFrequency(5, true); });
   }
 
   void prepare(double sampleRate) noexcept {
@@ -29,7 +27,7 @@ public:
                                  }](auto& lfo) { lfo.prepare(spec); });
   }
 
-  void setModulationRate(SampleType rateHz) noexcept {
+  void setModulationRate(float rateHz) noexcept {
     std::ranges::for_each(lfos,
                           [rateHz](auto& lfo) { lfo.setFrequency(rateHz); });
   }
@@ -56,10 +54,9 @@ public:
          std::views::iota(0, static_cast<int>(inputBlock.getNumSamples()))) {
       // generate the LFO value;
       // the argument is added to the generated sample, thus, we pass in 0
-      const auto lfoValue = lfos[currentLfo].processSample(SampleType(0));
+      const auto lfoValue = lfos[currentLfo].processSample(0.f);
       // calculate the modulation value
-      const auto modulationValue =
-          (SampleType(1) + MODULATION_DEPTH * lfoValue);
+      const auto modulationValue = (1.f + MODULATION_DEPTH * lfoValue);
 
       for (const auto channel :
            std::views::iota(0, static_cast<int>(inputBlock.getNumChannels()))) {
@@ -80,8 +77,8 @@ public:
   }
 
 private:
-  static constexpr auto MODULATION_DEPTH = SampleType(0.1);
-  std::array<juce::dsp::Oscillator<SampleType>, LfoWaveform::COUNT> lfos;
+  static constexpr auto MODULATION_DEPTH = 0.1f;
+  std::array<juce::dsp::Oscillator<float>, LfoWaveform::COUNT> lfos;
   size_t currentLfo = LfoWaveform::SINE;
 };
 }  // namespace ws
