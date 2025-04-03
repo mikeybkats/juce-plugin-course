@@ -1,4 +1,5 @@
 #pragma once
+#include <juce_core/juce_core.h>
 #include <juce_dsp/juce_dsp.h>
 #include <ranges>
 #include <array>
@@ -15,7 +16,8 @@ public:
   Tremolo()
       : lfos{juce::dsp::Oscillator<float>{
                  [](float phase) { return std::sin(phase); }},
-             juce::dsp::Oscillator<float>{[](float) { return 0; }}} {
+             juce::dsp::Oscillator<float>{
+                 [](float phase) { return triangle(phase); }}} {
     std::ranges::for_each(lfos, [](auto& lfo) { lfo.setFrequency(5, true); });
   }
 
@@ -67,6 +69,13 @@ public:
   }
 
 private:
+  static float triangle(float phase) {
+    // Source:
+    // https://thewolfsound.com/sine-saw-square-triangle-pulse-basic-waveforms-in-synthesis/#triangle
+    const auto ft = phase / juce::MathConstants<float>::twoPi;
+    return 4.f * std::abs(ft - std::floor(ft + 0.5f)) - 1.f;
+  }
+
   static constexpr auto MODULATION_DEPTH = 0.1f;
   std::array<juce::dsp::Oscillator<float>, LfoWaveform::COUNT> lfos;
   size_t currentLfo = LfoWaveform::SINE;
