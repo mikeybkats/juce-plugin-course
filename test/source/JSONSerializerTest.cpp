@@ -10,18 +10,24 @@ TEST(JSONSerializer, SerializeToFile) {
 
   parameters.rate = 10.f;
   parameters.bypassed = true;
+  parameters.waveform = 1;
 
-  juce::FileOutputStream outputStream{
-      juce::File::getSpecialLocation(
-          juce::File::SpecialLocationType::currentExecutableFile)
-          .getParentDirectory()
-          .getChildFile("SerializedParameters.json")};
-  ASSERT_TRUE(outputStream.openedOk());
-  outputStream.setPosition(0);
-  outputStream.truncate();
+  const juce::String EXPECTED_OUTPUT =
+      u8R"({
+  "pluginName": "Tremolo",
+  "version": "1.0.0",
+  "modulationRateHz": 10.0,
+  "bypassed": true
+})";
+  juce::MemoryBlock block;
+  juce::MemoryOutputStream outputStream{block, false};
 
   JSONSerializer{}.serialize(parameters, outputStream);
   outputStream.flush();
+
+  const auto result = outputStream.toUTF8();
+
+  EXPECT_EQ(EXPECTED_OUTPUT, result);
 }
 
 TEST(JSONSerializer, DeserializeFromString) {
