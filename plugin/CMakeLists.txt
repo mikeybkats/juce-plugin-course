@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-# Version is needed by JUCE.
 project(TremoloCoursePlugin VERSION 0.1.0)
-
-# Adding a directory with the library/application name as a subfolder of the
-# include folder is a good practice. It helps avoid name clashes later on.
-set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/Tremolo")
 
 # Adds a plugin target (that's basically what the Projucer does).
 juce_add_plugin(
@@ -13,11 +8,11 @@ juce_add_plugin(
   COMPANY_NAME
   WolfSound # change this
   IS_SYNTH
-  FALSE # may change this
+  FALSE
   NEEDS_MIDI_INPUT
-  FALSE # may change this
+  FALSE
   NEEDS_MIDI_OUTPUT
-  FALSE # may change this
+  FALSE
   PLUGIN_MANUFACTURER_CODE
   WFSD # change this
   PLUGIN_CODE
@@ -25,9 +20,9 @@ juce_add_plugin(
   FORMATS
   Standalone
   AU
-  VST3 # may change this
+  VST3
   PRODUCT_NAME
-  "Tremolo" # change this
+  "Tremolo"
   VERSION
   0.0.0 # 0 forces AU hosts to always refresh
   VST3_AUTO_MANIFEST
@@ -35,6 +30,8 @@ juce_add_plugin(
   COPY_PLUGIN_AFTER_BUILD
   TRUE
 )
+# Adding an alias for a target is a good CMake practice: it forces
+# CMake to fail project generation when the aliased target doesn't exist.
 add_library(ws::TremoloCoursePlugin ALIAS TremoloCoursePlugin)
 
 # Sets the source files of the plugin project.
@@ -44,17 +41,7 @@ set(SOURCE_FILES
     source/Parameters.cpp
     source/JSONSerializer.cpp
 )
-# Optional; includes header files in the project file tree in Visual Studio
-set(HEADER_FILES
-    ${INCLUDE_DIR}/PluginEditor.h
-    ${INCLUDE_DIR}/PluginProcessor.h
-    ${INCLUDE_DIR}/Gradient.h
-    ${INCLUDE_DIR}/Parameters.h
-    ${INCLUDE_DIR}/BypassButton.h
-    ${INCLUDE_DIR}/Tremolo.h
-    ${INCLUDE_DIR}/JSONSerializer.h
-)
-target_sources(TremoloCoursePlugin PRIVATE ${SOURCE_FILES} ${HEADER_FILES})
+target_sources(TremoloCoursePlugin PRIVATE ${SOURCE_FILES})
 
 # Sets the include directories of the plugin project.
 target_include_directories(TremoloCoursePlugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
