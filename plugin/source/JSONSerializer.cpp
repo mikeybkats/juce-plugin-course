@@ -14,6 +14,8 @@ struct ParameterIdentifiers {
 
   /** @brief Bypass parameter */
   juce::Identifier bypass;
+
+  juce::Identifier waveform;
 };
 
 const ParameterIdentifiers& getIdentifiers() {
@@ -22,6 +24,7 @@ const ParameterIdentifiers& getIdentifiers() {
       .version = "version",
       .rate = "modulationRateHz",
       .bypass = "bypassed",
+      .waveform = "modulationWaveform",
   };
   return ids;
 }
@@ -39,6 +42,7 @@ void JSONSerializer::serialize(const Parameters& parameters,
   json.setProperty(ids.version, CURRENT_VERSION);
   json.setProperty(ids.rate, static_cast<double>(parameters.rate.get()));
   json.setProperty(ids.bypass, parameters.bypassed.get());
+  json.setProperty(ids.waveform, parameters.waveform.getCurrentChoiceName());
 
   json.writeAsJSON(output, juce::JSON::FormatOptions{}
                                .withSpacing(juce::JSON::Spacing::multiLine)
@@ -78,5 +82,14 @@ void JSONSerializer::deserialize(juce::InputStream& input,
       ids.rate, static_cast<double>(parameters.rate.get()));
   parameters.bypassed =
       parsedResult.getProperty(ids.bypass, parameters.bypassed.get());
+
+  if (parsedResult.hasProperty(ids.waveform)) {
+    const auto waveformName = parsedResult[ids.waveform];
+    if (waveformName.isString()) {
+      const auto index =
+          parameters.waveform.choices.indexOf(waveformName.toString());
+      parameters.waveform = std::max(index, parameters.waveform.getIndex());
+    }
+  }
 }
 }  // namespace ws
