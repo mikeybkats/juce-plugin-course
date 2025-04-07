@@ -46,6 +46,9 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 
   rateLabel.setJustificationType(juce::Justification::centred);
   addAndMakeVisible(rateLabel);
+  rateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+  rateSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox,
+                             true, 0, 0);
   addAndMakeVisible(rateSlider);
 
   bypassLabel.setJustificationType(juce::Justification::centred);
