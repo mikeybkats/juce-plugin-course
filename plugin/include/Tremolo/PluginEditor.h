@@ -5,6 +5,7 @@
 #include "PluginProcessor.h"
 #include "Gradient.h"
 #include "BypassButton.h"
+#include "Tremolo/LfoVisualizer.h"
 
 namespace ws {
 
@@ -30,6 +31,8 @@ private:
   juce::Label bypassLabel{"bypass label", "BYPASS"};
   BypassButton bypassButton;
   juce::ButtonParameterAttachment bypassAttachment;
+
+  LfoVisualizer lfoVisualizer;
 
   juce::LookAndFeel_V4 lookAndFeel;
 
