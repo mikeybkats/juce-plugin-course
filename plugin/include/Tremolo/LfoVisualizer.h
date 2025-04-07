@@ -29,12 +29,18 @@ public:
                                                    bounds.getHeight(), false));
   }
 
+private:
   void timerCallback() override {
     updateLfoCurve();
     repaint();
   }
 
   void updateLfoCurve() {
+    updateSamplesQueue();
+    decimateSamplesToPath();
+  }
+
+  void updateSamplesQueue() {
     readAllLfoSamples(buffer);
 
     const auto newAvailableSamples = buffer.getNumSamples();
@@ -46,7 +52,9 @@ public:
                       });
       buffer.clear();
     }
+  }
 
+  void decimateSamplesToPath() {
     juce::Path path;
     path.startNewSubPath(0.f, lfoSamples.front());
     constexpr auto stride = 100u;
@@ -56,7 +64,6 @@ public:
     lfoCurve = path;
   }
 
-private:
   juce::Colour backgroundColour{0xFFD9D9D9};
   ReadAllLfoSamples readAllLfoSamples;
   juce::AudioBuffer<float> buffer;
