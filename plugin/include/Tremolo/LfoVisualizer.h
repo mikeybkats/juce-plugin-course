@@ -26,14 +26,17 @@ public:
     g.fillAll(backgroundColour);
 
     g.setColour(juce::Colour{0xFFEF7600});
-    g.strokePath(lfoCurve, juce::PathStrokeType{4.f}, getLfoCurveTransform());
+    g.strokePath(
+        lfoCurve,
+        juce::PathStrokeType{4.f, juce::PathStrokeType::JointStyle::curved},
+        getLfoCurveTransform());
   }
 
 private:
-  static constexpr auto updateIntervalMs = 50;
+  static constexpr auto updateIntervalMs = 25;
+  static constexpr auto periodsToPlotOf1HzWaveform = 4u;
 
   size_t getNumSamplesToStore() const {
-    constexpr auto periodsToPlotOf1HzWaveform = 1u;
     return static_cast<size_t>(getCurrentSampleRate() *
                                periodsToPlotOf1HzWaveform);
   }
@@ -75,7 +78,7 @@ private:
   }
 
   void decimateSamplesToPath() {
-    constexpr auto pointsOnPath = 400u;
+    constexpr auto pointsOnPath = 800u * periodsToPlotOf1HzWaveform;
     const auto stride = static_cast<size_t>(lfoSamples.size() / pointsOnPath);
 
     juce::Path path;
