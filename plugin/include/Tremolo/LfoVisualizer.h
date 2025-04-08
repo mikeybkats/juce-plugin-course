@@ -15,10 +15,10 @@ public:
 
   LfoVisualizer(ReadAllLfoSamples readSamples, GetCurrentSampleRate getRate)
       : readAllLfoSamples{readSamples}, getCurrentSampleRate{getRate} {
-    const auto initialSize = getNumSamplesToStore();
+    const auto initialSize = pointsOnPath;
     lfoSamples.resize(initialSize);
     std::fill_n(lfoSamples.begin(), initialSize, 0.f);
-    decimateSamplesToPath();
+    samplesToPath();
     startTimer(updateIntervalMs);
   }
 
@@ -33,6 +33,7 @@ public:
   }
 
 private:
+  static constexpr auto pointsOnPath = 800u;
   static constexpr auto updateIntervalMs = 25;
   static constexpr auto periodsToPlotOf1HzWaveform = 4u;
 
@@ -48,42 +49,40 @@ private:
 
   void updateLfoCurve() {
     updateSamplesQueue();
-    decimateSamplesToPath();
+    samplesToPath();
   }
 
   void updateSamplesQueue() {
-    if (lfoSamples.size() != getNumSamplesToStore()) {
-      // sample rate has changed
-      lfoSamples.resize(getNumSamplesToStore());
-    }
-
     readAllLfoSamples(buffer);
+
+    const auto stride = static_cast<int>(
+        getCurrentSampleRate() * periodsToPlotOf1HzWaveform / pointsOnPath);
 
     const auto newAvailableSamples = buffer.getNumSamples();
     if (newAvailableSamples > 0) {
-      std::for_each_n(buffer.getReadPointer(0), newAvailableSamples,
-                      [this](float sample) {
-                        lfoSamples.pop_front();
-                        lfoSamples.push_back(sample);
-                      });
+      for (; sampleIndex < newAvailableSamples; sampleIndex += stride) {
+        const auto sample = buffer.getSample(0, sampleIndex);
+        lfoSamples.pop_front();
+        lfoSamples.push_back(sample);
+      }
       buffer.clear();
     } else {
       const auto zerosToFill =
           static_cast<int>(getCurrentSampleRate() * updateIntervalMs / 1000.0);
-      for ([[maybe_unused]] const auto i : std::views::iota(0, zerosToFill)) {
+      for (; sampleIndex < zerosToFill; sampleIndex += stride) {
         lfoSamples.pop_front();
         lfoSamples.push_back(0.f);
       }
     }
+    while (stride <= sampleIndex) {
+      sampleIndex -= stride;
+    }
   }
 
-  void decimateSamplesToPath() {
-    constexpr auto pointsOnPath = 800u * periodsToPlotOf1HzWaveform;
-    const auto stride = static_cast<size_t>(lfoSamples.size() / pointsOnPath);
-
+  void samplesToPath() {
     juce::Path path;
     path.startNewSubPath(0.f, lfoSamples.front());
-    for (auto i = stride; i < lfoSamples.size(); i += stride) {
+    for (const auto i : std::views::iota(0u, lfoSamples.size())) {
       path.lineTo(static_cast<float>(i), lfoSamples.at(i));
     }
     lfoCurve = path;
@@ -114,5 +113,6 @@ private:
   juce::AudioBuffer<float> buffer;
   juce::Path lfoCurve;
   std::deque<float> lfoSamples;
+  int sampleIndex{0};
 };
 }  // namespace ws
