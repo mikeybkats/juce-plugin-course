@@ -78,6 +78,8 @@ public:
   }
 
 private:
+  static constexpr auto MODULATION_DEPTH = 0.1f;
+
   static float triangle(float phase) {
     // Source:
     // https://thewolfsound.com/sine-saw-square-triangle-pulse-basic-waveforms-in-synthesis/#triangle
@@ -85,7 +87,6 @@ private:
     return 4.f * std::abs(ft - std::floor(ft + 0.5f)) - 1.f;
   }
 
-  static constexpr auto MODULATION_DEPTH = 0.1f;
   std::array<juce::dsp::Oscillator<float>, LfoWaveform::COUNT> lfos;
   size_t currentLfo = LfoWaveform::SINE;
 
