@@ -69,9 +69,7 @@ private:
         lfoSamples.push_back(0.f);
       }
     }
-    while (stride <= sampleIndex) {
-      sampleIndex -= stride;
-    }
+    sampleIndex %= stride;
   }
 
   int getStride() const {
