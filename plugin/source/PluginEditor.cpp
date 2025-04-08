@@ -22,7 +22,10 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     : AudioProcessorEditor(&p),
       waveformAttachment{p.getParameters().waveform, waveformComboBox},
       rateAttachment{p.getParameters().rate, rateSlider},
-      bypassAttachment{p.getParameters().bypassed, bypassButton} {
+      bypassAttachment{p.getParameters().bypassed, bypassButton},
+      lfoVisualizer{
+          [&p](juce::AudioBuffer<float>& b) { p.readAllLfoSamples(b); },
+          [&p] { return p.getSampleRateThreadSafe(); }} {
   lookAndFeel.setColour(juce::TextButton::buttonOnColourId,
                         std::get<Colours::ORANGE>(getColourPalette()));
   lookAndFeel.setColour(juce::TextButton::buttonColourId,
@@ -55,6 +58,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
   addAndMakeVisible(bypassLabel);
 
   addAndMakeVisible(bypassButton);
+
+  addAndMakeVisible(lfoVisualizer);
 
   // Make sure that before the constructor has finished, you've set the
   // editor's size to whatever you need it to be.
@@ -96,5 +101,7 @@ void AudioPluginAudioProcessorEditor::resized() {
 
   bounds.removeFromTop(12);
   bounds.removeFromBottom(16);
+
+  lfoVisualizer.setBounds(bounds);
 }
 }  // namespace ws

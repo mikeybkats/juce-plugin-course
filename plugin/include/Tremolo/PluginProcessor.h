@@ -41,9 +41,16 @@ public:
   [[nodiscard]] Parameters& getParameters() noexcept;
   juce::AudioProcessorParameter* getBypassParameter() const noexcept override;
 
+  void readAllLfoSamples(juce::AudioBuffer<float>& bufferToFill);
+
+  /** @brief Retrieves the sample rate the processor was initialized with in a
+   * thread-safe manner */
+  double getSampleRateThreadSafe() const noexcept;
+
 private:
   Parameters parameters;
   Tremolo tremolo;
+  std::atomic<double> currentSampleRate{0.};
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };
