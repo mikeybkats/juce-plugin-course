@@ -1,5 +1,8 @@
 #include "Tremolo/CustomLookAndFeel.h"
 
 namespace ws {
-CustomLookAndFeel::CustomLookAndFeel() {}
+CustomLookAndFeel::CustomLookAndFeel() {
+  setColour(juce::TextButton::buttonOnColourId,
+            getColour<CustomLookAndFeel::Colours::ORANGE>());
+}
 }  // namespace ws
