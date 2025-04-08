@@ -5,7 +5,8 @@
 #include "PluginProcessor.h"
 #include "Gradient.h"
 #include "BypassButton.h"
-#include "Tremolo/LfoVisualizer.h"
+#include "LfoVisualizer.h"
+#include "CustomLookAndFeel.h"
 
 namespace ws {
 
@@ -34,7 +35,7 @@ private:
 
   LfoVisualizer lfoVisualizer;
 
-  juce::LookAndFeel_V4 lookAndFeel;
+  CustomLookAndFeel lookAndFeel;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessorEditor)
 };

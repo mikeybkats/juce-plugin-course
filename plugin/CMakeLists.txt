@@ -36,6 +36,7 @@ add_library(ws::TremoloCoursePlugin ALIAS TremoloCoursePlugin)
 
 # Sets the source files of the plugin project.
 set(SOURCE_FILES
+    source/CustomLookAndFeel.cpp
     source/PluginEditor.cpp
     source/PluginProcessor.cpp
     source/Parameters.cpp
