@@ -1,5 +1,4 @@
 #pragma once
-#include <algorithm>
 #include <functional>
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_events/juce_events.h>
@@ -15,9 +14,7 @@ public:
 
   LfoVisualizer(ReadAllLfoSamples readSamples, GetCurrentSampleRate getRate)
       : readAllLfoSamples{readSamples}, getCurrentSampleRate{getRate} {
-    const auto initialSize = pointsOnPath;
-    lfoSamples.resize(initialSize);
-    std::fill_n(lfoSamples.begin(), initialSize, 0.f);
+    lfoSamplesToPlot.resize(pointsOnPath, 0.f);
     samplesToPath();
     startTimer(updateIntervalMs);
   }
@@ -56,8 +53,8 @@ private:
     if (newAvailableSamples > 0) {
       for (; sampleIndex < newAvailableSamples; sampleIndex += stride) {
         const auto sample = buffer.getSample(0, sampleIndex);
-        lfoSamples.pop_front();
-        lfoSamples.push_back(sample);
+        lfoSamplesToPlot.pop_front();
+        lfoSamplesToPlot.push_back(sample);
       }
       buffer.clear();
     } else {
@@ -65,8 +62,8 @@ private:
       const auto samplesPassed =
           static_cast<int>(getCurrentSampleRate() * secondsPassed);
       for (; sampleIndex < samplesPassed; sampleIndex += stride) {
-        lfoSamples.pop_front();
-        lfoSamples.push_back(0.f);
+        lfoSamplesToPlot.pop_front();
+        lfoSamplesToPlot.push_back(0.f);
       }
     }
     sampleIndex %= stride;
@@ -79,9 +76,9 @@ private:
 
   void samplesToPath() {
     juce::Path path;
-    path.startNewSubPath(0.f, lfoSamples.front());
-    for (const auto i : std::views::iota(0u, lfoSamples.size())) {
-      path.lineTo(static_cast<float>(i), lfoSamples.at(i));
+    path.startNewSubPath(0.f, lfoSamplesToPlot.front());
+    for (const auto i : std::views::iota(0u, lfoSamplesToPlot.size())) {
+      path.lineTo(static_cast<float>(i), lfoSamplesToPlot.at(i));
     }
     lfoCurve = path;
   }
@@ -110,7 +107,7 @@ private:
   GetCurrentSampleRate getCurrentSampleRate;
   juce::AudioBuffer<float> buffer;
   juce::Path lfoCurve;
-  std::deque<float> lfoSamples;
+  std::deque<float> lfoSamplesToPlot;
   int sampleIndex{0};
 };
 }  // namespace ws
