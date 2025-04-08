@@ -17,7 +17,7 @@ public:
     const auto initialSize = static_cast<size_t>(getCurrentSampleRate());
     lfoSamples.resize(initialSize);
     std::fill_n(lfoSamples.begin(), initialSize, 0.f);
-    updateLfoCurve();
+    decimateSamplesToPath();
     startTimer(updateIntervalMs);
   }
 
@@ -25,10 +25,14 @@ public:
     g.fillAll(backgroundColour);
 
     g.setColour(juce::Colour{0xFFEF7600});
+
     const auto bounds = getLocalBounds().toFloat();
-    g.strokePath(lfoCurve, juce::PathStrokeType{4.f},
-                 lfoCurve.getTransformToScaleToFit(0.f, 0.f, bounds.getWidth(),
-                                                   bounds.getHeight(), false));
+    const auto transform = juce::AffineTransform::fromTargetPoints(
+        0.f, 1.f, 0.f, 0.f, 0.f, -1.f, 0.f, bounds.getHeight(),
+        lfoCurve.getCurrentPosition().getX(), -1.f, bounds.getWidth(),
+        bounds.getHeight());
+
+    g.strokePath(lfoCurve, juce::PathStrokeType{4.f}, transform);
   }
 
 private:
