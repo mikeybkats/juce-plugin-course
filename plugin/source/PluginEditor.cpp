@@ -3,20 +3,6 @@
 #include "Tremolo/PluginProcessor.h"
 
 namespace ws {
-namespace Colours {
-enum : size_t { ORANGE, LIGHT_GREY };
-}
-
-namespace {
-const auto& getColourPalette() {
-  static const std::array COLOURS{
-      juce::Colour{0xFFEF7600},
-      juce::Colour{0xFFD9D9D9},
-  };
-  return COLOURS;
-}
-}  // namespace
-
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor& p)
     : AudioProcessorEditor(&p),
@@ -26,9 +12,6 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
       lfoVisualizer{
           [&p](juce::AudioBuffer<float>& b) { p.readAllLfoSamples(b); },
           [&p] { return p.getSampleRateThreadSafe(); }} {
-  lookAndFeel.setColour(juce::TextButton::buttonColourId,
-                        std::get<Colours::LIGHT_GREY>(getColourPalette()));
-
   setLookAndFeel(&lookAndFeel);
 
   background.topColour = juce::Colours::whitesmoke;
