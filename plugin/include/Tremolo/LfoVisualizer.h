@@ -64,9 +64,11 @@ private:
   }
 
   void decimateSamplesToPath() {
+    constexpr auto pointsOnPath = 400u;
+    const auto stride = static_cast<size_t>(lfoSamples.size() / pointsOnPath);
+
     juce::Path path;
     path.startNewSubPath(0.f, lfoSamples.front());
-    constexpr auto stride = 100u;
     for (auto i = stride; i < lfoSamples.size(); i += stride) {
       path.lineTo(static_cast<float>(i), lfoSamples.at(i));
     }
