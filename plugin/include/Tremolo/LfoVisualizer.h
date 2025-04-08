@@ -37,11 +37,6 @@ private:
   static constexpr auto updateIntervalMs = 25;
   static constexpr auto periodsToPlotOf1HzWaveform = 4u;
 
-  size_t getNumSamplesToStore() const {
-    return static_cast<size_t>(getCurrentSampleRate() *
-                               periodsToPlotOf1HzWaveform);
-  }
-
   void timerCallback() override {
     updateLfoCurve();
     repaint();
