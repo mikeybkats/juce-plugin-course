@@ -1,7 +1,7 @@
 #include <Tremolo/JsonSerializer.h>
+#include <Tremolo/Parameters.h>
 #include <gtest/gtest.h>
 #include <juce_core/juce_core.h>
-#include "Tremolo/Parameters.h"
 
 namespace ws {
 TEST(JsonSerializer, SerializeToFile) {
@@ -41,13 +41,12 @@ TEST(JsonSerializer, DeserializeFromString) {
   "modulationWaveform": "Triangle"
 })";
 
-  Parameters::Container container;
-  Parameters parameters{container};
-
-  DBG(SAVED_PARAMETERS);
   juce::MemoryInputStream inputStream{
       SAVED_PARAMETERS.getCharPointer(),
       static_cast<size_t>(SAVED_PARAMETERS.length()), false};
+
+  Parameters::Container container;
+  Parameters parameters{container};
 
   JsonSerializer{}.deserialize(inputStream, parameters);
 
