@@ -1,5 +1,6 @@
 #include "Tremolo/PluginEditor.h"
 #include <juce_graphics/juce_graphics.h>
+#include "Tremolo/CustomLookAndFeel.h"
 #include "Tremolo/PluginProcessor.h"
 
 namespace ws {
@@ -14,8 +15,10 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
           [&p] { return p.getSampleRateThreadSafe(); }} {
   setLookAndFeel(&lookAndFeel);
 
-  background.topColour = juce::Colours::whitesmoke;
-  background.bottomColour = juce::Colours::grey;
+  background.topColour =
+      lookAndFeel.getColor<CustomLookAndFeel::Colors::LIGHT_GREY>().brighter();
+  background.bottomColour =
+      lookAndFeel.getColor<CustomLookAndFeel::Colors::LIGHT_GREY>().darker();
   addAndMakeVisible(background);
 
   headerLabel.setJustificationType(juce::Justification::centred);
