@@ -1,5 +1,6 @@
 #include "Tremolo/CustomLookAndFeel.h"
 #include <juce_graphics/juce_graphics.h>
+#include <juce_gui_basics/juce_gui_basics.h>
 
 namespace ws {
 CustomLookAndFeel::CustomLookAndFeel() {
@@ -17,6 +18,13 @@ CustomLookAndFeel::CustomLookAndFeel() {
   setColour(juce::ToggleButton::tickColourId, juce::Colours::black);
   setColour(juce::ToggleButton::tickDisabledColourId,
             juce::Colours::black.brighter());
+
+  setColour(juce::PopupMenu::backgroundColourId,
+            getColour<Colours::LIGHT_GREY>());
+  setColour(juce::PopupMenu::textColourId, juce::Colours::black);
+  setColour(juce::PopupMenu::highlightedTextColourId, juce::Colours::black);
+  setColour(juce::PopupMenu::highlightedBackgroundColourId,
+            getColour<Colours::ORANGE>());
 }
 
 void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
