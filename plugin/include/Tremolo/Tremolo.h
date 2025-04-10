@@ -52,8 +52,8 @@ public:
     // to keep setLfoWaveform() idempotent
     updateLfoWaveform();
 
-    // for each sample
-    for (const auto i : std::views::iota(0, buffer.getNumSamples())) {
+    // for each frame
+    for (const auto frameIndex : std::views::iota(0, buffer.getNumSamples())) {
       // generate the LFO value
       const auto lfoValue = getNextLfoValue();
       lfoSampleFifo.push(lfoValue);
@@ -61,15 +61,16 @@ public:
       // calculate the modulation value
       const auto modulationValue = (1.f + MODULATION_DEPTH * lfoValue);
 
-      for (const auto channel : std::views::iota(0, buffer.getNumChannels())) {
+      for (const auto channelIndex :
+           std::views::iota(0, buffer.getNumChannels())) {
         // get the input sample
-        const auto inputSample = buffer.getSample(channel, i);
+        const auto inputSample = buffer.getSample(channelIndex, frameIndex);
 
         // modulate the sample
         const auto outputSample = modulationValue * inputSample;
 
         // set the output sample
-        buffer.setSample(channel, i, outputSample);
+        buffer.setSample(channelIndex, frameIndex, outputSample);
       }
     }
   }
