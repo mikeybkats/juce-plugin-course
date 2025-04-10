@@ -5,7 +5,7 @@
 namespace ws {
 class CustomLookAndFeel : public juce::LookAndFeel_V4 {
 private:
-  const auto& getColourPalette() {
+  const auto& getColorPalette() {
     static const std::array COLOURS{
         juce::Colour{0xFFEF7600},
         juce::Colour{0xFFD9D9D9},
@@ -30,8 +30,8 @@ public:
 
 private:
   template <Colours ColourName>
-  const juce::Colour& getColour() {
-    return std::get<ColourName>(getColourPalette());
+  const juce::Colour& getColor() {
+    return std::get<ColourName>(getColorPalette());
   }
 };
 }  // namespace ws
