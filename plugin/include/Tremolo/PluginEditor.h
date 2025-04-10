@@ -4,7 +4,6 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include "PluginProcessor.h"
 #include "Gradient.h"
-#include "BypassButton.h"
 #include "LfoVisualizer.h"
 #include "CustomLookAndFeel.h"
 
@@ -30,7 +29,7 @@ private:
   juce::SliderParameterAttachment rateAttachment;
 
   juce::Label bypassLabel{"bypass label", "BYPASS"};
-  BypassButton bypassButton;
+  juce::ToggleButton bypassButton{"BYPASSED"};
   juce::ButtonParameterAttachment bypassAttachment;
 
   LfoVisualizer lfoVisualizer;
