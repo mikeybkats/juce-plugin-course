@@ -2,7 +2,9 @@
 #include <gtest/gtest.h>
 
 namespace ws {
-TEST(AudioProcessor, Foo) {
-  ws::AudioPluginAudioProcessor processor{};
+/** This test doesn't test anything but shows that you can instantiate and use a
+ * plugin processor in test */
+TEST(AudioProcessor, DummyTest) {
+  AudioPluginAudioProcessor processor{};
 }
 }  // namespace ws
