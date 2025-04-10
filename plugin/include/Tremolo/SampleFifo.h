@@ -5,6 +5,8 @@
 #include <algorithm>
 
 namespace ws {
+/** A single-producer, single-consumer FIFO queue to retrieve a single channel
+ * of samples from the audio thread */
 template <typename SampleType>
 class SampleFifo {
 public:
