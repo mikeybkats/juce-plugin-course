@@ -1,7 +1,7 @@
 #include "Tremolo/PluginEditor.h"
-#include <juce_graphics/juce_graphics.h>
 #include "Tremolo/CustomLookAndFeel.h"
 #include "Tremolo/PluginProcessor.h"
+#include <juce_graphics/juce_graphics.h>
 
 namespace ws {
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
@@ -38,8 +38,9 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
   rateLabel.setJustificationType(juce::Justification::centred);
   addAndMakeVisible(rateLabel);
   rateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
-  rateSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox,
-                             true, 0, 0);
+  rateSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxBelow,
+                             true, 60, 20);
+  rateSlider.setTextValueSuffix(" Hz");
   addAndMakeVisible(rateSlider);
 
   bypassLabel.setJustificationType(juce::Justification::centred);
@@ -91,7 +92,7 @@ void AudioPluginAudioProcessorEditor::resized() {
   bypassButtonBounds.reduce(8, 14);
   bypassButton.setBounds(bypassButtonBounds);
 
-  rateSlider.setBounds(widgetBounds.reduced(6));
+  rateSlider.setBounds(widgetBounds);
 
   bounds.removeFromTop(12);
   bounds.removeFromBottom(16);
