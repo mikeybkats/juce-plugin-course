@@ -1,4 +1,4 @@
-#include "Tremolo/JSONSerializer.h"
+#include "Tremolo/JsonSerializer.h"
 #include <juce_core/juce_core.h>
 
 namespace ws {
@@ -33,7 +33,7 @@ constexpr auto PLUGIN_NAME = JucePlugin_Name;
 constexpr auto CURRENT_VERSION = "1.0.0";
 }  // namespace
 
-void JSONSerializer::serialize(const Parameters& parameters,
+void JsonSerializer::serialize(const Parameters& parameters,
                                juce::OutputStream& output) {
   juce::DynamicObject json{};
   const auto& ids = getIdentifiers();
@@ -49,7 +49,7 @@ void JSONSerializer::serialize(const Parameters& parameters,
                                .withMaxDecimalPlaces(2));
 }
 
-void JSONSerializer::deserialize(juce::InputStream& input,
+void JsonSerializer::deserialize(juce::InputStream& input,
                                  Parameters& parameters) {
   juce::var parsedResult;
   const auto parsingResult =

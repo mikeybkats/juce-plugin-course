@@ -4,7 +4,7 @@
 #include "Parameters.h"
 
 namespace ws {
-class JSONSerializer {
+class JsonSerializer {
 public:
   void serialize(const Parameters&, juce::OutputStream&);
   void deserialize(juce::InputStream& input, Parameters& parameters);

@@ -3,7 +3,7 @@
 #include <juce_core/juce_core.h>
 #include <juce_dsp/juce_dsp.h>
 #include <ranges>
-#include "Tremolo/JSONSerializer.h"
+#include "Tremolo/JsonSerializer.h"
 #include "Tremolo/PluginEditor.h"
 
 namespace ws {
@@ -167,14 +167,14 @@ juce::AudioProcessorEditor* AudioPluginAudioProcessor::createEditor() {
 void AudioPluginAudioProcessor::getStateInformation(
     juce::MemoryBlock& destData) {
   juce::MemoryOutputStream outputStream{destData, true};
-  JSONSerializer{}.serialize(parameters, outputStream);
+  JsonSerializer{}.serialize(parameters, outputStream);
 }
 
 void AudioPluginAudioProcessor::setStateInformation(const void* data,
                                                     int sizeInBytes) {
   juce::MemoryInputStream inputStream{data, static_cast<size_t>(sizeInBytes),
                                       false};
-  JSONSerializer{}.deserialize(inputStream, parameters);
+  JsonSerializer{}.deserialize(inputStream, parameters);
 }
 
 Parameters& AudioPluginAudioProcessor::getParameters() noexcept {

@@ -40,7 +40,7 @@ set(SOURCE_FILES
     source/PluginEditor.cpp
     source/PluginProcessor.cpp
     source/Parameters.cpp
-    source/JSONSerializer.cpp
+    source/JsonSerializer.cpp
 )
 target_sources(TremoloCoursePlugin PRIVATE ${SOURCE_FILES})
 
