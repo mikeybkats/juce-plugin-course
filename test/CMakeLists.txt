@@ -9,9 +9,6 @@ enable_testing()
 set(SOURCE_FILES source/AudioProcessorTest.cpp source/JsonSerializerTest.cpp)
 add_executable(TremoloCoursePluginTest ${SOURCE_FILES})
 
-# Sets the necessary include directories of googletest.
-target_include_directories(TremoloCoursePluginTest PRIVATE ${GOOGLETEST_SOURCE_DIR}/googletest/include)
-
 # Thanks to the fact that we link against the gtest_main library, we don't have to write the main function ourselves.
 target_link_libraries(TremoloCoursePluginTest PRIVATE ws::TremoloCoursePlugin GTest::gtest_main)
 
