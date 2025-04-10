@@ -2,6 +2,7 @@
 #include <juce_audio_processors/juce_audio_processors.h>
 #include <juce_core/juce_core.h>
 #include <juce_dsp/juce_dsp.h>
+#include <ranges>
 #include "Tremolo/JSONSerializer.h"
 #include "Tremolo/PluginEditor.h"
 
@@ -136,8 +137,9 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   // This is here to avoid people getting screaming feedback
   // when they first compile a plugin, but obviously you don't need to keep
   // this code if your algorithm always overwrites all the output channels.
-  for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i) {
-    buffer.clear(i, 0, buffer.getNumSamples());
+  for (const auto channelToClear : std::ranges::views::iota(
+           totalNumInputChannels, totalNumOutputChannels)) {
+    buffer.clear(channelToClear, 0, buffer.getNumSamples());
   }
 
   // update the parameters
