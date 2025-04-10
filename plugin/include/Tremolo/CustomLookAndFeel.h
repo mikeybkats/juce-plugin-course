@@ -14,7 +14,7 @@ private:
   }
 
 public:
-  enum Colours : size_t { ORANGE, LIGHT_GREY };
+  enum Colors : size_t { ORANGE, LIGHT_GREY };
 
   CustomLookAndFeel();
 
@@ -28,10 +28,9 @@ public:
                     int buttonH,
                     juce::ComboBox&) override;
 
-private:
-  template <Colours ColourName>
+  template <Colors ColorName>
   const juce::Colour& getColor() {
-    return std::get<ColourName>(getColorPalette());
+    return std::get<ColorName>(getColorPalette());
   }
 };
 }  // namespace ws

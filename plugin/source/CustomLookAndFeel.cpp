@@ -4,14 +4,13 @@
 
 namespace ws {
 CustomLookAndFeel::CustomLookAndFeel() {
-  setColour(juce::TextButton::buttonOnColourId, getColor<Colours::ORANGE>());
-  setColour(juce::TextButton::buttonColourId, getColor<Colours::LIGHT_GREY>());
-  setColour(juce::ComboBox::backgroundColourId,
-            getColor<Colours::LIGHT_GREY>());
+  setColour(juce::TextButton::buttonOnColourId, getColor<Colors::ORANGE>());
+  setColour(juce::TextButton::buttonColourId, getColor<Colors::LIGHT_GREY>());
+  setColour(juce::ComboBox::backgroundColourId, getColor<Colors::LIGHT_GREY>());
   setColour(juce::ComboBox::outlineColourId,
-            getColor<Colours::LIGHT_GREY>().darker());
+            getColor<Colors::LIGHT_GREY>().darker());
   setColour(juce::ComboBox::arrowColourId,
-            getColor<Colours::LIGHT_GREY>().darker());
+            getColor<Colors::LIGHT_GREY>().darker());
   setColour(juce::ComboBox::textColourId, juce::Colours::black);
   setColour(juce::Label::textColourId, juce::Colours::black);
   setColour(juce::ToggleButton::textColourId, juce::Colours::black);
@@ -20,11 +19,11 @@ CustomLookAndFeel::CustomLookAndFeel() {
             juce::Colours::black.brighter());
 
   setColour(juce::PopupMenu::backgroundColourId,
-            getColor<Colours::LIGHT_GREY>());
+            getColor<Colors::LIGHT_GREY>());
   setColour(juce::PopupMenu::textColourId, juce::Colours::black);
   setColour(juce::PopupMenu::highlightedTextColourId, juce::Colours::black);
   setColour(juce::PopupMenu::highlightedBackgroundColourId,
-            getColor<Colours::ORANGE>());
+            getColor<Colors::ORANGE>());
 }
 
 void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
