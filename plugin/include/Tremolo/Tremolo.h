@@ -5,6 +5,7 @@
 #include <juce_dsp/juce_dsp.h>
 #include <ranges>
 #include <array>
+#include <cmath>
 
 namespace ws {
 class Tremolo {
@@ -16,8 +17,7 @@ public:
   };
 
   Tremolo()
-      : lfos{juce::dsp::Oscillator<float>{
-                 [](float phase) { return std::sin(phase); }},
+      : lfos{juce::dsp::Oscillator<float>{std::sinf},
              juce::dsp::Oscillator<float>{
                  [](float phase) { return triangle(phase); }}},
         lfoTransitionSmoother{0.f} {
