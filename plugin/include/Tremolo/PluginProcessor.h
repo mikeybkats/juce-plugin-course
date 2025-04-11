@@ -12,17 +12,17 @@ public:
   ~AudioPluginAudioProcessor() override;
 
   void prepareToPlay(double sampleRate, int samplesPerBlock) override;
-  void releaseResources() override;
-
-  bool isBusesLayoutSupported(const BusesLayout& layouts) const override;
 
   void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
-  using AudioProcessor::processBlock;
+
+  void releaseResources() override;
 
   juce::AudioProcessorEditor* createEditor() override;
   bool hasEditor() const override;
 
   const juce::String getName() const override;
+
+  bool isBusesLayoutSupported(const BusesLayout& layouts) const override;
 
   bool acceptsMidi() const override;
   bool producesMidi() const override;
