@@ -4,7 +4,7 @@
 namespace ws {
 /** This test doesn't test anything but shows that you can instantiate and use a
  * plugin processor in test */
-TEST(AudioProcessor, DummyTest) {
+TEST(PluginProcessor, DummyTest) {
   PluginProcessor processor{};
 }
 }  // namespace ws

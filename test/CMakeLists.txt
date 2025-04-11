@@ -6,7 +6,7 @@ project(TremoloCoursePluginTest)
 enable_testing()
 
 # Creates the test console application.
-set(SOURCE_FILES source/AudioProcessorTest.cpp source/JsonSerializerTest.cpp)
+set(SOURCE_FILES source/PluginProcessorTest.cpp source/JsonSerializerTest.cpp)
 add_executable(TremoloCoursePluginTest ${SOURCE_FILES})
 
 # Thanks to the fact that we link against the gtest_main library, we don't have to write the main function ourselves.
