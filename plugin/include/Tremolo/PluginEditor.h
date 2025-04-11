@@ -9,10 +9,10 @@
 
 namespace ws {
 
-class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor {
+class PluginEditor : public juce::AudioProcessorEditor {
 public:
-  explicit AudioPluginAudioProcessorEditor(PluginProcessor&);
-  ~AudioPluginAudioProcessorEditor() override;
+  explicit PluginEditor(PluginProcessor&);
+  ~PluginEditor() override;
 
   void resized() override;
 
@@ -36,6 +36,6 @@ private:
 
   CustomLookAndFeel lookAndFeel;
 
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessorEditor)
+  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginEditor)
 };
 }  // namespace ws

@@ -4,8 +4,7 @@
 #include <juce_graphics/juce_graphics.h>
 
 namespace ws {
-AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
-    PluginProcessor& p)
+PluginEditor::PluginEditor(PluginProcessor& p)
     : AudioProcessorEditor(&p),
       waveformAttachment{p.getParameters().waveform, waveformComboBox},
       rateAttachment{p.getParameters().rate, rateSlider},
@@ -60,11 +59,11 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
   setSize(600, 300);
 }
 
-AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {
+PluginEditor::~PluginEditor() {
   setLookAndFeel(nullptr);
 }
 
-void AudioPluginAudioProcessorEditor::resized() {
+void PluginEditor::resized() {
   auto bounds = getLocalBounds();
 
   background.setBounds(bounds);
