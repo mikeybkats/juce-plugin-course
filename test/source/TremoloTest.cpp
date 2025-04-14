@@ -31,8 +31,8 @@ TEST(Tremolo, ExtractLfo) {
           .getChildFile("lfo.wav")
           .getFullPathName()
           .toStdString(),
-      std::vector<float>(block.getChannelPointer(0u),
-                         block.getChannelPointer(0u) + block.getNumSamples()),
+      juce::Span<const float>{block.getChannelPointer(0u),
+                              block.getNumSamples()},
       wolfsound::Frequency{sampleRate});
 }
 }  // namespace ws
