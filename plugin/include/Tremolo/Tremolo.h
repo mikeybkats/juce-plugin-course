@@ -24,12 +24,13 @@ public:
     std::ranges::for_each(lfos, [](auto& lfo) { lfo.setFrequency(5, true); });
   }
 
-  void prepare(double sampleRate) noexcept {
-    std::ranges::for_each(lfos, [spec = juce::dsp::ProcessSpec{
-                                     .sampleRate = sampleRate,
-                                     .maximumBlockSize = 1u,
-                                     .numChannels = 1u,
-                                 }](auto& lfo) { lfo.prepare(spec); });
+  void prepare(double sampleRate, int samplesPerBlock) noexcept {
+    std::ranges::for_each(
+        lfos, [spec = juce::dsp::ProcessSpec{
+                   .sampleRate = sampleRate,
+                   .maximumBlockSize = juce::uint32(samplesPerBlock),
+                   .numChannels = 1u,
+               }](auto& lfo) { lfo.prepare(spec); });
     lfoSampleFifo.prepare(sampleRate);
     lfoTransitionSmoother.reset(sampleRate, 0.025 /* 25 milliseconds */);
   }

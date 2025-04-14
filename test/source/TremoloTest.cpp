@@ -14,7 +14,7 @@ namespace ws {
 TEST(Tremolo, ExtractLfo) {
   Tremolo testee;
   constexpr auto sampleRate = 48000.0;
-  testee.prepare(sampleRate);
+  testee.prepare(sampleRate, int(sampleRate));
 
   juce::AudioBuffer<float> buffer;
   buffer.setSize(1, int(sampleRate));

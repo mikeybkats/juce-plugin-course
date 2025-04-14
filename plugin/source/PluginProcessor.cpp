@@ -82,13 +82,9 @@ void PluginProcessor::changeProgramName(int index,
 }
 
 void PluginProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
-  // Use this method as the place to do any pre-playback
-  // initialisation that you need..
-  juce::ignoreUnused(samplesPerBlock);
-
   currentSampleRate = sampleRate;
 
-  tremolo.prepare(sampleRate);
+  tremolo.prepare(sampleRate, samplesPerBlock);
 }
 
 void PluginProcessor::releaseResources() {
