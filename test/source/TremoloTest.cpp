@@ -5,12 +5,16 @@
 #include <wolfsound/file/wolfsound_WavFileWriter.hpp>
 
 namespace ws {
+/** This test extracts the LFO used by the Tremolo effect and saves it to a WAV
+ * file.
+ *
+ * The LFO rate is not changed; thus, the one set in Tremolo's constructor will
+ * be used.
+ */
 TEST(Tremolo, ExtractLfo) {
   Tremolo testee;
   constexpr auto sampleRate = 48000.0;
   testee.prepare(sampleRate);
-
-  testee.setModulationRate(1.f);
 
   juce::AudioBuffer<float> buffer;
   buffer.setSize(1, int(sampleRate));
@@ -24,7 +28,7 @@ TEST(Tremolo, ExtractLfo) {
       juce::File::getSpecialLocation(
           juce::File::SpecialLocationType::currentExecutableFile)
           .getParentDirectory()
-          .getChildFile("1_Hz_LFO.wav")
+          .getChildFile("lfo.wav")
           .getFullPathName()
           .toStdString(),
       std::vector<float>(block.getChannelPointer(0u),
