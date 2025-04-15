@@ -1,6 +1,7 @@
 #pragma once
 
 #include <juce_gui_basics/juce_gui_basics.h>
+#include <type_traits>
 
 namespace ws {
 class CustomLookAndFeel : public juce::LookAndFeel_V4 {
@@ -14,7 +15,7 @@ private:
   }
 
 public:
-  enum Colors : size_t { orange, lightGrey };
+  enum class Colors : size_t { orange, lightGrey };
 
   CustomLookAndFeel();
 
@@ -30,7 +31,8 @@ public:
 
   template <Colors ColorName>
   const juce::Colour& getColor() {
-    return std::get<ColorName>(getColorPalette());
+    return std::get<static_cast<std::underlying_type_t<Colors>>(ColorName)>(
+        getColorPalette());
   }
 };
 }  // namespace ws
