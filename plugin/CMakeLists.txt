@@ -6,29 +6,29 @@ project(TremoloCoursePlugin VERSION 0.1.0)
 juce_add_plugin(
   TremoloCoursePlugin
   PRODUCT_NAME
-  "Tremolo"
+    "Tremolo"
   VERSION
-  0.0.0 # 0 forces AU hosts to always refresh
+    0.0.0 # 0 forces AU hosts to always refresh
   COMPANY_NAME
-  "WolfSound"
+    "WolfSound"
   PLUGIN_MANUFACTURER_CODE
-  Wfsd
+    Wfsd
   PLUGIN_CODE
-  Trcp
+    Trcp
   FORMATS
-  Standalone
-  AU
-  VST3
+    Standalone
+    AU
+    VST3
   IS_SYNTH
-  FALSE
+    FALSE
   NEEDS_MIDI_INPUT
-  FALSE
+    FALSE
   NEEDS_MIDI_OUTPUT
-  FALSE
+    FALSE
   VST3_AUTO_MANIFEST
-  FALSE
+    FALSE
   COPY_PLUGIN_AFTER_BUILD
-  TRUE
+    TRUE
 )
 # Adding an alias for a target is a good CMake practice: it forces
 # CMake to fail project generation when the aliased target doesn't exist.
@@ -51,17 +51,25 @@ target_include_directories(TremoloCoursePlugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR
 target_link_libraries_system(
   TremoloCoursePlugin
   PUBLIC
-  juce::juce_audio_utils
+    juce::juce_audio_utils
   PRIVATE
-  juce::juce_dsp
+    juce::juce_dsp
 )
 target_link_libraries(
-  TremoloCoursePlugin PUBLIC juce::juce_recommended_config_flags juce::juce_recommended_lto_flags
-                             juce::juce_recommended_warning_flags
+  TremoloCoursePlugin
+  PUBLIC
+    juce::juce_recommended_config_flags
+    juce::juce_recommended_lto_flags
+    juce::juce_recommended_warning_flags
 )
 
 # These definitions are recommended by JUCE.
-target_compile_definitions(TremoloCoursePlugin PUBLIC JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0)
+target_compile_definitions(TremoloCoursePlugin
+  PUBLIC
+    JUCE_WEB_BROWSER=0
+    JUCE_USE_CURL=0
+    JUCE_VST3_CAN_REPLACE_VST2=0
+)
 
 # Enables strict C++ warnings and treats warnings as errors.
 # We set it only for our source files to avoid compilation errors for JUCE sources.

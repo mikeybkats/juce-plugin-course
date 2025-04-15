@@ -8,27 +8,27 @@ enable_testing()
 # Adds googletest.
 cpmaddpackage(
   NAME
-  GOOGLETEST
+    GOOGLETEST
   GITHUB_REPOSITORY
-  google/googletest
+    google/googletest
   VERSION
-  1.16.0
+    1.16.0
   SOURCE_DIR
-  ${LIB_DIR}/googletest
+    ${LIB_DIR}/googletest
   OPTIONS
-  "INSTALL_GTEST OFF"
-  "gtest_force_shared_crt ON"
+    "INSTALL_GTEST OFF"
+    "gtest_force_shared_crt ON"
 )
 
 cpmaddpackage(
   NAME
-  WOLFSOUND_DSP_UTILS
+    WOLFSOUND_DSP_UTILS
   GITHUB_REPOSITORY
-  JanWilczek/wolfsound-dsp-utils
+    JanWilczek/wolfsound-dsp-utils
   VERSION
-  0.3.0
+    0.3.0
   SOURCE_DIR
-  ${LIB_DIR}/wolfsound-dsp-utils
+    ${LIB_DIR}/wolfsound-dsp-utils
 )
 
 # Creates the test console application.
@@ -37,7 +37,11 @@ add_executable(TremoloCoursePluginTest ${SOURCE_FILES})
 
 # Thanks to the fact that we link against the gtest_main library, we don't have to write the main function ourselves.
 target_link_libraries(
-  TremoloCoursePluginTest PRIVATE ws::TremoloCoursePlugin GTest::gtest_main wolfsound::wolfsound_dsp_utils
+  TremoloCoursePluginTest
+  PRIVATE
+    ws::TremoloCoursePlugin
+    GTest::gtest_main
+    wolfsound::wolfsound_dsp_utils
 )
 
 # Enables strict C++ warnings and treats warnings as errors.
