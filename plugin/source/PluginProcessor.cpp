@@ -157,13 +157,13 @@ juce::AudioProcessorEditor* PluginProcessor::createEditor() {
 
 void PluginProcessor::getStateInformation(juce::MemoryBlock& destData) {
   juce::MemoryOutputStream outputStream{destData, true};
-  JsonSerializer{}.serialize(parameters, outputStream);
+  JsonSerializer::serialize(parameters, outputStream);
 }
 
 void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
   juce::MemoryInputStream inputStream{data, static_cast<size_t>(sizeInBytes),
                                       false};
-  JsonSerializer{}.deserialize(inputStream, parameters);
+  JsonSerializer::deserialize(inputStream, parameters);
 }
 
 Parameters& PluginProcessor::getParameters() noexcept {

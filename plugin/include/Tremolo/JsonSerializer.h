@@ -6,7 +6,7 @@
 namespace ws {
 class JsonSerializer {
 public:
-  void serialize(const Parameters&, juce::OutputStream&);
-  void deserialize(juce::InputStream&, Parameters&);
+  static void serialize(const Parameters&, juce::OutputStream&);
+  static void deserialize(juce::InputStream&, Parameters&);
 };
 }  // namespace ws
