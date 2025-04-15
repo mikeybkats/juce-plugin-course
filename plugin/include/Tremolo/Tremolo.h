@@ -10,10 +10,10 @@
 namespace ws {
 class Tremolo {
 public:
-  enum LfoWaveform : size_t {
-    SINE = 0u,
-    TRIANGLE = 1u,
-    COUNT = 2u,
+  enum class LfoWaveform : size_t {
+    sine = 0u,
+    triangle = 1u,
+    count = 2u,
   };
 
   Tremolo()
@@ -41,9 +41,9 @@ public:
   }
 
   void setLfoWaveform(LfoWaveform waveform) {
-    jassert(waveform < LfoWaveform::COUNT);
+    jassert(waveform != LfoWaveform::count);
 
-    if (waveform < LfoWaveform::COUNT) {
+    if (waveform != LfoWaveform::count) {
       lfoToSet = waveform;
     }
   }
@@ -112,11 +112,13 @@ private:
     }
     // the argument is added to the generated sample, thus, we pass in 0
     // to get just the generated sample
-    return lfos[currentLfo].processSample(0.f);
+    return lfos[static_cast<size_t>(currentLfo)].processSample(0.f);
   }
 
-  std::array<juce::dsp::Oscillator<float>, LfoWaveform::COUNT> lfos;
-  LfoWaveform currentLfo = LfoWaveform::SINE;
+  std::array<juce::dsp::Oscillator<float>,
+             static_cast<size_t>(LfoWaveform::count)>
+      lfos;
+  LfoWaveform currentLfo = LfoWaveform::sine;
   LfoWaveform lfoToSet{currentLfo};
   juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear>
       lfoTransitionSmoother;
