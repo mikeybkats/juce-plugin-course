@@ -7,6 +7,6 @@ namespace ws {
 class JsonSerializer {
 public:
   void serialize(const Parameters&, juce::OutputStream&);
-  void deserialize(juce::InputStream& input, Parameters& parameters);
+  void deserialize(juce::InputStream&, Parameters&);
 };
 }  // namespace ws
