@@ -17,7 +17,7 @@ public:
   void resized() override;
 
 private:
-  Gradient background;
+  GradientComponent background;
   juce::Label headerLabel{"header label", "TREMOLO"};
 
   juce::Label waveformLabel{"waveform label", "WAVEFORM"};

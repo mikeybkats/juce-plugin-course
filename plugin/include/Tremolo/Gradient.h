@@ -3,13 +3,14 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 
 namespace ws {
-struct Gradient : juce::Component {
+struct GradientComponent : public juce::Component {
   juce::Colour topColour;
   juce::Colour bottomColour;
 
   void paint(juce::Graphics& g) override {
-    g.setGradientFill(juce::ColourGradient::vertical(topColour, bottomColour, getLocalBounds()));
+    g.setGradientFill(juce::ColourGradient::vertical(topColour, bottomColour,
+                                                     getLocalBounds()));
     g.fillAll();
   }
 };
-}
+}  // namespace ws
