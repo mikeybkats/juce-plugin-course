@@ -20,12 +20,6 @@ public:
                     int buttonH,
                     juce::ComboBox&) override;
 
-  static juce::Colour getColor(Colors colorName) {
-    static const std::array colors{
-        juce::Colour{0xFFEF7600},
-        juce::Colour{0xFFD9D9D9},
-    };
-    return colors.at(static_cast<std::underlying_type_t<Colors>>(colorName));
-  }
+  static juce::Colour getColor(Colors colorName);
 };
 }  // namespace ws

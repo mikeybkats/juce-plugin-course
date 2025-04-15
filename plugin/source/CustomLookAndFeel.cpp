@@ -61,4 +61,12 @@ void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
                   .withAlpha((box.isEnabled() ? 0.9f : 0.2f)));
   g.strokePath(path, juce::PathStrokeType(2.0f));
 }
+
+juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
+  static const std::array colors{
+      juce::Colour{0xFFEF7600},
+      juce::Colour{0xFFD9D9D9},
+  };
+  return colors.at(static_cast<std::underlying_type_t<Colors>>(colorName));
+}
 }  // namespace ws
