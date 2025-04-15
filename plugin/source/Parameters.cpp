@@ -7,14 +7,15 @@ namespace ws {
 namespace {
 juce::AudioParameterFloat& createModulationRateParameter(
     Parameters::Container& c) {
+  constexpr auto versionHint = 1;
   auto parameter = std::make_unique<juce::AudioParameterFloat>(
-      "modulation.rate", "Modulation rate",
+      juce::ParameterID{"modulation.rate", versionHint}, "Modulation rate",
       juce::NormalisableRange<float>{0.1f, 20.f, 0.1f}, 5.f,
       juce::AudioParameterFloatAttributes{}
           .withLabel("Hz")
           .withStringFromValueFunction(
               [](float value, int maximumStringLength) {
-                const auto result = juce::String{value, 1, false};
+                auto result = juce::String{value, 1, false};
 
                 if (maximumStringLength > 0) {
                   return result.substring(0, maximumStringLength);
@@ -28,8 +29,9 @@ juce::AudioParameterFloat& createModulationRateParameter(
 }
 
 juce::AudioParameterBool& createBypassedParameter(Parameters::Container& c) {
+  constexpr auto versionHint = 1;
   auto parameter = std::make_unique<juce::AudioParameterBool>(
-      "bypassed", "Bypass", false,
+      juce::ParameterID{"bypassed", versionHint}, "Bypass", false,
       juce::AudioParameterBoolAttributes{}.withStringFromValueFunction(
           [](auto isBypassed, auto) { return isBypassed ? "Off" : "On"; }));
   auto& parameterReference = *parameter;
@@ -38,9 +40,11 @@ juce::AudioParameterBool& createBypassedParameter(Parameters::Container& c) {
 }
 
 juce::AudioParameterChoice& createWaveformParameter(Parameters::Container& c) {
+  constexpr auto versionHint = 1;
   static const juce::StringArray choices{"Sine", "Triangle"};
   auto parameter = std::make_unique<juce::AudioParameterChoice>(
-      "waveform", "Modulation waveform", choices, 0);
+      juce::ParameterID{"waveform", versionHint}, "Modulation waveform",
+      choices, 0);
   auto& parameterReference = *parameter;
   c.push_back(std::move(parameter));
   return parameterReference;
