@@ -6,14 +6,14 @@
 #include <ranges>
 #include <array>
 #include <cmath>
+#include <type_traits>
 
 namespace ws {
 class Tremolo {
 public:
-  enum class LfoWaveform : size_t {
-    sine = 0u,
-    triangle = 1u,
-    count = 2u,
+  enum class LfoWaveform {
+    sine,
+    triangle,
   };
 
   Tremolo()
@@ -41,11 +41,10 @@ public:
   }
 
   void setLfoWaveform(LfoWaveform waveform) {
-    jassert(waveform != LfoWaveform::count);
+    jassert(static_cast<std::underlying_type_t<LfoWaveform>>(waveform) <
+            static_cast<std::underlying_type_t<LfoWaveform>>(lfoWaveformCount));
 
-    if (waveform != LfoWaveform::count) {
-      lfoToSet = waveform;
-    }
+    lfoToSet = waveform;
   }
 
   void process(juce::AudioBuffer<float>& buffer) noexcept {
@@ -115,9 +114,8 @@ private:
     return lfos[static_cast<size_t>(currentLfo)].processSample(0.f);
   }
 
-  std::array<juce::dsp::Oscillator<float>,
-             static_cast<size_t>(LfoWaveform::count)>
-      lfos;
+  static constexpr auto lfoWaveformCount = 2u;
+  std::array<juce::dsp::Oscillator<float>, lfoWaveformCount> lfos;
   LfoWaveform currentLfo = LfoWaveform::sine;
   LfoWaveform lfoToSet{currentLfo};
   juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear>
