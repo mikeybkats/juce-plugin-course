@@ -36,6 +36,13 @@ cpmaddpackage(
 # Creates the test console application.
 add_executable(TremoloCoursePluginTest source/PluginProcessorTest.cpp source/JsonSerializerTest.cpp source/TremoloTest.cpp)
 
+# Configuration options that apply to the JUCE sources in the test target
+target_compile_definitions(TremoloCoursePluginTest
+  PRIVATE
+    JUCE_WEB_BROWSER=0
+    JUCE_USE_CURL=0
+)
+
 # Thanks to the fact that we link against the gtest_main library, we don't have to write the main function ourselves.
 target_link_libraries(
   TremoloCoursePluginTest
