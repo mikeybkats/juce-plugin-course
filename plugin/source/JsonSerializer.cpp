@@ -65,33 +65,37 @@ void JsonSerializer::serialize(const Parameters& parameters,
                   .withMaxDecimalPlaces(2));
 }
 
-void JsonSerializer::deserialize(juce::InputStream& input,
-                                 Parameters& parameters) {
+juce::Result JsonSerializer::deserialize(juce::InputStream& input,
+                                         Parameters& parameters) {
   juce::var parsedResult;
-  const auto parsingResult =
+  auto parsingResult =
       juce::JSON::parse(input.readEntireStreamAsString(), parsedResult);
 
   if (parsingResult.failed()) {
-    DBG(parsingResult.getErrorMessage());
-    return;
+    return parsingResult;
   }
 
   const auto parsedParameters =
       juce::FromVar::convert<SerializableParameters>(parsedResult);
 
   if (!parsedParameters.has_value()) {
-    return;
+    return juce::Result::fail(
+        "failed to parse parameters from JSON representation");
   }
 
   const auto modulationWaveformIndex =
       parameters.waveform.choices.indexOf(parsedParameters->waveform);
   if (modulationWaveformIndex < 0) {
     // don't update parameters if modulation waveform name is invalid
-    return;
+    return juce::Result::fail(
+        "invalid modulation waveform name; supported values are: " +
+        parameters.waveform.choices.joinIntoString(", "));
   }
 
   parameters.waveform = modulationWaveformIndex;
   parameters.rate = parsedParameters->rate;
   parameters.bypassed = parsedParameters->bypassed;
+
+  return juce::Result::ok();
 }
 }  // namespace ws
