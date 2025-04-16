@@ -43,11 +43,11 @@ include(cmake/CompilerWarnings.cmake)
 include(cmake/Util.cmake)
 
 # Adds a plugin target.
-set(PLUGIN_NAME "Tremolo")
+set(TREMOLO_PLUGIN_NAME "Tremolo")
 juce_add_plugin(
   TremoloCoursePlugin
   PRODUCT_NAME
-    ${PLUGIN_NAME}
+    ${TREMOLO_PLUGIN_NAME}
   VERSION
     0.0.0 # 0 forces AU hosts to always refresh
   COMPANY_NAME
@@ -78,7 +78,7 @@ juce_add_module(tremolo_plugin ALIAS_NAMESPACE ws)
 target_sources(tremolo_plugin PRIVATE tremolo_plugin/tremolo_plugin.cpp)
 target_compile_definitions(tremolo_plugin
   INTERFACE
-    PLUGIN_NAME="${PLUGIN_NAME}"
+    TREMOLO_PLUGIN_NAME="${TREMOLO_PLUGIN_NAME}"
     # The following definitions are recommended by JUCE.
     JUCE_WEB_BROWSER=0
     JUCE_USE_CURL=0

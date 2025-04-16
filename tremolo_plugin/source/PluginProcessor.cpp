@@ -12,7 +12,7 @@ PluginProcessor::PluginProcessor(Parameters::Container parameterContainer)
 }
 
 const juce::String PluginProcessor::getName() const {
-  return PLUGIN_NAME;
+  return TREMOLO_PLUGIN_NAME;
 }
 
 bool PluginProcessor::acceptsMidi() const {

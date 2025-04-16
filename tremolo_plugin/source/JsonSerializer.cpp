@@ -26,7 +26,7 @@ const ParameterIdentifiers& getIdentifiers() {
   return ids;
 }
 
-constexpr auto pluginName = PLUGIN_NAME;
+constexpr auto pluginName = TREMOLO_PLUGIN_NAME;
 constexpr auto currentVersion = "1.0.0";
 }  // namespace
 
