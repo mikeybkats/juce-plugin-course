@@ -83,14 +83,14 @@ void JsonSerializer::deserialize(juce::InputStream& input,
     return;
   }
 
-  const auto index =
+  const auto modulationWaveformIndex =
       parameters.waveform.choices.indexOf(parsedParameters->waveform);
-  if (index < 0) {
+  if (modulationWaveformIndex < 0) {
     // don't update parameters if modulation waveform name is invalid
     return;
   }
 
-  parameters.waveform = index;
+  parameters.waveform = modulationWaveformIndex;
   parameters.rate = parsedParameters->rate;
   parameters.bypassed = parsedParameters->bypassed;
 }
