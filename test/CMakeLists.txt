@@ -41,7 +41,7 @@ add_executable(TremoloCoursePluginTest ${SOURCE_FILES})
 target_link_libraries(
   TremoloCoursePluginTest
   PRIVATE
-    ws::plugin
+    ws::tremolo_plugin
     GTest::gtest_main
     wolfsound::wolfsound_dsp_utils
 )
