@@ -3,11 +3,11 @@
 
 BEGIN_JUCE_MODULE_DECLARATION
 
-   ID:            plugin
+   ID:            tremolo_plugin
    vendor:        WolfSound
    version:       1.0.0
    name:          Tremolo Plugin
-   description:   The cores of the tremolo plugin as a JUCE module
+   description:   Core of the tremolo plugin
    dependencies:  juce_audio_utils, juce_dsp
 
    website:       https://thewolfsound.com
@@ -22,14 +22,14 @@ BEGIN_JUCE_MODULE_DECLARATION
 
 #include <juce_graphics/juce_graphics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
-#include <type_traits>
 #include <juce_core/juce_core.h>
-#include <vector>
-#include <memory>
 #include <juce_audio_processors/juce_audio_processors.h>
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_events/juce_events.h>
 #include <juce_dsp/juce_dsp.h>
+#include <type_traits>
+#include <vector>
+#include <memory>
 #include <functional>
 #include <ranges>
 #include <algorithm>
