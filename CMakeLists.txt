@@ -86,8 +86,6 @@ target_compile_definitions(TremoloCoursePlugin
 juce_add_module(tremolo_plugin ALIAS_NAMESPACE ws)
 
 # Additional definitions required by all users of this module
-# Maybe this could just be defined as a constant in the module, rather than passed-in
-# through the build system.
 target_compile_definitions(tremolo_plugin
   INTERFACE
     TREMOLO_PLUGIN_NAME="${TREMOLO_PLUGIN_NAME}"
@@ -110,7 +108,7 @@ target_link_libraries(
 # In Visual Studio this command provides a nice grouping of source files in "filters".
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
-option(BUILD_TESTS "When on, will download the GoogleTest framework and add the automated tests project" ON)
+option(BUILD_TESTS "When on, will download the GoogleTest framework and add the automated tests project" OFF)
 if(BUILD_TESTS)
   # This command allows running tests from the "build" folder (the one where CMake generates the project to).
   enable_testing()
