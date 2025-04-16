@@ -13,7 +13,7 @@ BEGIN_JUCE_MODULE_DECLARATION
    website:       https://thewolfsound.com
    license:       MIT
 
-   END_JUCE_MODULE_DECLARATION
+END_JUCE_MODULE_DECLARATION
 
 ==============================================================================
 */
