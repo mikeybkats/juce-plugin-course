@@ -2,6 +2,7 @@
 #include <Tremolo/Parameters.h>
 #include <gtest/gtest.h>
 #include <juce_core/juce_core.h>
+#include <type_traits>
 
 namespace ws {
 TEST(JsonSerializer, SerializeToFile) {
@@ -54,5 +55,35 @@ TEST(JsonSerializer, DeserializeFromString) {
   EXPECT_TRUE(parameters.bypassed);
   EXPECT_EQ(juce::String{"Triangle"},
             parameters.waveform.getCurrentChoiceName());
+}
+
+TEST(JsonSerializer, DontUpdateParametersWhenWaveformNameIsInvalid) {
+  // given
+  const juce::String savedParameters =
+      u8R"({
+  "__version__": 1,
+  "pluginName": "Tremolo",
+  "modulationRateHz": 10.0,
+  "bypassed": true,
+  "modulationWaveform": "Foo"
+})";
+
+  juce::MemoryInputStream inputStream{
+      savedParameters.getCharPointer(),
+      static_cast<size_t>(savedParameters.length()), false};
+
+  Parameters::Container container;
+  Parameters parameters{container};
+  parameters.waveform = 0;
+  parameters.bypassed = false;
+  parameters.rate = 5.f;
+
+  // when
+  JsonSerializer{}.deserialize(inputStream, parameters);
+
+  // then
+  EXPECT_FLOAT_EQ(parameters.rate, 5.f);
+  EXPECT_FALSE(parameters.bypassed);
+  EXPECT_EQ(0, parameters.waveform.getIndex());
 }
 }  // namespace ws

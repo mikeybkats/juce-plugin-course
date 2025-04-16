@@ -83,13 +83,15 @@ void JsonSerializer::deserialize(juce::InputStream& input,
     return;
   }
 
-  parameters.rate = parsedParameters->rate;
-  parameters.bypassed = parsedParameters->bypassed;
-
   const auto index =
       parameters.waveform.choices.indexOf(parsedParameters->waveform);
-  if (0 <= index) {
-    parameters.waveform = index;
+  if (index < 0) {
+    // don't update parameters if modulation waveform name is invalid
+    return;
   }
+
+  parameters.waveform = index;
+  parameters.rate = parsedParameters->rate;
+  parameters.bypassed = parsedParameters->bypassed;
 }
 }  // namespace ws
