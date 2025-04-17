@@ -46,7 +46,7 @@ private:
   juce::AudioBuffer<float> buffer;
   juce::Path lfoCurve;
 
-  detail::StridedQueue<pointsOnPath> lfoSamplesToPlot_;
+  detail::StridedQueue<pointsOnPath> lfoSamplesToPlot;
 
   std::optional<double> lastTimestampSeconds;
   juce::VBlankAttachment vblankAttachment{

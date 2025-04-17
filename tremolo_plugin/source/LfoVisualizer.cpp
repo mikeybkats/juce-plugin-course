@@ -43,17 +43,17 @@ void LfoVisualizer::updateSamplesQueue(double timestampSeconds) {
 
   readAllLfoSamples(buffer);
 
-  lfoSamplesToPlot_.setStride(getStride());
+  lfoSamplesToPlot.setStride(getStride());
 
   const auto newAvailableSamples = buffer.getNumSamples();
   if (newAvailableSamples > 0) {
-    lfoSamplesToPlot_.pushBack(buffer);
+    lfoSamplesToPlot.pushBack(buffer);
     buffer.clear();
   } else {
     const auto secondsPassed = timestampSeconds - lastTimestampSeconds.value();
     const auto samplesPassed =
         static_cast<int>(getCurrentSampleRate() * secondsPassed);
-    lfoSamplesToPlot_.pushBackZeros(samplesPassed);
+    lfoSamplesToPlot.pushBackZeros(samplesPassed);
   }
 
   lastTimestampSeconds = timestampSeconds;
@@ -66,9 +66,9 @@ int LfoVisualizer::getStride() const {
 
 void LfoVisualizer::samplesToPath() {
   juce::Path path;
-  path.startNewSubPath(0.f, lfoSamplesToPlot_.front());
-  for (const auto i : std::views::iota(1u, lfoSamplesToPlot_.size())) {
-    path.lineTo(static_cast<float>(i), lfoSamplesToPlot_.at(i));
+  path.startNewSubPath(0.f, lfoSamplesToPlot.front());
+  for (const auto i : std::views::iota(1u, lfoSamplesToPlot.size())) {
+    path.lineTo(static_cast<float>(i), lfoSamplesToPlot.at(i));
   }
   lfoCurve = path;
 }
