@@ -21,7 +21,7 @@ void LfoVisualizer::setCurveColor(juce::Colour c) {
   curveColor = c;
 }
 
-void LfoVisualizer::setBackgroundColor(const juce::Colour& c) {
+void LfoVisualizer::setBackgroundColor(juce::Colour c) {
   backgroundColour = c;
 }
 

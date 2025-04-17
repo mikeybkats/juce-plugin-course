@@ -12,7 +12,7 @@ public:
 
   void setCurveColor(juce::Colour c);
 
-  void setBackgroundColor(const juce::Colour& c);
+  void setBackgroundColor(juce::Colour c);
 
 private:
   static constexpr auto pointsOnPath = 22050u;
