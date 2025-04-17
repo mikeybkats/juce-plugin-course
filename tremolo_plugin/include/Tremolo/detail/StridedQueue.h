@@ -17,34 +17,44 @@ public:
   float& at(size_t index) { return stridedElements.at(index); }
 
   void pushBack(const juce::AudioBuffer<float>& buffer) {
-    int _added = 0;
-    
     const auto toBeAdded = newElementsCount(buffer.getNumSamples());
 
-    for (; elementIndex < buffer.getNumSamples(); elementIndex += stride) {
-      const auto sample = buffer.getSample(0, elementIndex);
-      stridedElements.pop_front();
-      stridedElements.push_back(sample);
-
-      _added++;
+    if (static_cast<int>(stridedElements.size()) <= toBeAdded) {
+      // stridedElements will be completely overwritten
+      for (const auto i : std::views::iota(0, toBeAdded)) {
+        *(stridedElements.end() - i - 1) =
+            buffer.getSample(0, buffer.getNumSamples() - i * stride - 1);
+      }
+      elementIndex = stride - 1;
+      return;
     }
 
-    jassert(toBeAdded == _added);
+    std::rotate(stridedElements.begin(), stridedElements.begin() + toBeAdded,
+                stridedElements.end());
+
+    const auto beginIndex =
+        std::max(0, static_cast<int>(stridedElements.size()) - toBeAdded);
+
+    for (const auto i : std::views::iota(0, toBeAdded)) {
+      jassert(beginIndex + i < static_cast<int>(stridedElements.size()));
+      stridedElements.at(static_cast<size_t>(beginIndex + i)) =
+          buffer.getSample(0, elementIndex);
+      elementIndex += stride;
+      jassert(elementIndex < buffer.getNumSamples());
+    }
 
     elementIndex %= stride;
   }
 
   void pushBackZeros(int zerosCount) {
-    int _added = 0;
-    
     const auto toBeAdded = newElementsCount(zerosCount);
-    for (; elementIndex < zerosCount; elementIndex += stride) {
-      stridedElements.pop_front();
-      stridedElements.push_back(0.f);
-      _added++;
+    if (toBeAdded < static_cast<int>(stridedElements.size())) {
+      std::rotate(stridedElements.begin(), stridedElements.begin() + toBeAdded,
+                  stridedElements.end());
     }
-    jassert(toBeAdded == _added);
-    elementIndex %= stride;
+    const auto beginIndex =
+        std::max(0, static_cast<int>(stridedElements.size()) - toBeAdded);
+    std::fill(stridedElements.begin() + beginIndex, stridedElements.end(), 0.f);
   }
 
 private:
