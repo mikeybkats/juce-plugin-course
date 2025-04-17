@@ -47,7 +47,7 @@ void LfoVisualizer::updateSamplesQueue(double timestampSeconds) {
 
   const auto newAvailableSamples = buffer.getNumSamples();
   if (newAvailableSamples > 0) {
-    lfoSamplesToPlot.pushBack(juce::Span{
+    lfoSamplesToPlot.pushBack(std::span{
         buffer.getReadPointer(0), static_cast<size_t>(buffer.getNumSamples())});
     buffer.clear();
   } else {

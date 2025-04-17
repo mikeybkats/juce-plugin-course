@@ -10,7 +10,7 @@ public:
 
   T& at(size_t index) { return stridedElements.at(index); }
 
-  void pushBack(juce::Span<const T> buffer) {
+  void pushBack(std::span<const T> buffer) {
     const auto toBeAdded = newElementsCount(buffer.size());
 
     if (stridedElements.size() <= toBeAdded) {
