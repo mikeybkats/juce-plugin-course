@@ -13,7 +13,8 @@ public:
   void pushBack(std::span<const T> buffer) {
     const auto toBeAdded = newElementsCount(buffer.size());
 
-    if (stridedElements.size() > toBeAdded) {
+    if (toBeAdded < stridedElements.size()) {
+      // rotate when not overwritten completely
       std::rotate(stridedElements.begin(), stridedElements.begin() + toBeAdded,
                   stridedElements.end());
     }
