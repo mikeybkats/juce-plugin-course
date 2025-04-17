@@ -4,7 +4,6 @@ namespace ws {
 LfoVisualizer::LfoVisualizer(ReadAllLfoSamples readSamples,
                              GetCurrentSampleRate getRate)
     : readAllLfoSamples{readSamples}, getCurrentSampleRate{getRate} {
-  lfoSamplesToPlot.resize(pointsOnPath, 0.f);
   samplesToPath();
 }
 
@@ -44,29 +43,18 @@ void LfoVisualizer::updateSamplesQueue(double timestampSeconds) {
 
   readAllLfoSamples(buffer);
 
-  const auto stride = getStride();
-  lfoSamplesToPlot_.setStride(stride);
+  lfoSamplesToPlot_.setStride(getStride());
 
   const auto newAvailableSamples = buffer.getNumSamples();
   if (newAvailableSamples > 0) {
-    for (; sampleIndex < newAvailableSamples; sampleIndex += stride) {
-      const auto sample = buffer.getSample(0, sampleIndex);
-      lfoSamplesToPlot.pop_front();
-      lfoSamplesToPlot.push_back(sample);
-    }
     lfoSamplesToPlot_.pushBack(buffer);
     buffer.clear();
   } else {
     const auto secondsPassed = timestampSeconds - lastTimestampSeconds.value();
     const auto samplesPassed =
         static_cast<int>(getCurrentSampleRate() * secondsPassed);
-    for (; sampleIndex < samplesPassed; sampleIndex += stride) {
-      lfoSamplesToPlot.pop_front();
-      lfoSamplesToPlot.push_back(0.f);
-    }
     lfoSamplesToPlot_.pushBackZeros(samplesPassed);
   }
-  sampleIndex %= stride;
 
   lastTimestampSeconds = timestampSeconds;
 }

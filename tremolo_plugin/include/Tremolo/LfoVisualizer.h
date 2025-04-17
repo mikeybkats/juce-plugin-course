@@ -45,8 +45,6 @@ private:
   GetCurrentSampleRate getCurrentSampleRate;
   juce::AudioBuffer<float> buffer;
   juce::Path lfoCurve;
-  std::deque<float> lfoSamplesToPlot;
-  int sampleIndex{0};
 
   detail::StridedQueue<pointsOnPath> lfoSamplesToPlot_;
 
