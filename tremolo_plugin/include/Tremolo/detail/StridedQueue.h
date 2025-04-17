@@ -18,33 +18,19 @@ public:
          buffer.size()) %
         stride;
 
-    if (stridedElements.size() <= toBeAdded) {
-      // stridedElements will be completely overwritten
-      const auto bufferEndIndex = elementIndex + (toBeAdded - 1u) * stride;
-
-      for (const auto i : std::views::iota(0u, stridedElements.size())) {
-        jassert(0 <= (bufferEndIndex - i * stride));
-        jassert((bufferEndIndex - i * stride) < buffer.size());
-        jassert(stridedElements.rbegin() + i < stridedElements.rend());
-
-        *(stridedElements.rbegin() + i) = buffer[bufferEndIndex - i * stride];
-      }
-
-      elementIndex = endElementIndex;
-      return;
+    if (stridedElements.size() > toBeAdded) {
+      std::rotate(stridedElements.begin(), stridedElements.begin() + toBeAdded,
+                  stridedElements.end());
     }
+    const auto bufferEndIndex = elementIndex + (toBeAdded - 1u) * stride;
 
-    std::rotate(stridedElements.begin(), stridedElements.begin() + toBeAdded,
-                stridedElements.end());
+    for (const auto i :
+         std::views::iota(0u, std::min(toBeAdded, stridedElements.size()))) {
+      jassert(0 <= (bufferEndIndex - i * stride));
+      jassert((bufferEndIndex - i * stride) < buffer.size());
+      jassert(stridedElements.rbegin() + i < stridedElements.rend());
 
-    const auto beginIndex = stridedElements.size() - toBeAdded;
-
-    for (const auto i : std::views::iota(0u, toBeAdded)) {
-      jassert((beginIndex + i) < stridedElements.size());
-      jassert(elementIndex < buffer.size());
-
-      stridedElements.at(beginIndex + i) = buffer[elementIndex];
-      elementIndex += stride;
+      *(stridedElements.rbegin() + i) = buffer[bufferEndIndex - i * stride];
     }
 
     elementIndex = endElementIndex;
