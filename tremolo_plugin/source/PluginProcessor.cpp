@@ -134,7 +134,13 @@ void PluginProcessor::getStateInformation(juce::MemoryBlock& destData) {
 void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
   juce::MemoryInputStream inputStream{data, static_cast<size_t>(sizeInBytes),
                                       false};
-  JsonSerializer::deserialize(inputStream, parameters);
+  const auto result = JsonSerializer::deserialize(inputStream, parameters);
+
+  if (result.failed()) {
+    // Notify the user that reading parameters failed.
+    // Currently, we just write the error message to the standard error stream.
+    DBG(result.getErrorMessage());
+  }
 }
 
 Parameters& PluginProcessor::getParameters() noexcept {
