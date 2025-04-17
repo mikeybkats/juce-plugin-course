@@ -35,6 +35,9 @@ END_JUCE_MODULE_DECLARATION
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <deque>
+
+#include "include/Tremolo/detail/StridedQueue.h"
 
 #include "include/Tremolo/Parameters.h"
 #include "include/Tremolo/CustomLookAndFeel.h"

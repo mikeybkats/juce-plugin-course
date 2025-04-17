@@ -1,3 +1,4 @@
+
 namespace ws {
 
 LfoVisualizer::LfoVisualizer(ReadAllLfoSamples readSamples,
@@ -44,6 +45,7 @@ void LfoVisualizer::updateSamplesQueue(double timestampSeconds) {
   readAllLfoSamples(buffer);
 
   const auto stride = getStride();
+  lfoSamplesToPlot_.setStride(stride);
 
   const auto newAvailableSamples = buffer.getNumSamples();
   if (newAvailableSamples > 0) {
@@ -52,6 +54,7 @@ void LfoVisualizer::updateSamplesQueue(double timestampSeconds) {
       lfoSamplesToPlot.pop_front();
       lfoSamplesToPlot.push_back(sample);
     }
+    lfoSamplesToPlot_.pushBack(buffer);
     buffer.clear();
   } else {
     const auto secondsPassed = timestampSeconds - lastTimestampSeconds.value();
@@ -61,6 +64,7 @@ void LfoVisualizer::updateSamplesQueue(double timestampSeconds) {
       lfoSamplesToPlot.pop_front();
       lfoSamplesToPlot.push_back(0.f);
     }
+    lfoSamplesToPlot_.pushBackZeros(samplesPassed);
   }
   sampleIndex %= stride;
 
@@ -74,9 +78,9 @@ int LfoVisualizer::getStride() const {
 
 void LfoVisualizer::samplesToPath() {
   juce::Path path;
-  path.startNewSubPath(0.f, lfoSamplesToPlot.front());
-  for (const auto i : std::views::iota(1u, lfoSamplesToPlot.size())) {
-    path.lineTo(static_cast<float>(i), lfoSamplesToPlot.at(i));
+  path.startNewSubPath(0.f, lfoSamplesToPlot_.front());
+  for (const auto i : std::views::iota(1u, lfoSamplesToPlot_.size())) {
+    path.lineTo(static_cast<float>(i), lfoSamplesToPlot_.at(i));
   }
   lfoCurve = path;
 }

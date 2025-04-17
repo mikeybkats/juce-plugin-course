@@ -48,6 +48,8 @@ private:
   std::deque<float> lfoSamplesToPlot;
   int sampleIndex{0};
 
+  detail::StridedQueue<pointsOnPath> lfoSamplesToPlot_;
+
   std::optional<double> lastTimestampSeconds;
   juce::VBlankAttachment vblankAttachment{
       this, [this](double timestampSeconds) { update(timestampSeconds); }};
