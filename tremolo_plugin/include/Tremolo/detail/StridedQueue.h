@@ -1,3 +1,5 @@
+#pragma once
+
 namespace ws::detail {
 template <typename T, size_t Size>
 class StridedQueue {
