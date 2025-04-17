@@ -7,6 +7,9 @@ LfoVisualizer::LfoVisualizer(ReadAllLfoSamples readSamples,
     : readAllLfoSamples{readSamples},
       getCurrentSampleRate{getRate},
       isBypassed{getIsBypassed} {
+  // preallocate
+  buffer.setSize(1, static_cast<int>(getRate()));
+
   samplesToPath();
 }
 
@@ -52,7 +55,6 @@ void LfoVisualizer::updateSamplesQueue(double timestampSeconds) {
   if (newAvailableSamples > 0) {
     lfoSamplesToPlot.pushBack(std::span{
         buffer.getReadPointer(0), static_cast<size_t>(buffer.getNumSamples())});
-    buffer.clear();
   } else if (isBypassed()) {
     const auto secondsPassed = timestampSeconds - lastTimestampSeconds.value();
     const auto samplesPassed =

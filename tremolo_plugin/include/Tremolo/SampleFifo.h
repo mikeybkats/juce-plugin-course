@@ -9,7 +9,7 @@ public:
   void prepare(double sampleRate) {
     // we want to provide at least 10x audio block size so that we don't miss a
     // sample at low fps.
-    const auto sampleCapacity = static_cast<int>(0.1 * sampleRate);
+    const auto sampleCapacity = static_cast<int>(1.0 * sampleRate);
 
     buffer.setSize(1, sampleCapacity);
     buffer.clear();
