@@ -1,7 +1,3 @@
-#include "Tremolo/JsonSerializer.h"
-#include <juce_core/juce_core.h>
-#include "Tremolo/Parameters.h"
-
 namespace {
 constexpr auto pluginNameId = "pluginName";
 constexpr auto modulationRateHzId = "modulationRateHz";
@@ -35,11 +31,11 @@ struct juce::SerialisationTraits<SerializableParameters> {
       return;
     }
 
-    std::string pluginName = JucePlugin_Name;
+    std::string pluginName = TREMOLO_PLUGIN_NAME;
 
     archive(named(pluginNameId, pluginName));
 
-    if (pluginName != JucePlugin_Name) {
+    if (pluginName != TREMOLO_PLUGIN_NAME) {
       return;
     }
 

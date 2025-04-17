@@ -1,9 +1,5 @@
 #pragma once
 
-#include <juce_audio_basics/juce_audio_basics.h>
-#include <juce_core/juce_core.h>
-#include <algorithm>
-
 namespace ws {
 /** A single-producer, single-consumer FIFO queue to retrieve a single channel
  * of samples from the audio thread */

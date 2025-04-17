@@ -34,21 +34,23 @@ cpmaddpackage(
 )
 
 # Creates the test console application.
-set(SOURCE_FILES source/PluginProcessorTest.cpp source/JsonSerializerTest.cpp source/TremoloTest.cpp)
-add_executable(TremoloCoursePluginTest ${SOURCE_FILES})
+add_executable(TremoloCoursePluginTest source/PluginProcessorTest.cpp source/JsonSerializerTest.cpp source/TremoloTest.cpp)
+
+# Configuration options that apply to the JUCE sources in the test target
+target_compile_definitions(TremoloCoursePluginTest
+  PRIVATE
+    JUCE_WEB_BROWSER=0
+    JUCE_USE_CURL=0
+)
 
 # Thanks to the fact that we link against the gtest_main library, we don't have to write the main function ourselves.
 target_link_libraries(
   TremoloCoursePluginTest
   PRIVATE
-    ws::TremoloCoursePlugin
+    ws::tremolo_plugin
     GTest::gtest_main
     wolfsound::wolfsound_dsp_utils
 )
-
-# Enables strict C++ warnings and treats warnings as errors.
-# This needs to be set up only for your projects, not 3rd party
-set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_OPTIONS "${PROJECT_WARNINGS_CXX}")
 
 # Adds googletest-specific CMake commands at our disposal.
 include(GoogleTest)

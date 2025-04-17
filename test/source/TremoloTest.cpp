@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
-#include <juce_dsp/juce_dsp.h>
-#include "Tremolo/Tremolo.h"
+#include <tremolo_plugin/tremolo_plugin.h>
 
 #include <wolfsound/file/wolfsound_WavFileWriter.hpp>
 

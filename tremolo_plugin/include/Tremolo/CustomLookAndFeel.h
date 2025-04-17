@@ -1,8 +1,5 @@
 #pragma once
 
-#include <juce_gui_basics/juce_gui_basics.h>
-#include <type_traits>
-
 namespace ws {
 class CustomLookAndFeel : public juce::LookAndFeel_V4 {
 public:

@@ -1,10 +1,3 @@
-#include "Tremolo/PluginProcessor.h"
-#include "Tremolo/PluginEditor.h"
-#include "Tremolo/JsonSerializer.h"
-#include <juce_audio_processors/juce_audio_processors.h>
-#include <juce_core/juce_core.h>
-#include <juce_dsp/juce_dsp.h>
-#include <ranges>
 
 namespace ws {
 PluginProcessor::PluginProcessor(Parameters::Container parameterContainer)
@@ -19,7 +12,7 @@ PluginProcessor::PluginProcessor(Parameters::Container parameterContainer)
 }
 
 const juce::String PluginProcessor::getName() const {
-  return JucePlugin_Name;
+  return TREMOLO_PLUGIN_NAME;
 }
 
 bool PluginProcessor::acceptsMidi() const {

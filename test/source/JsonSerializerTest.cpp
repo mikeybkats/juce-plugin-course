@@ -1,7 +1,5 @@
-#include <Tremolo/JsonSerializer.h>
-#include <Tremolo/Parameters.h>
+#include <tremolo_plugin/tremolo_plugin.h>
 #include <gtest/gtest.h>
-#include <juce_core/juce_core.h>
 
 namespace ws {
 TEST(JsonSerializer, SerializeToFile) {

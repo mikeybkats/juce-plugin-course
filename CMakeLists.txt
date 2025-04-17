@@ -4,6 +4,9 @@
 # $ cmake --version
 cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 
+set(CMAKE_POLICY_DEFAULT_CMP0141        NEW      CACHE STRING "" FORCE)
+set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT Embedded CACHE STRING "" FORCE)
+
 # Sets a few variables, like PROJECT_NAME.
 project(JucePluginDevelopmentCourseTremoloPlugin)
 
@@ -42,8 +45,68 @@ cpmaddpackage(
 include(cmake/CompilerWarnings.cmake)
 include(cmake/Util.cmake)
 
-# Adds all the targets configured in the "plugin" folder.
-add_subdirectory(plugin)
+# Adds a plugin target.
+set(TREMOLO_PLUGIN_NAME "Tremolo")
+juce_add_plugin(
+  TremoloCoursePlugin
+  PRODUCT_NAME
+    ${TREMOLO_PLUGIN_NAME}
+  VERSION
+    0.0.0 # 0 forces AU hosts to always refresh
+  COMPANY_NAME
+    "WolfSound"
+  PLUGIN_MANUFACTURER_CODE
+    Wfsd
+  PLUGIN_CODE
+    Trcp
+  FORMATS
+    Standalone
+    AU
+    VST3
+  IS_SYNTH
+    FALSE
+  NEEDS_MIDI_INPUT
+    FALSE
+  NEEDS_MIDI_OUTPUT
+    FALSE
+  VST3_AUTO_MANIFEST
+    FALSE
+  COPY_PLUGIN_AFTER_BUILD
+    TRUE
+)
+
+# Configure the JUCE sources included in the plugin target
+target_compile_definitions(TremoloCoursePlugin
+  PRIVATE
+    JUCE_WEB_BROWSER=0
+    JUCE_USE_CURL=0
+    JUCE_VST3_CAN_REPLACE_VST2=0
+)
+
+juce_add_module(tremolo_plugin ALIAS_NAMESPACE ws)
+
+# Additional definitions required by all users of this module
+target_compile_definitions(tremolo_plugin
+  INTERFACE
+    TREMOLO_PLUGIN_NAME="${TREMOLO_PLUGIN_NAME}"
+)
+
+# Enables strict C++ warnings and treats warnings as errors.
+# We set it only for our source files to avoid compilation errors for JUCE sources.
+target_compile_options(tremolo_plugin INTERFACE "${PROJECT_WARNINGS_CXX}")
+
+target_link_libraries(
+  TremoloCoursePlugin
+  PRIVATE
+    ws::tremolo_plugin
+  PUBLIC
+    juce::juce_recommended_config_flags
+    juce::juce_recommended_lto_flags
+    juce::juce_recommended_warning_flags
+)
+
+# In Visual Studio this command provides a nice grouping of source files in "filters".
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
 option(BUILD_TESTS "When on, will download the GoogleTest framework and add the automated tests project" OFF)
 if(BUILD_TESTS)

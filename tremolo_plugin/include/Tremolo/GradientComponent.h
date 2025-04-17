@@ -1,6 +1,4 @@
 #pragma once
-#include <juce_graphics/juce_graphics.h>
-#include <juce_gui_basics/juce_gui_basics.h>
 
 namespace ws {
 struct GradientComponent : public juce::Component {

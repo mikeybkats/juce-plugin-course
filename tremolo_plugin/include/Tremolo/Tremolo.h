@@ -1,12 +1,4 @@
 #pragma once
-#include "SampleFifo.h"
-#include <juce_audio_basics/juce_audio_basics.h>
-#include <juce_core/juce_core.h>
-#include <juce_dsp/juce_dsp.h>
-#include <ranges>
-#include <array>
-#include <cmath>
-#include <type_traits>
 
 namespace ws {
 class Tremolo {

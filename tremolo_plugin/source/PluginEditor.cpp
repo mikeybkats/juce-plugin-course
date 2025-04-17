@@ -1,8 +1,3 @@
-#include "Tremolo/PluginEditor.h"
-#include "Tremolo/CustomLookAndFeel.h"
-#include "Tremolo/PluginProcessor.h"
-#include <juce_graphics/juce_graphics.h>
-
 namespace ws {
 PluginEditor::PluginEditor(PluginProcessor& p)
     : AudioProcessorEditor(&p),
