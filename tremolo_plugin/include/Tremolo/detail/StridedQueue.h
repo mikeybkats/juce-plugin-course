@@ -15,11 +15,14 @@ public:
 
     if (stridedElements.size() <= toBeAdded) {
       // stridedElements will be completely overwritten
+      const auto bufferEndIndex = elementIndex + (toBeAdded - 1u) * stride;
+
       for (const auto i : std::views::iota(0u, toBeAdded)) {
-        *(stridedElements.end() - i - 1u) =
-            buffer[buffer.size() - i * stride - 1u];
+        *(stridedElements.rbegin() + i) = buffer[bufferEndIndex - i * stride];
       }
-      elementIndex = stride - 1u;
+
+      // current buffer's last element is "-1st" with respect to the next buffer
+      elementIndex = (bufferEndIndex + stride - 1u) % stride;
       return;
     }
 
@@ -36,10 +39,14 @@ public:
       elementIndex += stride;
     }
 
-    elementIndex %= stride;
+    // current buffer's last element is "-1st" with respect to the next buffer
+    elementIndex = (elementIndex - 1u) % stride;
   }
 
   void pushBackZeros(size_t zerosCount) {
+    // reset elementIndex; the order changed
+    elementIndex = 0u;
+
     const auto toBeAdded = newElementsCount(zerosCount);
     if (toBeAdded < stridedElements.size()) {
       std::rotate(stridedElements.begin(), stridedElements.begin() + toBeAdded,
