@@ -2,11 +2,7 @@ namespace ws::detail {
 template <typename T, size_t Size>
 class StridedQueue {
 public:
-  void setStride(int newStride) {
-    jassert(newStride > 0);
-
-    stride = static_cast<size_t>(newStride);
-  }
+  void setStride(size_t newStride) { stride = newStride; }
 
   [[nodiscard]] size_t size() const noexcept { return stridedElements.size(); }
 

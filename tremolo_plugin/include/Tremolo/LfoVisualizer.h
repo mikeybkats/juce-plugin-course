@@ -24,7 +24,7 @@ private:
 
   void updateSamplesQueue(double timestampSeconds);
 
-  int getStride() const;
+  size_t getStride() const;
 
   void samplesToPath();
 

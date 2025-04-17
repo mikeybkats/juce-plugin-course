@@ -60,9 +60,9 @@ void LfoVisualizer::updateSamplesQueue(double timestampSeconds) {
   lastTimestampSeconds = timestampSeconds;
 }
 
-int LfoVisualizer::getStride() const {
-  return static_cast<int>(getCurrentSampleRate() * periodsToPlotOf1HzWaveform /
-                          pointsOnPath);
+size_t LfoVisualizer::getStride() const {
+  return static_cast<size_t>(getCurrentSampleRate() *
+                             periodsToPlotOf1HzWaveform / pointsOnPath);
 }
 
 void LfoVisualizer::samplesToPath() {
