@@ -16,7 +16,7 @@ public:
     std::ranges::for_each(lfos, [](auto& lfo) { lfo.setFrequency(5, true); });
   }
 
-  void prepare(double sampleRate, int samplesPerBlock) noexcept {
+  void prepare(double sampleRate, int samplesPerBlock) {
     std::ranges::for_each(
         lfos, [spec = juce::dsp::ProcessSpec{
                    .sampleRate = sampleRate,
