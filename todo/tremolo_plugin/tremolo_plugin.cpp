@@ -1,5 +1,4 @@
 #include "tremolo_plugin.h"
-#include "source/LfoVisualizer.cpp"
 #include "source/CustomLookAndFeel.cpp"
 #include "source/JsonSerializer.cpp"
 #include "source/Parameters.cpp"

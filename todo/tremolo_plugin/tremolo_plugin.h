@@ -37,14 +37,10 @@ END_JUCE_MODULE_DECLARATION
 #include <cmath>
 #include <deque>
 
-#include "include/Tremolo/detail/StridedQueue.h"
-
 #include "include/Tremolo/Parameters.h"
 #include "include/Tremolo/CustomLookAndFeel.h"
 #include "include/Tremolo/GradientComponent.h"
 #include "include/Tremolo/JsonSerializer.h"
-#include "include/Tremolo/LfoVisualizer.h"
-#include "include/Tremolo/SampleFifo.h"
 #include "include/Tremolo/Tremolo.h"
 #include "include/Tremolo/PluginProcessor.h"
 #include "include/Tremolo/PluginEditor.h"
