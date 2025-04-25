@@ -46,19 +46,19 @@ include(cmake/CompilerWarnings.cmake)
 include(cmake/Util.cmake)
 
 # Adds a plugin target.
-set(TREMOLO_PLUGIN_NAME "Tremolo")
+set(TREMOLO_PLUGIN_NAME "TODO: set your plugin name")
 juce_add_plugin(
   TremoloCoursePlugin
   PRODUCT_NAME
     ${TREMOLO_PLUGIN_NAME}
   VERSION
-    0.0.0 # 0 forces AU hosts to always refresh
+    # TODO: add version
   COMPANY_NAME
-    "WolfSound"
+    # TODO: add company
   PLUGIN_MANUFACTURER_CODE
-    Wfsd
+    # TODO: add plugin manufacturer code
   PLUGIN_CODE
-    Trcp
+    # TODO: add plugin code
   FORMATS
     Standalone
     AU
@@ -72,7 +72,7 @@ juce_add_plugin(
   VST3_AUTO_MANIFEST
     FALSE
   COPY_PLUGIN_AFTER_BUILD
-    TRUE
+    FALSE
 )
 
 # Configure the JUCE sources included in the plugin target.
