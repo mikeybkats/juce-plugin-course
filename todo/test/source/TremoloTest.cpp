@@ -35,38 +35,4 @@ TEST(Tremolo, ExtractLfo) {
                               block.getNumSamples()},
       wolfsound::Frequency{sampleRate});
 }
-
-TEST(Tremolo, SamplewiseAndChannelwiseProcessingYieldIdenticalResults) {
-  using namespace wolfsound::literals;
-  using namespace std::chrono_literals;
-
-  const auto sampleRate = 48000_Hz;
-  const auto testSignal = wolfsound::generateWhiteNoise(sampleRate, 1s, 0);
-
-  // create 2 identical input signal buffers
-  juce::AudioBuffer<float> samplewiseBuffer{
-      1, static_cast<int>(testSignal.size())};
-  std::ranges::copy(testSignal, samplewiseBuffer.getWritePointer(0));
-  auto channelwiseBuffer = samplewiseBuffer;
-
-  // create 2 identical Tremolo instances with default parameters
-  Tremolo samplewiseTremolo;
-  Tremolo channelwiseTremolo;
-
-  samplewiseTremolo.prepare(sampleRate.value(),
-                            static_cast<int>(testSignal.size()));
-  channelwiseTremolo.prepare(sampleRate.value(),
-                             static_cast<int>(testSignal.size()));
-
-  // process the first using sample-wise processing
-  samplewiseTremolo.process(samplewiseBuffer);
-
-  // process the second using block-wise processing
-  channelwiseTremolo.processChannelwise(channelwiseBuffer);
-
-  for (const auto i : std::views::iota(0, samplewiseBuffer.getNumSamples())) {
-    EXPECT_NEAR(samplewiseBuffer.getSample(0, i),
-                channelwiseBuffer.getSample(0, i), 1e-5f);
-  }
-}
 }  // namespace ws
