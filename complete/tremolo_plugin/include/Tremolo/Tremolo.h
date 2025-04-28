@@ -9,7 +9,7 @@ public:
   };
 
   Tremolo()
-      : lfos{juce::dsp::Oscillator<float>{std::sinf},
+      : lfos{juce::dsp::Oscillator<float>{[](auto phase) { return std::sin(phase);  }},
              juce::dsp::Oscillator<float>{
                  [](float phase) { return triangle(phase); }}},
         lfoTransitionSmoother{0.f} {
