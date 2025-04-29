@@ -41,7 +41,6 @@ set(GCC_CLANG_WARNINGS
     -Woverloaded-virtual # warn if you overload (not override) a virtual function
     -Wpedantic # warn if non-standard C++ is used
     -Wsign-conversion # warn on sign conversions
-    -Wnull-dereference # warn if a null dereference is detected
     -Wformat=2 # warn on security issues around functions that format output (ie printf)
     -Wimplicit-fallthrough # warn on statements that fallthrough without an explicit annotation
     -Wunused-variable
@@ -67,6 +66,7 @@ set(GCC_CLANG_WARNINGS
 set(CLANG_WARNINGS
     ${GCC_CLANG_WARNINGS}
     -Wconversion
+    -Wnull-dereference # warn if a null dereference is detected
     # flags recommended by JUCE
     -Wshadow-all
     -Wshorten-64-to-32
@@ -91,6 +91,8 @@ set(GCC_WARNINGS
     # -Wconversion # warn on type conversions that may lose data
     # -Wduplicated-branches # warn if if / else branches have duplicated code
     # -Wlogical-op # warn about logical operations being used where bitwise were probably wanted
+    # -Wnull-dereference # warn if a null dereference is detected
+    -Wno-maybe-uninitialized
 )
 
 option(WARNINGS_AS_ERRORS "Treat warnings as errors; This is helpful to avoid easy-to-overlook mistakes" OFF)
