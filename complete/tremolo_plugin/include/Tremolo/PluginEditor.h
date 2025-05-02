@@ -1,7 +1,6 @@
 #pragma once
 
 namespace ws {
-
 class PluginEditor : public juce::AudioProcessorEditor {
 public:
   explicit PluginEditor(PluginProcessor&);

@@ -9,26 +9,27 @@ public:
   };
 
   Tremolo()
-      : lfos{juce::dsp::Oscillator<float>{std::sinf},
+      : lfos{juce::dsp::Oscillator<float>{
+                 [](auto phase) { return std::sin(phase); }},
              juce::dsp::Oscillator<float>{
                  [](float phase) { return triangle(phase); }}},
         lfoTransitionSmoother{0.f} {
     std::ranges::for_each(lfos, [](auto& lfo) { lfo.setFrequency(5, true); });
   }
 
-  void prepare(double sampleRate, int samplesPerBlock) {
+  void prepare(double sampleRate, int expectedMaxFramesPerBlock) {
     std::ranges::for_each(
-        lfos,
-        [spec = juce::dsp::ProcessSpec{
-             .sampleRate = sampleRate,
-             .maximumBlockSize = static_cast<juce::uint32>(samplesPerBlock),
-             .numChannels = 1u,
-         }](auto& lfo) { lfo.prepare(spec); });
+        lfos, [spec = juce::dsp::ProcessSpec{
+                   .sampleRate = sampleRate,
+                   .maximumBlockSize =
+                       static_cast<juce::uint32>(expectedMaxFramesPerBlock),
+                   .numChannels = 1u,
+               }](auto& lfo) { lfo.prepare(spec); });
     lfoSampleFifo.prepare(sampleRate);
     lfoTransitionSmoother.reset(sampleRate, 0.025 /* 25 milliseconds */);
 
     // allocate defensively
-    lfoSamples.resize(static_cast<size_t>(4 * samplesPerBlock));
+    lfoSamples.resize(static_cast<size_t>(4 * expectedMaxFramesPerBlock));
   }
 
   void setModulationRate(float rateHz) noexcept {

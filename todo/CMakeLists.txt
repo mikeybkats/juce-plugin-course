@@ -46,19 +46,19 @@ include(cmake/CompilerWarnings.cmake)
 include(cmake/Util.cmake)
 
 # Adds a plugin target.
-set(TREMOLO_PLUGIN_NAME "Tremolo")
+set(TREMOLO_PLUGIN_NAME "TODO: set your plugin name")
 juce_add_plugin(
   TremoloCoursePlugin
   PRODUCT_NAME
     ${TREMOLO_PLUGIN_NAME}
   VERSION
-    0.0.0 # 0 forces AU hosts to always refresh
+    # TODO: add version
   COMPANY_NAME
-    "WolfSound"
+    # TODO: add company
   PLUGIN_MANUFACTURER_CODE
-    Wfsd
+    # TODO: add plugin manufacturer code
   PLUGIN_CODE
-    Trcp
+    # TODO: add plugin code
   FORMATS
     Standalone
     AU
@@ -72,10 +72,10 @@ juce_add_plugin(
   VST3_AUTO_MANIFEST
     FALSE
   COPY_PLUGIN_AFTER_BUILD
-    TRUE
+    FALSE
 )
 
-# Configure the JUCE sources included in the plugin target
+# Configure the JUCE sources included in the plugin target.
 target_compile_definitions(TremoloCoursePlugin
   PRIVATE
     JUCE_WEB_BROWSER=0
@@ -85,14 +85,13 @@ target_compile_definitions(TremoloCoursePlugin
 
 juce_add_module(tremolo_plugin ALIAS_NAMESPACE ws)
 
-# Additional definitions required by all users of this module
+# Additional definitions required by all users of this module.
 target_compile_definitions(tremolo_plugin
   INTERFACE
     TREMOLO_PLUGIN_NAME="${TREMOLO_PLUGIN_NAME}"
 )
 
-# Enables strict C++ warnings and treats warnings as errors.
-# We set it only for our source files to avoid compilation errors for JUCE sources.
+# Enables strict C++ warnings.
 target_compile_options(tremolo_plugin INTERFACE "${PROJECT_WARNINGS_CXX}")
 
 target_link_libraries(

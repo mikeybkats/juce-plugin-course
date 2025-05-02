@@ -1,17 +1,14 @@
 #pragma once
 
-#include "Parameters.h"
-#include "Tremolo.h"
-#include <juce_audio_processors/juce_audio_processors.h>
-
 namespace ws {
 class PluginProcessor : public juce::AudioProcessor {
 public:
   explicit PluginProcessor(Parameters::Container parameterContainer = {});
 
-  void prepareToPlay(double sampleRate, int samplesPerBlock) override;
+  void prepareToPlay(double sampleRate, int expectedMaxFramesPerBlock) override;
 
   void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
+  using AudioProcessor::processBlock;
 
   void releaseResources() override;
 
