@@ -8,7 +8,7 @@ public:
     triangle = 1,
   };
 
-  explicit Tremolo() : lfoTransitionSmoother{0.f} {
+  explicit Tremolo() {
     std::ranges::for_each(
         lfos, [](auto& lfo) { lfo.setFrequency(5.f /* Hz */, true); });
   }
@@ -147,7 +147,7 @@ private:
   LfoWaveform lfoToSet = currentLfo;
 
   juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear>
-      lfoTransitionSmoother;
+      lfoTransitionSmoother{0.f};
   std::vector<float> lfoSamples;
 
   SampleFifo<float> lfoSampleFifo;
