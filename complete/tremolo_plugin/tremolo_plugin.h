@@ -27,7 +27,6 @@ END_JUCE_MODULE_DECLARATION
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_events/juce_events.h>
 #include <juce_dsp/juce_dsp.h>
-#include <type_traits>
 #include <vector>
 #include <memory>
 #include <functional>

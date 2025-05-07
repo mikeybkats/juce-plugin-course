@@ -25,7 +25,7 @@ public:
     lfoTransitionSmoother.reset(sampleRate, 0.025 /* 25 milliseconds */);
 
     // allocate defensively
-    lfoSamples.resize(static_cast<size_t>(4 * expectedMaxFramesPerBlock));
+    lfoSamples.resize(4u * static_cast<size_t>(expectedMaxFramesPerBlock));
   }
 
   void setModulationRate(float rateHz) noexcept {
@@ -34,8 +34,7 @@ public:
   }
 
   void setLfoWaveform(LfoWaveform waveform) {
-    jassert(static_cast<std::underlying_type_t<LfoWaveform>>(waveform) <
-            static_cast<std::underlying_type_t<LfoWaveform>>(lfoWaveformCount));
+    jassert(waveform == LfoWaveform::sine || waveform == LfoWaveform::triangle);
 
     lfoToSet = waveform;
   }
@@ -140,14 +139,12 @@ private:
     return lfos[static_cast<size_t>(currentLfo)].processSample(0.f);
   }
 
-  static constexpr auto lfoWaveformCount = 2u;
-  std::array<juce::dsp::Oscillator<float>, lfoWaveformCount> lfos{
+  std::array<juce::dsp::Oscillator<float>, 2u> lfos{
       juce::dsp::Oscillator<float>{[](auto phase) { return std::sin(phase); }},
-      juce::dsp::Oscillator<float>{
-          [](float phase) { return triangle(phase); }}};
+      juce::dsp::Oscillator<float>{triangle}};
 
   LfoWaveform currentLfo = LfoWaveform::sine;
-  LfoWaveform lfoToSet{currentLfo};
+  LfoWaveform lfoToSet = currentLfo;
 
   juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear>
       lfoTransitionSmoother;
