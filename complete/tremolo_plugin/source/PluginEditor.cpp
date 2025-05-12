@@ -8,10 +8,8 @@ PluginEditor::PluginEditor(PluginProcessor& p)
           [&p](juce::AudioBuffer<float>& b) { p.readAllLfoSamples(b); },
           [&p] { return p.getSampleRateThreadSafe(); },
           [&p] { return p.getParameters().bypassed.get(); }} {
-  background.topColour =
-      lookAndFeel.getColor(CustomLookAndFeel::Colors::lightGrey).brighter();
-  background.bottomColour =
-      lookAndFeel.getColor(CustomLookAndFeel::Colors::lightGrey).darker();
+  background.setImage(juce::ImageCache::getFromMemory(
+      assets::RenderedBackground_png, assets::RenderedBackground_pngSize));
   addAndMakeVisible(background);
 
   headerLabel.setJustificationType(juce::Justification::centred);
@@ -52,7 +50,7 @@ PluginEditor::PluginEditor(PluginProcessor& p)
 
   // Make sure that before the constructor has finished, you've set the
   // editor's size to whatever you need it to be.
-  setSize(600, 300);
+  setSize(540, 270);
 }
 
 PluginEditor::~PluginEditor() {
