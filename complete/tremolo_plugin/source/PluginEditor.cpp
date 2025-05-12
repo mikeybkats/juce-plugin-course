@@ -12,7 +12,8 @@ PluginEditor::PluginEditor(PluginProcessor& p)
       assets::RenderedBackground_png, assets::RenderedBackground_pngSize));
   addAndMakeVisible(background);
 
-  waveformLabel.setJustificationType(juce::Justification::centred);
+  waveformLabel.setJustificationType(juce::Justification::left);
+  waveformLabel.setMinimumHorizontalScale(1.f);
   addAndMakeVisible(waveformLabel);
 
   auto waveformChoices = p.getParameters().waveform.choices;
@@ -32,7 +33,8 @@ PluginEditor::PluginEditor(PluginProcessor& p)
   rateLabel.setJustificationType(juce::Justification::centred);
   addAndMakeVisible(rateLabel);
 
-  bypassLabel.setJustificationType(juce::Justification::centred);
+  bypassLabel.setJustificationType(juce::Justification::left);
+  bypassLabel.setMinimumHorizontalScale(1.f);
   addAndMakeVisible(bypassLabel);
 
   addAndMakeVisible(bypassButton);
@@ -76,6 +78,13 @@ void PluginEditor::resized() {
   waveformComboBoxBounds.removeFromLeft(16);
   waveformComboBox.setBounds(waveformComboBoxBounds);
 
+  auto waveformLabelBounds = bounds;
+  waveformLabelBounds.removeFromTop(48);
+  waveformLabelBounds.removeFromRight(462);
+  waveformLabelBounds.removeFromBottom(206);
+  waveformLabelBounds.removeFromLeft(20);
+  waveformLabel.setBounds(waveformLabelBounds);
+
   auto bypassButtonBounds = bounds;
   bypassButtonBounds.removeFromTop(66);
   bypassButtonBounds.removeFromRight(16);
@@ -83,15 +92,11 @@ void PluginEditor::resized() {
   bypassButtonBounds.removeFromLeft(392);
   bypassButton.setBounds(bypassButtonBounds);
 
-  bounds.removeFromTop(58);
-
-  constexpr auto widgetMargin = 26;
-  bounds.removeFromLeft(widgetMargin);
-  bounds.removeFromRight(widgetMargin);
-
-  auto labelsBounds = bounds.removeFromTop(18);
-  const auto oneThirdOfWidth = labelsBounds.getWidth() / 3;
-  waveformLabel.setBounds(labelsBounds.removeFromLeft(oneThirdOfWidth));
-  bypassLabel.setBounds(labelsBounds.removeFromRight(oneThirdOfWidth));
+  auto bypassLabelBounds = bounds;
+  bypassLabelBounds.removeFromTop(48);
+  bypassLabelBounds.removeFromRight(105);
+  bypassLabelBounds.removeFromBottom(206);
+  bypassLabelBounds.removeFromLeft(396);
+  bypassLabel.setBounds(bypassLabelBounds);
 }
 }  // namespace ws
