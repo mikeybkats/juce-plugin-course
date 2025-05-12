@@ -36,6 +36,7 @@ PluginEditor::PluginEditor(PluginProcessor& p)
 
   addAndMakeVisible(bypassButton);
 
+  lfoVisualizer.setCurveWidth(2.f);
   lfoVisualizer.setCurveColor(
       lookAndFeel.getColor(CustomLookAndFeel::Colors::orange));
   lfoVisualizer.setBackgroundColor(juce::Colours::transparentBlack);

@@ -17,10 +17,14 @@ void LfoVisualizer::paint(juce::Graphics& g) {
   g.fillAll(backgroundColour);
 
   g.setColour(curveColor);
-  g.strokePath(
-      lfoCurve,
-      juce::PathStrokeType{4.f, juce::PathStrokeType::JointStyle::curved},
-      getLfoCurveTransform());
+  g.strokePath(lfoCurve,
+               juce::PathStrokeType{curveWidth,
+                                    juce::PathStrokeType::JointStyle::curved},
+               getLfoCurveTransform());
+}
+
+void LfoVisualizer::setCurveWidth(float w) {
+  curveWidth = w;
 }
 
 void LfoVisualizer::setCurveColor(juce::Colour c) {

@@ -13,6 +13,7 @@ public:
 
   void paint(juce::Graphics& g) override;
 
+  void setCurveWidth(float w);
   void setCurveColor(juce::Colour c);
 
   void setBackgroundColor(juce::Colour c);
@@ -42,6 +43,7 @@ private:
    */
   juce::AffineTransform getLfoCurveTransform() const;
 
+  float curveWidth{4.f};
   juce::Colour curveColor{juce::Colours::black};
   juce::Colour backgroundColour{juce::Colours::white};
   ReadAllLfoSamples readAllLfoSamples;
