@@ -38,8 +38,7 @@ PluginEditor::PluginEditor(PluginProcessor& p)
 
   lfoVisualizer.setCurveColor(
       lookAndFeel.getColor(CustomLookAndFeel::Colors::orange));
-  lfoVisualizer.setBackgroundColor(
-      lookAndFeel.getColor(CustomLookAndFeel::Colors::lightGrey));
+  lfoVisualizer.setBackgroundColor(juce::Colours::transparentBlack);
   addAndMakeVisible(lfoVisualizer);
 
   // set the look and feel AFTER configuring all child components
