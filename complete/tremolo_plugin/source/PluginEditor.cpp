@@ -76,6 +76,13 @@ void PluginEditor::resized() {
   waveformComboBoxBounds.removeFromLeft(16);
   waveformComboBox.setBounds(waveformComboBoxBounds);
 
+  auto bypassButtonBounds = bounds;
+  bypassButtonBounds.removeFromTop(66);
+  bypassButtonBounds.removeFromRight(16);
+  bypassButtonBounds.removeFromBottom(176);
+  bypassButtonBounds.removeFromLeft(392);
+  bypassButton.setBounds(bypassButtonBounds);
+
   bounds.removeFromTop(58);
 
   constexpr auto widgetMargin = 26;
@@ -86,11 +93,5 @@ void PluginEditor::resized() {
   const auto oneThirdOfWidth = labelsBounds.getWidth() / 3;
   waveformLabel.setBounds(labelsBounds.removeFromLeft(oneThirdOfWidth));
   bypassLabel.setBounds(labelsBounds.removeFromRight(oneThirdOfWidth));
-
-  auto widgetBounds = bounds.removeFromTop(67);
-
-  auto bypassButtonBounds =
-      widgetBounds.removeFromRight(oneThirdOfWidth).reduced(8, 14);
-  bypassButton.setBounds(bypassButtonBounds);
 }
 }  // namespace ws
