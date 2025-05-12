@@ -77,7 +77,8 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
                                          juce::Slider& slider) {
   const auto knobCanalColor = juce::Colour{0xFF2A3A3B};
 
-  auto bounds = juce::Rectangle<int>(x, y, width, height).toFloat().reduced(3.75f);
+  auto bounds =
+      juce::Rectangle<int>(x, y, width, height).toFloat().reduced(3.75f);
 
   g.setColour(knobCanalColor);
   g.fillEllipse(bounds);
@@ -103,15 +104,24 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
 
   const auto knobBounds = bounds.reduced(4.f);
 
-  juce::ColourGradient knobFill = juce::ColourGradient::vertical(juce::Colour{0xFF4A7090},
-    knobBounds.getY(),
-    juce::Colour{0xFF060F1C},
-    knobBounds.getY() + knobBounds.getHeight());
-  // knobFill.addColour(0.0, juce::Colour{0xFF4A7090});
+  auto knobFill = juce::ColourGradient::vertical(
+      juce::Colour{0xFF4A7090}, knobBounds.getY(), juce::Colour{0xFF060F1C},
+      knobBounds.getY() + knobBounds.getHeight());
   knobFill.addColour(0.29, juce::Colour{0xFF396086});
   knobFill.addColour(0.75, juce::Colour{0xFF2C3648});
-  // knobFill.addColour(1., juce::Colour{0xFF060F1C});
   g.setGradientFill(knobFill);
   g.fillEllipse(knobBounds);
+
+  const auto knobTopBounds = knobBounds.reduced(7.f);
+  auto knobTopFill = juce::ColourGradient{juce::Colour{0xFF6697CB},
+                                          knobTopBounds.getCentreX(),
+                                          knobTopBounds.getY() - 7.f,
+                                          juce::Colour{0xFF1B1E48},
+                                          knobTopBounds.getCentreX(),
+                                          knobTopBounds.getBottom() + 41.f,
+                                          true};
+  knobTopFill.addColour(0.66, juce::Colour{0xFF0C2338});
+  g.setGradientFill(knobTopFill);
+  g.fillEllipse(knobTopBounds);
 }
 }  // namespace ws
