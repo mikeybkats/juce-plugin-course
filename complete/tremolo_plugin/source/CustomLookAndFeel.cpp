@@ -112,6 +112,7 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
   g.setGradientFill(knobFill);
   g.fillEllipse(knobBounds);
 
+  // Knob stroke
   g.setColour(juce::Colour{0x400B1E3A});
   constexpr auto knobStrokeThickness = 1.33f;
   g.drawEllipse(knobBounds.reduced(knobStrokeThickness / 2.f),
