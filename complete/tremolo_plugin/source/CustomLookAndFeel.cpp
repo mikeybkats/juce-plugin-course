@@ -8,9 +8,9 @@ CustomLookAndFeel::CustomLookAndFeel() {
   setColour(juce::ComboBox::arrowColourId,
             getColor(Colors::lightGrey).darker());
   setColour(juce::ComboBox::textColourId, juce::Colours::black);
-  setColour(juce::Label::textColourId, juce::Colours::black);
   setColour(juce::ToggleButton::textColourId, juce::Colours::black);
   setColour(juce::ToggleButton::tickColourId, juce::Colours::black);
+  setColour(juce::Label::textColourId, juce::Colours::white);
   setColour(juce::ToggleButton::tickDisabledColourId,
             juce::Colours::black.brighter());
 
