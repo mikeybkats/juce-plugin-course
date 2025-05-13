@@ -22,6 +22,11 @@ CustomLookAndFeel::CustomLookAndFeel() {
 
   setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
   setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::black);
+
+  interTypeface = juce::Typeface::createSystemTypefaceFor(
+      assets::InterVariableFont_opszwght_ttf,
+      assets::InterVariableFont_opszwght_ttfSize);
+  getDefaultLookAndFeel().setDefaultSansSerifTypeface(interTypeface);
 }
 
 void CustomLookAndFeel::drawComboBox(juce::Graphics& g,

@@ -28,5 +28,8 @@ public:
                         float rotaryStartAngle,
                         float rotaryEndAngle,
                         juce::Slider&) override;
+
+private:
+  juce::Typeface::Ptr interTypeface;
 };
 }  // namespace ws
