@@ -90,6 +90,7 @@ juce_add_binary_data(tremolo_plugin_assets
     ws::assets
   SOURCES
     assets/RenderedBackground.png
+    assets/Inter-VariableFont_opsz,wght.ttf
 )
 
 add_library(ws::tremolo_plugin_assets ALIAS tremolo_plugin_assets)
