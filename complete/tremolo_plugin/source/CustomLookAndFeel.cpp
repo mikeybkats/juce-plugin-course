@@ -14,9 +14,9 @@ CustomLookAndFeel::CustomLookAndFeel() {
   setColour(juce::ToggleButton::tickDisabledColourId,
             juce::Colours::black.brighter());
 
-  setColour(juce::PopupMenu::backgroundColourId, getColor(Colors::lightGrey));
+  setColour(juce::PopupMenu::backgroundColourId, juce::Colour{0xFF153245});
   setColour(juce::PopupMenu::textColourId, getColor(Colors::white));
-  setColour(juce::PopupMenu::highlightedTextColourId, juce::Colours::black);
+  setColour(juce::PopupMenu::highlightedTextColourId, juce::Colour{0xFF0C131E});
   setColour(juce::PopupMenu::highlightedBackgroundColourId,
             getColor(Colors::orange));
 
