@@ -12,8 +12,14 @@ PluginEditor::PluginEditor(PluginProcessor& p)
       assets::RenderedBackground_png, assets::RenderedBackground_pngSize));
   addAndMakeVisible(background);
 
+  const auto sideLabelsFont =
+      juce::Font{juce::FontOptions{}.withPointHeight(10.f).withStyle("Medium")};
+  const auto sideFontColor = juce::Colour{0xFF6EA0C7};
+
   waveformLabel.setJustificationType(juce::Justification::left);
   waveformLabel.setMinimumHorizontalScale(1.f);
+  waveformLabel.setFont(sideLabelsFont);
+  waveformLabel.setColour(juce::Label::textColourId, sideFontColor);
   addAndMakeVisible(waveformLabel);
 
   auto waveformChoices = p.getParameters().waveform.choices;
@@ -38,6 +44,8 @@ PluginEditor::PluginEditor(PluginProcessor& p)
 
   bypassLabel.setJustificationType(juce::Justification::left);
   bypassLabel.setMinimumHorizontalScale(1.f);
+  bypassLabel.setFont(sideLabelsFont);
+  bypassLabel.setColour(juce::Label::textColourId, sideFontColor);
   addAndMakeVisible(bypassLabel);
 
   addAndMakeVisible(bypassButton);
@@ -83,7 +91,10 @@ void PluginEditor::resized() {
 
   auto waveformLabelBounds = bounds;
   waveformLabelBounds.removeFromTop(48);
-  waveformLabelBounds.removeFromRight(462);
+
+  // we make more space here than in Figma to avoid ellipsis insertion
+  waveformLabelBounds.removeFromRight(412);
+
   waveformLabelBounds.removeFromBottom(206);
   waveformLabelBounds.removeFromLeft(20);
   waveformLabel.setBounds(waveformLabelBounds);
@@ -97,7 +108,10 @@ void PluginEditor::resized() {
 
   auto bypassLabelBounds = bounds;
   bypassLabelBounds.removeFromTop(48);
-  bypassLabelBounds.removeFromRight(105);
+
+  // we make more space here than in Figma to avoid ellipsis insertion
+  bypassLabelBounds.removeFromRight(55);
+
   bypassLabelBounds.removeFromBottom(206);
   bypassLabelBounds.removeFromLeft(396);
   bypassLabel.setBounds(bypassLabelBounds);
