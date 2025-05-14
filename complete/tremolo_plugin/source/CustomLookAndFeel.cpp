@@ -7,15 +7,15 @@ CustomLookAndFeel::CustomLookAndFeel() {
             getColor(Colors::lightGrey).darker());
   setColour(juce::ComboBox::arrowColourId,
             getColor(Colors::lightGrey).darker());
-  setColour(juce::ComboBox::textColourId, juce::Colours::white);
-  setColour(juce::Label::textColourId, juce::Colours::white);
-  setColour(juce::ToggleButton::textColourId, juce::Colours::white);
-  setColour(juce::ToggleButton::tickColourId, juce::Colours::white);
+  setColour(juce::ComboBox::textColourId, getColor(Colors::white));
+  setColour(juce::Label::textColourId, getColor(Colors::white));
+  setColour(juce::ToggleButton::textColourId, getColor(Colors::white));
+  setColour(juce::ToggleButton::tickColourId, getColor(Colors::white));
   setColour(juce::ToggleButton::tickDisabledColourId,
             juce::Colours::black.brighter());
 
   setColour(juce::PopupMenu::backgroundColourId, getColor(Colors::lightGrey));
-  setColour(juce::PopupMenu::textColourId, juce::Colours::white);
+  setColour(juce::PopupMenu::textColourId, getColor(Colors::white));
   setColour(juce::PopupMenu::highlightedTextColourId, juce::Colours::black);
   setColour(juce::PopupMenu::highlightedBackgroundColourId,
             getColor(Colors::orange));
@@ -53,8 +53,6 @@ void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
   g.setGradientFill(buttonGradient);
   g.fillRoundedRectangle(buttonBounds, 4);
 
-  // TODO style text
-
   auto arrowZone = boxBounds.toFloat().reduced(10.f, 11.f);
   arrowZone.removeFromLeft(104);
   juce::Path path;
@@ -63,7 +61,7 @@ void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
   path.lineTo(arrowZone.getTopRight());
 
   g.setColour(
-      juce::Colour{0xFFDDECFF}.withAlpha((box.isEnabled() ? 0.9f : 0.2f)));
+      getColor(Colors::white).withAlpha((box.isEnabled() ? 0.9f : 0.2f)));
   g.fillPath(path);
 }
 
@@ -71,6 +69,7 @@ juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
   static const std::array colors{
       juce::Colour{0xFFFFAA00},
       juce::Colour{0xFFD9D9D9},
+      juce::Colour{0xFFDDECFF},
   };
   return colors.at(static_cast<std::underlying_type_t<Colors>>(colorName));
 }
