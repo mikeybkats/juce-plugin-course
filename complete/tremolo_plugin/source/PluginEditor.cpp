@@ -24,6 +24,7 @@ PluginEditor::PluginEditor(PluginProcessor& p)
 
   waveformComboBox.addItemList(p.getParameters().waveform.choices, 1);
   waveformAttachment.sendInitialUpdate();
+  waveformComboBox.setJustificationType(juce::Justification::centred);
   addAndMakeVisible(waveformComboBox);
 
   rateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
