@@ -34,6 +34,23 @@ public:
   void positionComboBoxText(juce::ComboBox&,
                             juce::Label& labelToPosition) override;
 
+  juce::PopupMenu::Options getOptionsForComboBoxPopupMenu(
+      juce::ComboBox& box,
+      juce::Label& label) override {
+    const auto screenBounds = box.getScreenBounds();
+    auto menuBounds = screenBounds.reduced(2, 0);
+    return juce::LookAndFeel_V4::getOptionsForComboBoxPopupMenu(box, label)
+        .withStandardItemHeight(24)
+        .withTargetScreenArea(menuBounds)
+        .withMinimumWidth(128);
+  }
+
+  juce::Font getPopupMenuFont() override {
+    return juce::FontOptions{}.withStyle("Medium").withPointHeight(12.f);
+  }
+
+  juce::Path getTickShape(float) override { return {}; }
+
 private:
   juce::Typeface::Ptr interTypeface;
 };
