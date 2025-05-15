@@ -31,6 +31,7 @@ PluginEditor::PluginEditor(PluginProcessor& p)
   rateSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox,
                              true, 0, 0);
   rateSlider.setTextValueSuffix(" Hz");
+  rateSlider.setPopupDisplayEnabled(true, true, this);
   addAndMakeVisible(rateSlider);
 
   rateLabel.setJustificationType(juce::Justification::centred);
