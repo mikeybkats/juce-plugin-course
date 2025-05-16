@@ -225,7 +225,8 @@ void CustomLookAndFeel::drawToggleButton(juce::Graphics& g,
     g.setFont(
         juce::FontOptions{}.withName("Inter").withPointHeight(12.f).withStyle(
             "Medium"));
-    g.drawText("Off", bounds, juce::Justification::centred, false);
+    g.drawText(button.getButtonText(), bounds, juce::Justification::centred,
+               false);
   } else {
     const auto buttonBounds = button.getLocalBounds().toFloat().reduced(2.f);
     const auto buttonGradient = juce::ColourGradient::vertical(
@@ -239,7 +240,8 @@ void CustomLookAndFeel::drawToggleButton(juce::Graphics& g,
     g.setFont(
         juce::FontOptions{}.withName("Inter").withPointHeight(12.f).withStyle(
             "Bold"));
-    g.drawText("Bypassed", buttonBounds, juce::Justification::centred, false);
+    g.drawText(button.getButtonText(), buttonBounds,
+               juce::Justification::centred, false);
   }
 }
 }  // namespace ws

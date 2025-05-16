@@ -48,6 +48,11 @@ PluginEditor::PluginEditor(PluginProcessor& p)
   bypassLabel.setColour(juce::Label::textColourId, sideFontColor);
   addAndMakeVisible(bypassLabel);
 
+  bypassButton.onClick = [this]() {
+    bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypassed"
+                                                             : "Off");
+  };
+  bypassButton.onClick();
   addAndMakeVisible(bypassButton);
 
   lfoVisualizer.setCurveWidth(2.f);
