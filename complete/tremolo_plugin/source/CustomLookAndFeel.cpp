@@ -169,8 +169,9 @@ juce::PopupMenu::Options CustomLookAndFeel::getOptionsForComboBoxPopupMenu(
     juce::Label& label) {
   const auto screenBounds = box.getScreenBounds();
   auto menuBounds = screenBounds.reduced(2, 0);
+  constexpr auto itemHeight = 24;
   return juce::LookAndFeel_V4::getOptionsForComboBoxPopupMenu(box, label)
-      .withStandardItemHeight(24)
+      .withStandardItemHeight(itemHeight)
       .withTargetScreenArea(menuBounds)
       .withMinimumWidth(128);
 }
