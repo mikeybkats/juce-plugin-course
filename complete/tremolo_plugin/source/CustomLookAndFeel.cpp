@@ -1,4 +1,15 @@
 namespace ws {
+CustomLookAndFeel::FontContainer::FontContainer()
+    : interRegular{juce::Typeface::createSystemTypefaceFor(
+          assets::InterRegular_ttf,
+          assets::InterRegular_ttfSize)},
+      interBold{
+          juce::Typeface::createSystemTypefaceFor(assets::InterBold_ttf,
+                                                  assets::InterBold_ttfSize)},
+      interMedium{juce::Typeface::createSystemTypefaceFor(
+          assets::InterMedium_ttf,
+          assets::InterMedium_ttfSize)} {}
+
 CustomLookAndFeel::CustomLookAndFeel() {
   setColour(juce::TextButton::buttonOnColourId, getColor(Colors::orange));
   setColour(juce::TextButton::buttonColourId, getColor(Colors::lightGrey));
@@ -166,7 +177,8 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
 }
 
 juce::Font CustomLookAndFeel::getComboBoxFont(juce::ComboBox&) {
-  return juce::FontOptions{}.withPointHeight(12.f).withStyle("Medium");
+  return juce::FontOptions{}.withPointHeight(12.f).withName("Inter").withStyle(
+      "Medium");
 }
 
 void CustomLookAndFeel::positionComboBoxText(juce::ComboBox& comboBox,
@@ -189,7 +201,10 @@ juce::PopupMenu::Options CustomLookAndFeel::getOptionsForComboBoxPopupMenu(
 }
 
 juce::Font CustomLookAndFeel::getPopupMenuFont() {
-  return juce::FontOptions{}.withStyle("Medium").withPointHeight(12.f);
+  return juce::FontOptions{}
+      .withName("Inter")
+      .withStyle("Medium")
+      .withPointHeight(12.f);
 }
 
 juce::Path CustomLookAndFeel::getTickShape(float) {
@@ -208,11 +223,18 @@ void CustomLookAndFeel::drawToggleButton(juce::Graphics& g,
     drawPlainButton(g, button.getLocalBounds().toFloat());
   } else {
     const auto buttonBounds = button.getLocalBounds().toFloat().reduced(2.f);
-    auto buttonGradient = juce::ColourGradient::vertical(
+    const auto buttonGradient = juce::ColourGradient::vertical(
         juce::Colour{0xFFFF901A}, buttonBounds.getY(), juce::Colour{0xFFFFC300},
         buttonBounds.getBottom());
     g.setGradientFill(buttonGradient);
     g.fillRoundedRectangle(buttonBounds, 4);
+
+    juce::Colour textColour{0xFF501A0B};
+    g.setColour(textColour);
+    g.setFont(
+        juce::FontOptions{}.withName("Inter").withPointHeight(12.f).withStyle(
+            "Bold"));
+    g.drawText("Bypassed", buttonBounds, juce::Justification::centred, false);
   }
 }
 }  // namespace ws

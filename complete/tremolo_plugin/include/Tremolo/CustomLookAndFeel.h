@@ -48,11 +48,22 @@ public:
                         bool shouldDrawButtonAsDown) override;
 
 private:
+  class FontContainer {
+  public:
+    FontContainer();
+
+  private:
+    juce::Typeface::Ptr interRegular;
+    juce::Typeface::Ptr interBold;
+    juce::Typeface::Ptr interMedium;
+  };
+
   void drawButtonInset(juce::Graphics&,
                        const juce::Rectangle<float>& bounds) const;
   void drawPlainButton(juce::Graphics&,
                        const juce::Rectangle<float>& bounds) const;
 
   juce::Typeface::Ptr interTypeface;
+  FontContainer fontContainer;
 };
 }  // namespace ws

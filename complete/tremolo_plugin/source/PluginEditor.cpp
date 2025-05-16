@@ -12,8 +12,9 @@ PluginEditor::PluginEditor(PluginProcessor& p)
       assets::RenderedBackground_png, assets::RenderedBackground_pngSize));
   addAndMakeVisible(background);
 
-  const auto sideLabelsFont =
-      juce::Font{juce::FontOptions{}.withPointHeight(10.f).withStyle("Medium")};
+  const auto sideLabelsFont = juce::Font{
+      juce::FontOptions{}.withPointHeight(10.f).withName("Inter").withStyle(
+          "Medium")};
   const auto sideFontColor = juce::Colour{0xFF6EA0C7};
 
   waveformLabel.setJustificationType(juce::Justification::left);
@@ -37,7 +38,8 @@ PluginEditor::PluginEditor(PluginProcessor& p)
   rateLabel.setJustificationType(juce::Justification::centred);
   rateLabel.setInterceptsMouseClicks(false, false);
   rateLabel.setFont(
-      juce::FontOptions{}.withStyle("Bold").withPointHeight(12.f));
+      juce::FontOptions{}.withName("Inter").withStyle("Bold").withPointHeight(
+          12.f));
   addAndMakeVisible(rateLabel);
 
   bypassLabel.setJustificationType(juce::Justification::left);
