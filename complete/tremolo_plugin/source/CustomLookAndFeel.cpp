@@ -229,20 +229,18 @@ void CustomLookAndFeel::drawToggleButton(juce::Graphics& g,
     g.setFont(
         juce::FontOptions{}.withName("Inter").withPointHeight(12.f).withStyle(
             "Medium"));
-    g.drawText(button.getButtonText(), bounds, juce::Justification::centred,
-               false);
   } else {
     drawGradientButton(g, bounds, juce::Colour{0xFFFF901A},
                        juce::Colour{0xFFFFC300});
 
-    juce::Colour textColour{0xFF501A0B};
+    const juce::Colour textColour{0xFF501A0B};
     g.setColour(textColour);
     g.setFont(
         juce::FontOptions{}.withName("Inter").withPointHeight(12.f).withStyle(
             "Bold"));
-    g.drawText(button.getButtonText(), bounds, juce::Justification::centred,
-               false);
   }
+  g.drawText(button.getButtonText(), bounds, juce::Justification::centred,
+             false);
 }
 
 void CustomLookAndFeel::drawGradientButton(juce::Graphics& g,
