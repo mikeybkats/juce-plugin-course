@@ -46,8 +46,6 @@ void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
                                      juce::ComboBox& box) {
   const auto boxBounds = juce::Rectangle{0, 0, width, height}.toFloat();
 
-  drawButtonInset(g, boxBounds);
-
   drawPlainButton(g, boxBounds);
 
   auto arrowZone = boxBounds.reduced(10.f, 11.f);
@@ -74,16 +72,23 @@ void CustomLookAndFeel::drawButtonInset(
   g.fillRoundedRectangle(bounds, cornerSize);
 }
 
+namespace {
+constexpr auto buttonInsetWidth = 2.f;
+constexpr auto buttonCornerSize = 4;
+}  // namespace
+
 void CustomLookAndFeel::drawPlainButton(
     juce::Graphics& g,
     const juce::Rectangle<float>& bounds) const {
-  const auto buttonBounds = bounds.reduced(2.f);
+  drawButtonInset(g, bounds);
+
+  const auto buttonBounds = bounds.reduced(buttonInsetWidth);
   auto buttonGradient = juce::ColourGradient::vertical(
       juce::Colour{0xFF4A7090}, buttonBounds.getY(), juce::Colour{0xFF324258},
       buttonBounds.getBottom());
   buttonGradient.addColour(0.73, juce::Colour{0xFF315160});
   g.setGradientFill(buttonGradient);
-  g.fillRoundedRectangle(buttonBounds, 4);
+  g.fillRoundedRectangle(buttonBounds, buttonCornerSize);
 }
 
 juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
@@ -218,8 +223,6 @@ void CustomLookAndFeel::drawToggleButton(juce::Graphics& g,
 
   const auto bounds = button.getLocalBounds().toFloat();
 
-  drawButtonInset(g, bounds);
-
   if (!button.getToggleState()) {
     drawPlainButton(g, bounds);
     g.setColour(getColor(Colors::white));
@@ -246,10 +249,12 @@ void CustomLookAndFeel::drawGradientButton(juce::Graphics& g,
                                            const juce::Rectangle<float>& bounds,
                                            juce::Colour topColor,
                                            juce::Colour bottomColor) const {
-  const auto buttonBounds = bounds.reduced(2.f);
+  drawButtonInset(g, bounds);
+
+  const auto buttonBounds = bounds.reduced(buttonInsetWidth);
   const auto buttonGradient = juce::ColourGradient::vertical(
       topColor, buttonBounds.getY(), bottomColor, buttonBounds.getBottom());
   g.setGradientFill(buttonGradient);
-  g.fillRoundedRectangle(buttonBounds, 4);
+  g.fillRoundedRectangle(buttonBounds, buttonCornerSize);
 }
 }  // namespace ws
