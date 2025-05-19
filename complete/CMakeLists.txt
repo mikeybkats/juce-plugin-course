@@ -13,9 +13,11 @@ project(JucePluginDevelopmentCourseTremoloPlugin)
 # Set the C++ standard only if this project is standalone;
 # otherwise, let clients decide.
 if(PROJECT_IS_TOP_LEVEL)
-  # Always use the newest C++ standard on green-field projects if possible.
-  # C++ 20 is a good baseline.
-  set(CMAKE_CXX_STANDARD 20)
+  if (NOT CMAKE_CXX_STANDARD)
+    # Always use the newest C++ standard on green-field projects if possible.
+    # C++ 20 is a good baseline.
+    set(CMAKE_CXX_STANDARD 20)
+  endif()
 
   # Link to C++ runtime statically
   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
