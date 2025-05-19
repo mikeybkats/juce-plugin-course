@@ -229,20 +229,27 @@ void CustomLookAndFeel::drawToggleButton(juce::Graphics& g,
     g.drawText(button.getButtonText(), bounds, juce::Justification::centred,
                false);
   } else {
-    const auto buttonBounds = bounds.reduced(2.f);
-    const auto buttonGradient = juce::ColourGradient::vertical(
-        juce::Colour{0xFFFF901A}, buttonBounds.getY(), juce::Colour{0xFFFFC300},
-        buttonBounds.getBottom());
-    g.setGradientFill(buttonGradient);
-    g.fillRoundedRectangle(buttonBounds, 4);
+    drawGradientButton(g, bounds, juce::Colour{0xFFFF901A},
+                       juce::Colour{0xFFFFC300});
 
     juce::Colour textColour{0xFF501A0B};
     g.setColour(textColour);
     g.setFont(
         juce::FontOptions{}.withName("Inter").withPointHeight(12.f).withStyle(
             "Bold"));
-    g.drawText(button.getButtonText(), buttonBounds,
-               juce::Justification::centred, false);
+    g.drawText(button.getButtonText(), bounds, juce::Justification::centred,
+               false);
   }
+}
+
+void CustomLookAndFeel::drawGradientButton(juce::Graphics& g,
+                                           const juce::Rectangle<float>& bounds,
+                                           juce::Colour topColor,
+                                           juce::Colour bottomColor) const {
+  const auto buttonBounds = bounds.reduced(2.f);
+  const auto buttonGradient = juce::ColourGradient::vertical(
+      topColor, buttonBounds.getY(), bottomColor, buttonBounds.getBottom());
+  g.setGradientFill(buttonGradient);
+  g.fillRoundedRectangle(buttonBounds, 4);
 }
 }  // namespace ws

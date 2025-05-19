@@ -62,6 +62,10 @@ private:
                        const juce::Rectangle<float>& bounds) const;
   void drawPlainButton(juce::Graphics&,
                        const juce::Rectangle<float>& bounds) const;
+  void drawGradientButton(juce::Graphics&,
+                          const juce::Rectangle<float>& bounds,
+                          juce::Colour topColor,
+                          juce::Colour bottomColor) const;
 
   FontContainer fontContainer;
 };
