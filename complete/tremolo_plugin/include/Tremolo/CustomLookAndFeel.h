@@ -3,7 +3,7 @@
 namespace ws {
 class CustomLookAndFeel : public juce::LookAndFeel_V4 {
 public:
-  enum class Colors : size_t { orange, lightGrey, white };
+  enum class Colors : size_t { orange, white };
 
   static juce::Colour getColor(Colors colorName);
 

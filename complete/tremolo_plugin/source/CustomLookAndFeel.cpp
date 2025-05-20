@@ -2,7 +2,6 @@ namespace ws {
 juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
   static const std::array colors{
       juce::Colour{0xFFFFAA00},
-      juce::Colour{0xFFD9D9D9},
       juce::Colour{0xFFDDECFF},
   };
   return colors.at(static_cast<std::underlying_type_t<Colors>>(colorName));
