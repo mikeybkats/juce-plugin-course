@@ -39,7 +39,7 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
                                          float sliderPos,
                                          const float rotaryStartAngle,
                                          const float rotaryEndAngle,
-                                         juce::Slider& slider) {
+                                         juce::Slider&) {
   const auto knobCanalColor = juce::Colour{0xFF2A3A3B};
 
   auto bounds = juce::Rectangle{x, y, width, height}.toFloat().reduced(3.75f);
@@ -55,16 +55,14 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
   const auto toAngle =
       rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
 
-  if (slider.isEnabled()) {
-    juce::Path valueArc;
-    valueArc.addCentredArc(bounds.getCentreX(), bounds.getCentreY(), arcRadius,
-                           arcRadius, 0.0f, rotaryStartAngle, toAngle, true);
+  juce::Path valueArc;
+  valueArc.addCentredArc(bounds.getCentreX(), bounds.getCentreY(), arcRadius,
+                         arcRadius, 0.0f, rotaryStartAngle, toAngle, true);
 
-    g.setColour(getColor(Colors::orange));
-    g.strokePath(valueArc,
-                 juce::PathStrokeType(lineWidth, juce::PathStrokeType::curved,
-                                      juce::PathStrokeType::square));
-  }
+  g.setColour(getColor(Colors::orange));
+  g.strokePath(valueArc,
+               juce::PathStrokeType(lineWidth, juce::PathStrokeType::curved,
+                                    juce::PathStrokeType::square));
 
   const auto knobBounds = bounds.reduced(4.f);
 
@@ -117,7 +115,7 @@ void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
                                      int /* buttonY */,
                                      int /* buttonW */,
                                      int /* buttonH */,
-                                     juce::ComboBox& box) {
+                                     juce::ComboBox&) {
   const auto boxBounds = juce::Rectangle{0, 0, width, height}.toFloat();
 
   drawPlainButton(g, boxBounds);
@@ -129,14 +127,15 @@ void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
   path.lineTo(arrowZone.getCentreX(), arrowZone.getBottom());
   path.lineTo(arrowZone.getTopRight());
 
-  g.setColour(
-      getColor(Colors::paleBlue).withAlpha((box.isEnabled() ? 0.9f : 0.2f)));
+  g.setColour(getColor(Colors::paleBlue));
   g.fillPath(path);
 }
 
 juce::Font CustomLookAndFeel::getComboBoxFont(juce::ComboBox&) {
-  return juce::FontOptions{}.withPointHeight(12.f).withName("Inter").withStyle(
-      "Medium");
+  return juce::FontOptions{}
+      .withName("Inter")
+      .withStyle("Medium")
+      .withPointHeight(12.f);
 }
 
 void CustomLookAndFeel::positionComboBoxText(juce::ComboBox& comboBox,
@@ -150,11 +149,9 @@ void CustomLookAndFeel::positionComboBoxText(juce::ComboBox& comboBox,
 juce::PopupMenu::Options CustomLookAndFeel::getOptionsForComboBoxPopupMenu(
     juce::ComboBox& box,
     juce::Label& label) {
-  const auto screenBounds = box.getScreenBounds();
-  const auto menuBounds = screenBounds.reduced(2, 0);
-  constexpr auto itemHeight = 24;
+  const auto menuBounds = box.getScreenBounds().reduced(2, 0);
   return juce::LookAndFeel_V4::getOptionsForComboBoxPopupMenu(box, label)
-      .withStandardItemHeight(itemHeight)
+      .withStandardItemHeight(24)
       .withTargetScreenArea(menuBounds)
       .withMinimumWidth(128);
 }
