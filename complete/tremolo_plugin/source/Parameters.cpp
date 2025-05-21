@@ -27,9 +27,7 @@ juce::AudioParameterFloat& createModulationRateParameter(
 juce::AudioParameterBool& createBypassedParameter(Parameters::Container& c) {
   constexpr auto versionHint = 1;
   auto parameter = std::make_unique<juce::AudioParameterBool>(
-      juce::ParameterID{"bypassed", versionHint}, "Bypass", false,
-      juce::AudioParameterBoolAttributes{}.withStringFromValueFunction(
-          [](auto isBypassed, auto) { return isBypassed ? "Off" : "On"; }));
+      juce::ParameterID{"bypassed", versionHint}, "Bypass", false);
   auto& parameterReference = *parameter;
   c.push_back(std::move(parameter));
   return parameterReference;
