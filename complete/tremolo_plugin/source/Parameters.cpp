@@ -24,10 +24,9 @@ juce::AudioParameterBool& createBypassedParameter(Parameters::Container& c) {
 
 juce::AudioParameterChoice& createWaveformParameter(Parameters::Container& c) {
   constexpr auto versionHint = 1;
-  static const juce::StringArray choices{"Sine", "Triangle"};
   auto parameter = std::make_unique<juce::AudioParameterChoice>(
       juce::ParameterID{"waveform", versionHint}, "Modulation waveform",
-      choices, 0);
+      juce::StringArray{"Sine", "Triangle"}, 0);
   auto& parameterReference = *parameter;
   c.push_back(std::move(parameter));
   return parameterReference;
