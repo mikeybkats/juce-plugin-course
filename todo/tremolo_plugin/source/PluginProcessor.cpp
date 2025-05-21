@@ -5,8 +5,6 @@ PluginProcessor::PluginProcessor()
           BusesProperties()
               .withInput("Input", juce::AudioChannelSet::stereo(), true)
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)) {
-  // TODO: create parameters
-  // TODO: retrieve references to parameters
   // TODO: add parameters
 }
 

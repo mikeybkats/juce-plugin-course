@@ -1,6 +1,9 @@
 
 namespace ws {
-Parameters::Parameters(Container& parameterContainer) {
+Parameters::Parameters(Container& parameterContainer)
+// TODO: create parameters
+// TODO: retrieve references to parameters
+{
   juce::ignoreUnused(parameterContainer);
 }
 }  // namespace ws
