@@ -3,7 +3,7 @@
 namespace ws {
 class Tremolo {
 public:
-  enum class LfoWaveform {
+  enum class LfoWaveform : size_t {
     sine = 0,
     triangle = 1,
   };
@@ -136,7 +136,7 @@ private:
     }
     // the argument is added to the generated sample, thus, we pass in 0
     // to get just the generated sample
-    return lfos[static_cast<size_t>(currentLfo)].processSample(0.f);
+    return lfos[juce::toUnderlyingType(currentLfo)].processSample(0.f);
   }
 
   std::array<juce::dsp::Oscillator<float>, 2u> lfos{

@@ -1,11 +1,15 @@
 namespace ws {
 PluginEditor::PluginEditor(PluginProcessor& p) : AudioProcessorEditor(&p) {
+  background.setImage(juce::ImageCache::getFromMemory(
+      assets::RenderedBackground_png, assets::RenderedBackground_pngSize));
+  addAndMakeVisible(background);
+
   // set the look and feel AFTER configuring all child components
   setLookAndFeel(&lookAndFeel);
 
   // Make sure that before the constructor has finished, you've set the
   // editor's size to whatever you need it to be.
-  setSize(600, 300);
+  setSize(540, 270);
 }
 
 PluginEditor::~PluginEditor() {
@@ -14,5 +18,9 @@ PluginEditor::~PluginEditor() {
   setLookAndFeel(nullptr);
 }
 
-void PluginEditor::resized() {}
+void PluginEditor::resized() {
+  const auto bounds = getLocalBounds();
+
+  background.setBounds(bounds);
+}
 }  // namespace ws

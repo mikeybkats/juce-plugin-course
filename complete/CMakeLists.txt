@@ -13,9 +13,11 @@ project(JucePluginDevelopmentCourseTremoloPlugin)
 # Set the C++ standard only if this project is standalone;
 # otherwise, let clients decide.
 if(PROJECT_IS_TOP_LEVEL)
-  # Always use the newest C++ standard on green-field projects if possible.
-  # C++ 20 is a good baseline.
-  set(CMAKE_CXX_STANDARD 20)
+  if (NOT CMAKE_CXX_STANDARD)
+    # Always use the newest C++ standard on green-field projects if possible.
+    # C++ 20 is a good baseline.
+    set(CMAKE_CXX_STANDARD 20)
+  endif()
 
   # Link to C++ runtime statically
   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -75,13 +77,27 @@ juce_add_plugin(
     FALSE
 )
 
-# Configure the JUCE sources included in the plugin target.
+# Configures the JUCE sources included in the plugin target.
 target_compile_definitions(TremoloCoursePlugin
   PRIVATE
     JUCE_WEB_BROWSER=0
     JUCE_USE_CURL=0
     JUCE_VST3_CAN_REPLACE_VST2=0
 )
+
+juce_add_binary_data(tremolo_plugin_assets
+  HEADER_NAME
+    "TremoloPluginAssets.h"
+  NAMESPACE
+    ws::assets
+  SOURCES
+    assets/RenderedBackground.png
+    assets/Inter-Bold.ttf
+    assets/Inter-Regular.ttf
+    assets/Inter-Medium.ttf
+)
+
+add_library(ws::tremolo_plugin_assets ALIAS tremolo_plugin_assets)
 
 juce_add_module(tremolo_plugin ALIAS_NAMESPACE ws)
 
@@ -93,6 +109,8 @@ target_compile_definitions(tremolo_plugin
 
 # Enables strict C++ warnings.
 target_compile_options(tremolo_plugin INTERFACE "${PROJECT_WARNINGS_CXX}")
+
+target_link_libraries(tremolo_plugin INTERFACE ws::tremolo_plugin_assets)
 
 target_link_libraries(
   TremoloCoursePlugin

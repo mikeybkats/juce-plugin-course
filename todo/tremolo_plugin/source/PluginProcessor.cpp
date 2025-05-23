@@ -5,8 +5,6 @@ PluginProcessor::PluginProcessor()
           BusesProperties()
               .withInput("Input", juce::AudioChannelSet::stereo(), true)
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)) {
-  // TODO: create parameters
-  // TODO: retrieve references to parameters
   // TODO: add parameters
 }
 
@@ -114,12 +112,12 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 }
 
 bool PluginProcessor::hasEditor() const {
-  return true;
+  return false;
 }
 
 // This function will be called to create an instance of the editor
 juce::AudioProcessorEditor* PluginProcessor::createEditor() {
-  return new PluginEditor(*this);
+  return nullptr;
 }
 
 void PluginProcessor::getStateInformation(juce::MemoryBlock& destData) {

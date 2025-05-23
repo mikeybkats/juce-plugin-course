@@ -1,27 +1,122 @@
 namespace ws {
-CustomLookAndFeel::CustomLookAndFeel() {
-  setColour(juce::TextButton::buttonOnColourId, getColor(Colors::orange));
-  setColour(juce::TextButton::buttonColourId, getColor(Colors::lightGrey));
-  setColour(juce::ComboBox::backgroundColourId, getColor(Colors::lightGrey));
-  setColour(juce::ComboBox::outlineColourId,
-            getColor(Colors::lightGrey).darker());
-  setColour(juce::ComboBox::arrowColourId,
-            getColor(Colors::lightGrey).darker());
-  setColour(juce::ComboBox::textColourId, juce::Colours::black);
-  setColour(juce::Label::textColourId, juce::Colours::black);
-  setColour(juce::ToggleButton::textColourId, juce::Colours::black);
-  setColour(juce::ToggleButton::tickColourId, juce::Colours::black);
-  setColour(juce::ToggleButton::tickDisabledColourId,
-            juce::Colours::black.brighter());
+juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
+  static const std::array colors{
+      juce::Colour{0xFFFFAA00},
+      juce::Colour{0xFFDDECFF},
+  };
+  return colors.at(juce::toUnderlyingType(colorName));
+}
 
-  setColour(juce::PopupMenu::backgroundColourId, getColor(Colors::lightGrey));
-  setColour(juce::PopupMenu::textColourId, juce::Colours::black);
-  setColour(juce::PopupMenu::highlightedTextColourId, juce::Colours::black);
+CustomLookAndFeel::FontContainer::FontContainer()
+    : interRegular{juce::Typeface::createSystemTypefaceFor(
+          assets::InterRegular_ttf,
+          assets::InterRegular_ttfSize)},
+      interBold{
+          juce::Typeface::createSystemTypefaceFor(assets::InterBold_ttf,
+                                                  assets::InterBold_ttfSize)},
+      interMedium{juce::Typeface::createSystemTypefaceFor(
+          assets::InterMedium_ttf,
+          assets::InterMedium_ttfSize)} {
+  // used to set the font of the default standalone plugin window
+  getDefaultLookAndFeel().setDefaultSansSerifTypeface(interRegular);
+}
+
+CustomLookAndFeel::CustomLookAndFeel() {
+  setColour(juce::ComboBox::textColourId, getColor(Colors::paleBlue));
+  setColour(juce::Label::textColourId, getColor(Colors::paleBlue));
+  setColour(juce::PopupMenu::backgroundColourId, juce::Colour{0xFF153245});
+  setColour(juce::PopupMenu::textColourId, getColor(Colors::paleBlue));
+  setColour(juce::PopupMenu::highlightedTextColourId, juce::Colour{0xFF0C131E});
   setColour(juce::PopupMenu::highlightedBackgroundColourId,
             getColor(Colors::orange));
+}
 
-  setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
-  setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::black);
+juce::Font CustomLookAndFeel::getSideLabelsFont() const {
+  return juce::FontOptions{fontContainer.interMedium}.withPointHeight(10.f);
+}
+
+juce::BorderSize<int> CustomLookAndFeel::getLabelBorderSize(juce::Label&) {
+  return juce::BorderSize{0};
+}
+
+juce::Font CustomLookAndFeel::getRateLabelFont() const {
+  return juce::FontOptions{fontContainer.interBold}.withPointHeight(12.f);
+}
+
+void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
+                                         int x,
+                                         int y,
+                                         int width,
+                                         int height,
+                                         float sliderPos,
+                                         const float rotaryStartAngle,
+                                         const float rotaryEndAngle,
+                                         juce::Slider&) {
+  const auto knobCanalColor = juce::Colour{0xFF2A3A3B};
+
+  auto bounds = juce::Rectangle{x, y, width, height}.toFloat().reduced(3.75f);
+
+  g.setColour(knobCanalColor);
+  g.fillEllipse(bounds);
+
+  bounds.reduce(0.25f, 0.25f);
+
+  const auto radius = juce::jmin(bounds.getWidth(), bounds.getHeight()) / 2.0f;
+  constexpr auto lineWidth = 4.f;
+  const auto arcRadius = radius - lineWidth * 0.5f;
+  const auto toAngle =
+      rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
+
+  juce::Path valueArc;
+  valueArc.addCentredArc(bounds.getCentreX(), bounds.getCentreY(), arcRadius,
+                         arcRadius, 0.0f, rotaryStartAngle, toAngle, true);
+
+  g.setColour(getColor(Colors::orange));
+  g.strokePath(valueArc,
+               juce::PathStrokeType(lineWidth, juce::PathStrokeType::curved,
+                                    juce::PathStrokeType::square));
+
+  const auto knobBounds = bounds.reduced(4.f);
+
+  auto knobFill = juce::ColourGradient::vertical(
+      juce::Colour{0xFF4A7090}, knobBounds.getY(), juce::Colour{0xFF060F1C},
+      knobBounds.getY() + knobBounds.getHeight());
+  knobFill.addColour(0.29, juce::Colour{0xFF396086});
+  knobFill.addColour(0.75, juce::Colour{0xFF2C3648});
+  g.setGradientFill(knobFill);
+  g.fillEllipse(knobBounds);
+
+  // Knob stroke
+  g.setColour(juce::Colour{0x400B1E3A});
+  constexpr auto knobStrokeThickness = 1.33f;
+  g.drawEllipse(knobBounds.reduced(knobStrokeThickness / 2.f),
+                knobStrokeThickness);
+
+  // Knob top
+  const auto knobTopBounds = knobBounds.reduced(7.f);
+  auto knobTopFill = juce::ColourGradient{juce::Colour{0xFF6697CB},
+                                          knobTopBounds.getCentreX(),
+                                          knobTopBounds.getY() - 7.f,
+                                          juce::Colour{0xFF1B1E48},
+                                          knobTopBounds.getCentreX(),
+                                          knobTopBounds.getBottom() + 41.f,
+                                          true};
+  knobTopFill.addColour(0.66, juce::Colour{0xFF0C2338});
+  g.setGradientFill(knobTopFill);
+  g.fillEllipse(knobTopBounds);
+
+  // Knob top edge
+  auto knobTopEdgeFill = juce::ColourGradient{juce::Colour{0xFF8FFFFF},
+                                              knobTopBounds.getCentreX(),
+                                              knobTopBounds.getY(),
+                                              juce::Colour{0xFF1A0F4E},
+                                              knobTopBounds.getCentreX(),
+                                              knobTopBounds.getBottom() + 6.f,
+                                              true};
+  knobTopEdgeFill.addColour(0.55, juce::Colour{0xFF8078F4});
+  g.setGradientFill(knobTopEdgeFill);
+  g.setOpacity(0.1f);
+  g.drawEllipse(knobTopBounds, 1.f);
 }
 
 void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
@@ -32,37 +127,118 @@ void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
                                      int /* buttonY */,
                                      int /* buttonW */,
                                      int /* buttonH */,
-                                     juce::ComboBox& box) {
-  constexpr auto cornerSize = 6.f;
-  juce::Rectangle<int> boxBounds(0, 0, width, height);
+                                     juce::ComboBox&) {
+  const auto boxBounds = juce::Rectangle{0, 0, width, height}.toFloat();
 
-  g.setColour(box.findColour(juce::ComboBox::backgroundColourId));
-  g.fillRoundedRectangle(boxBounds.toFloat(), cornerSize);
+  drawPlainButton(g, boxBounds);
 
-  g.setColour(box.findColour(juce::ComboBox::outlineColourId));
-  g.drawRoundedRectangle(boxBounds.toFloat().reduced(0.5f, 0.5f), cornerSize,
-                         1.0f);
-
-  auto arrowZone =
-      juce::Rectangle<int>(width - height, 0, height, height).toFloat();
-  g.drawRoundedRectangle(arrowZone, cornerSize, 1.f);
-
-  arrowZone.reduce((arrowZone.getWidth() - 20.f) / 2.f, 0.f);
+  auto arrowZone = boxBounds.reduced(10.f, 11.f);
+  arrowZone.removeFromLeft(104);
   juce::Path path;
-  path.startNewSubPath(arrowZone.getX() + 3.0f, arrowZone.getCentreY() - 2.0f);
-  path.lineTo(arrowZone.getCentreX(), arrowZone.getCentreY() + 3.0f);
-  path.lineTo(arrowZone.getRight() - 3.0f, arrowZone.getCentreY() - 2.0f);
+  path.startNewSubPath(arrowZone.getTopLeft());
+  path.lineTo(arrowZone.getCentreX(), arrowZone.getBottom());
+  path.lineTo(arrowZone.getTopRight());
 
-  g.setColour(box.findColour(juce::ComboBox::arrowColourId)
-                  .withAlpha((box.isEnabled() ? 0.9f : 0.2f)));
-  g.strokePath(path, juce::PathStrokeType(2.0f));
+  g.setColour(getColor(Colors::paleBlue));
+  g.fillPath(path);
 }
 
-juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
-  static const std::array colors{
-      juce::Colour{0xFFEF7600},
-      juce::Colour{0xFFD9D9D9},
-  };
-  return colors.at(static_cast<std::underlying_type_t<Colors>>(colorName));
+juce::Font CustomLookAndFeel::getComboBoxFont(juce::ComboBox&) {
+  return juce::FontOptions{fontContainer.interMedium}.withPointHeight(12.f);
+}
+
+void CustomLookAndFeel::positionComboBoxText(juce::ComboBox& comboBox,
+                                             juce::Label& labelToPosition) {
+  auto bounds = comboBox.getLocalBounds().reduced(10, 6);
+  bounds.removeFromRight(12);
+  labelToPosition.setBounds(bounds);
+  labelToPosition.setJustificationType(juce::Justification::centred);
+  labelToPosition.setFont(getComboBoxFont(comboBox));
+}
+
+juce::PopupMenu::Options CustomLookAndFeel::getOptionsForComboBoxPopupMenu(
+    juce::ComboBox& box,
+    juce::Label& label) {
+  const auto menuBounds = box.getScreenBounds().reduced(2, 0);
+  return juce::LookAndFeel_V4::getOptionsForComboBoxPopupMenu(box, label)
+      .withStandardItemHeight(24)
+      .withTargetScreenArea(menuBounds)
+      .withMinimumWidth(128);
+}
+
+juce::Font CustomLookAndFeel::getPopupMenuFont() {
+  return juce::FontOptions{fontContainer.interMedium}.withPointHeight(12.f);
+}
+
+juce::Path CustomLookAndFeel::getTickShape(float) {
+  return {};
+}
+
+void CustomLookAndFeel::drawToggleButton(juce::Graphics& g,
+                                         juce::ToggleButton& button,
+                                         bool shouldDrawButtonAsHighlighted,
+                                         bool shouldDrawButtonAsDown) {
+  juce::ignoreUnused(shouldDrawButtonAsDown, shouldDrawButtonAsHighlighted);
+
+  const auto bounds = button.getLocalBounds().toFloat();
+
+  if (!button.getToggleState()) {
+    drawPlainButton(g, bounds);
+    g.setColour(getColor(Colors::paleBlue));
+    g.setFont(
+        juce::FontOptions{fontContainer.interMedium}.withPointHeight(12.f));
+  } else {
+    drawGradientButton(g, bounds, juce::Colour{0xFFFF901A},
+                       juce::Colour{0xFFFFC300});
+
+    const juce::Colour textColour{0xFF501A0B};
+    g.setColour(textColour);
+    g.setFont(juce::FontOptions{fontContainer.interBold}.withPointHeight(12.f));
+  }
+  g.drawText(button.getButtonText(), bounds, juce::Justification::centred,
+             false);
+}
+
+namespace {
+constexpr auto buttonInsetWidth = 2.f;
+constexpr auto buttonCornerSize = 4;
+}  // namespace
+
+void CustomLookAndFeel::drawPlainButton(
+    juce::Graphics& g,
+    const juce::Rectangle<float>& bounds) const {
+  drawButtonInset(g, bounds);
+
+  const auto buttonBounds = bounds.reduced(buttonInsetWidth);
+  auto buttonGradient = juce::ColourGradient::vertical(
+      juce::Colour{0xFF4A7090}, buttonBounds.getY(), juce::Colour{0xFF324258},
+      buttonBounds.getBottom());
+  buttonGradient.addColour(0.73, juce::Colour{0xFF315160});
+  g.setGradientFill(buttonGradient);
+  g.fillRoundedRectangle(buttonBounds, buttonCornerSize);
+}
+
+void CustomLookAndFeel::drawGradientButton(juce::Graphics& g,
+                                           const juce::Rectangle<float>& bounds,
+                                           juce::Colour topColor,
+                                           juce::Colour bottomColor) const {
+  drawButtonInset(g, bounds);
+
+  const auto buttonBounds = bounds.reduced(buttonInsetWidth);
+  const auto buttonGradient = juce::ColourGradient::vertical(
+      topColor, buttonBounds.getY(), bottomColor, buttonBounds.getBottom());
+  g.setGradientFill(buttonGradient);
+  g.fillRoundedRectangle(buttonBounds, buttonCornerSize);
+}
+
+void CustomLookAndFeel::drawButtonInset(
+    juce::Graphics& g,
+    const juce::Rectangle<float>& bounds) const {
+  auto insetGradient = juce::ColourGradient::vertical(
+      juce::Colour{0xFF22232C}, 0.f, juce::Colour{0xFF263235},
+      bounds.getHeight());
+  insetGradient.addColour(0.35, juce::Colour{0xFF303538});
+  g.setGradientFill(insetGradient);
+  g.fillRoundedRectangle(bounds, 6.f);
 }
 }  // namespace ws

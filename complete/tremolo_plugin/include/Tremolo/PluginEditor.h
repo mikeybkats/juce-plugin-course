@@ -9,8 +9,7 @@ public:
   void resized() override;
 
 private:
-  GradientComponent background;
-  juce::Label headerLabel{"header label", "TREMOLO"};
+  juce::ImageComponent background;
 
   juce::Label waveformLabel{"waveform label", "WAVEFORM"};
   juce::ComboBox waveformComboBox;

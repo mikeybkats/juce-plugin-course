@@ -8,43 +8,51 @@ PluginEditor::PluginEditor(PluginProcessor& p)
           [&p](juce::AudioBuffer<float>& b) { p.readAllLfoSamples(b); },
           [&p] { return p.getSampleRateThreadSafe(); },
           [&p] { return p.getParameters().bypassed.get(); }} {
-  background.topColour =
-      lookAndFeel.getColor(CustomLookAndFeel::Colors::lightGrey).brighter();
-  background.bottomColour =
-      lookAndFeel.getColor(CustomLookAndFeel::Colors::lightGrey).darker();
+  background.setImage(juce::ImageCache::getFromMemory(
+      assets::RenderedBackground_png, assets::RenderedBackground_pngSize));
   addAndMakeVisible(background);
 
-  headerLabel.setJustificationType(juce::Justification::centred);
-  addAndMakeVisible(headerLabel);
+  const auto sideFontColor = juce::Colour{0xFF6EA0C7};
 
-  waveformLabel.setJustificationType(juce::Justification::centred);
+  waveformLabel.setJustificationType(juce::Justification::left);
+  waveformLabel.setMinimumHorizontalScale(1.f);
+  waveformLabel.setFont(lookAndFeel.getSideLabelsFont());
+  waveformLabel.setColour(juce::Label::textColourId, sideFontColor);
   addAndMakeVisible(waveformLabel);
 
-  auto waveformChoices = p.getParameters().waveform.choices;
-  for (auto& choice : waveformChoices) {
-    choice = choice.toUpperCase();
-  }
-  waveformComboBox.addItemList(waveformChoices, 1);
+  waveformComboBox.addItemList(p.getParameters().waveform.choices, 1);
   waveformAttachment.sendInitialUpdate();
   addAndMakeVisible(waveformComboBox);
 
-  rateLabel.setJustificationType(juce::Justification::centred);
-  addAndMakeVisible(rateLabel);
   rateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
-  rateSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxBelow,
-                             true, 80, 20);
+  rateSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox,
+                             true, 0, 0);
   rateSlider.setTextValueSuffix(" Hz");
+  rateSlider.setPopupDisplayEnabled(true, true, this);
   addAndMakeVisible(rateSlider);
 
-  bypassLabel.setJustificationType(juce::Justification::centred);
+  rateLabel.setJustificationType(juce::Justification::centred);
+  rateLabel.setInterceptsMouseClicks(false, false);
+  rateLabel.setFont(lookAndFeel.getRateLabelFont());
+  addAndMakeVisible(rateLabel);
+
+  bypassLabel.setJustificationType(juce::Justification::left);
+  bypassLabel.setMinimumHorizontalScale(1.f);
+  bypassLabel.setFont(lookAndFeel.getSideLabelsFont());
+  bypassLabel.setColour(juce::Label::textColourId, sideFontColor);
   addAndMakeVisible(bypassLabel);
 
+  bypassButton.onClick = [this]() {
+    bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypassed"
+                                                             : "Off");
+  };
+  bypassButton.onClick();
   addAndMakeVisible(bypassButton);
 
+  lfoVisualizer.setCurveWidth(2.f);
   lfoVisualizer.setCurveColor(
       lookAndFeel.getColor(CustomLookAndFeel::Colors::orange));
-  lfoVisualizer.setBackgroundColor(
-      lookAndFeel.getColor(CustomLookAndFeel::Colors::lightGrey));
+  lfoVisualizer.setBackgroundColor(juce::Colours::transparentBlack);
   addAndMakeVisible(lfoVisualizer);
 
   // set the look and feel AFTER configuring all child components
@@ -52,7 +60,7 @@ PluginEditor::PluginEditor(PluginProcessor& p)
 
   // Make sure that before the constructor has finished, you've set the
   // editor's size to whatever you need it to be.
-  setSize(600, 300);
+  setSize(540, 270);
 }
 
 PluginEditor::~PluginEditor() {
@@ -60,39 +68,53 @@ PluginEditor::~PluginEditor() {
 }
 
 void PluginEditor::resized() {
-  auto bounds = getLocalBounds();
+  const auto bounds = getLocalBounds();
 
   background.setBounds(bounds);
 
-  bounds.removeFromTop(28);
-  headerLabel.setBounds(bounds.removeFromTop(18));
+  auto lfoVisualizerBounds = bounds.reduced(18, 27);
+  lfoVisualizerBounds.removeFromTop(122);
+  lfoVisualizer.setBounds(lfoVisualizerBounds);
 
-  bounds.removeFromTop(12);
+  auto rateSliderBounds = bounds.reduced(230, 40);
+  rateSliderBounds.removeFromBottom(110);
+  rateSlider.setBounds(rateSliderBounds);
+  rateLabel.setBounds(rateSliderBounds);
 
-  constexpr auto widgetMargin = 26;
-  bounds.removeFromLeft(widgetMargin);
-  bounds.removeFromRight(widgetMargin);
+  auto waveformComboBoxBounds = bounds;
+  waveformComboBoxBounds.removeFromTop(66);
+  waveformComboBoxBounds.removeFromRight(392);
+  waveformComboBoxBounds.removeFromBottom(176);
+  waveformComboBoxBounds.removeFromLeft(16);
+  waveformComboBox.setBounds(waveformComboBoxBounds);
 
-  auto labelsBounds = bounds.removeFromTop(18);
-  const auto oneThirdOfWidth = labelsBounds.getWidth() / 3;
-  waveformLabel.setBounds(labelsBounds.removeFromLeft(oneThirdOfWidth));
-  bypassLabel.setBounds(labelsBounds.removeFromRight(oneThirdOfWidth));
-  rateLabel.setBounds(labelsBounds);
+  auto waveformLabelBounds = bounds;
+  waveformLabelBounds.removeFromTop(48);
 
-  auto widgetBounds = bounds.removeFromTop(67);
+  // we make more space here than in Figma to avoid ellipsis insertion
+  waveformLabelBounds.removeFromRight(461);
 
-  waveformComboBox.setBounds(
-      widgetBounds.removeFromLeft(oneThirdOfWidth).reduced(0, 15));
+  waveformLabelBounds.removeFromBottom(206);
+  waveformLabelBounds.removeFromLeft(20);
 
-  auto bypassButtonBounds =
-      widgetBounds.removeFromRight(oneThirdOfWidth).reduced(8, 14);
+  waveformLabel.setBounds(waveformLabelBounds);
+
+  auto bypassButtonBounds = bounds;
+  bypassButtonBounds.removeFromTop(66);
+  bypassButtonBounds.removeFromRight(16);
+  bypassButtonBounds.removeFromBottom(176);
+  bypassButtonBounds.removeFromLeft(392);
   bypassButton.setBounds(bypassButtonBounds);
 
-  rateSlider.setBounds(widgetBounds);
+  auto bypassLabelBounds = bounds;
+  bypassLabelBounds.removeFromTop(48);
 
-  bounds.removeFromTop(12);
-  bounds.removeFromBottom(16);
+  // we make more space here than in Figma to avoid ellipsis insertion
+  bypassLabelBounds.removeFromRight(104);
 
-  lfoVisualizer.setBounds(bounds);
+  bypassLabelBounds.removeFromBottom(206);
+  bypassLabelBounds.removeFromLeft(396);
+
+  bypassLabel.setBounds(bypassLabelBounds);
 }
 }  // namespace ws
