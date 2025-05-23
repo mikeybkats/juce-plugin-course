@@ -1,4 +1,4 @@
-namespace ws {
+namespace tremolo {
 PluginEditor::PluginEditor(PluginProcessor& p)
     : AudioProcessorEditor(&p),
       waveformAttachment{p.getParameters().waveform, waveformComboBox},
@@ -117,4 +117,4 @@ void PluginEditor::resized() {
 
   bypassLabel.setBounds(bypassLabelBounds);
 }
-}  // namespace ws
+}  // namespace tremolo

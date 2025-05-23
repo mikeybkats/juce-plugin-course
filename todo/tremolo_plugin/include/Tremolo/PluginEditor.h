@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ws {
+namespace tremolo {
 class PluginEditor : public juce::AudioProcessorEditor {
 public:
   explicit PluginEditor(PluginProcessor&);
@@ -15,4 +15,4 @@ private:
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginEditor)
 };
-}  // namespace ws
+}  // namespace tremolo

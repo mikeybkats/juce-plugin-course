@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ws {
+namespace tremolo {
 class LfoVisualizer : public juce::Component {
 public:
   using ReadAllLfoSamples = std::function<void(juce::AudioBuffer<float>&)>;
@@ -58,4 +58,4 @@ private:
   juce::VBlankAttachment vblankAttachment{
       this, [this](double timestampSeconds) { update(timestampSeconds); }};
 };
-}  // namespace ws
+}  // namespace tremolo

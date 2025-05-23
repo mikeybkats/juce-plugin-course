@@ -47,7 +47,7 @@ target_compile_definitions(TremoloCoursePluginTest
 target_link_libraries(
   TremoloCoursePluginTest
   PRIVATE
-    ws::tremolo_plugin
+    tremolo::tremolo_plugin
     GTest::gtest_main
     wolfsound::wolfsound_dsp_utils
 )

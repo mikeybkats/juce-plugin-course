@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ws {
+namespace tremolo {
 /** A single-producer, single-consumer FIFO queue to retrieve a single channel
  * of samples from the audio thread */
 template <typename SampleType>
@@ -57,4 +57,4 @@ private:
   juce::AbstractFifo fifo{initialCapacity};
   juce::AudioBuffer<SampleType> buffer{1, initialCapacity};
 };
-}  // namespace ws
+}  // namespace tremolo

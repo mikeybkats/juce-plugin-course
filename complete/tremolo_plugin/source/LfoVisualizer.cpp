@@ -1,5 +1,5 @@
 
-namespace ws {
+namespace tremolo {
 
 LfoVisualizer::LfoVisualizer(ReadAllLfoSamples readSamples,
                              GetCurrentSampleRate getRate,
@@ -92,4 +92,4 @@ juce::AffineTransform LfoVisualizer::getLfoCurveTransform() const {
       bounds.getHeight());
   return transform;
 }
-}  // namespace ws
+}  // namespace tremolo

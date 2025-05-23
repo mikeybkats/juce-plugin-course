@@ -1,5 +1,5 @@
 
-namespace ws {
+namespace tremolo {
 PluginProcessor::PluginProcessor()
     : AudioProcessor(
           BusesProperties()
@@ -137,10 +137,10 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
 
   // TODO: implement state deserialization from JSON
 }
-}  // namespace ws
+}  // namespace tremolo
 
 // This creates new instances of the plugin.
 // This function definition must be in the global namespace.
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-  return new ws::PluginProcessor();
+  return new tremolo::PluginProcessor();
 }

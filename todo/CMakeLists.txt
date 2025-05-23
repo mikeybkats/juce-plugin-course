@@ -89,15 +89,15 @@ juce_add_binary_data(tremolo_plugin_assets
   HEADER_NAME
     "TremoloPluginAssets.h"
   NAMESPACE
-    ws::assets
+    tremolo::assets
   SOURCES
     assets/RenderedBackground.png
     # TODO: Add custom font files
 )
 
-add_library(ws::tremolo_plugin_assets ALIAS tremolo_plugin_assets)
+add_library(tremolo::tremolo_plugin_assets ALIAS tremolo_plugin_assets)
 
-juce_add_module(tremolo_plugin ALIAS_NAMESPACE ws)
+juce_add_module(tremolo_plugin ALIAS_NAMESPACE tremolo)
 
 # Additional definitions required by all users of this module.
 target_compile_definitions(tremolo_plugin
@@ -108,12 +108,12 @@ target_compile_definitions(tremolo_plugin
 # Enables strict C++ warnings.
 target_compile_options(tremolo_plugin INTERFACE "${PROJECT_WARNINGS_CXX}")
 
-target_link_libraries(tremolo_plugin INTERFACE ws::tremolo_plugin_assets)
+target_link_libraries(tremolo_plugin INTERFACE tremolo::tremolo_plugin_assets)
 
 target_link_libraries(
   TremoloCoursePlugin
   PRIVATE
-    ws::tremolo_plugin
+    tremolo::tremolo_plugin
   PUBLIC
     juce::juce_recommended_config_flags
     juce::juce_recommended_lto_flags

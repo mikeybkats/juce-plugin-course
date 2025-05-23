@@ -1,7 +1,7 @@
 #include <tremolo_plugin/tremolo_plugin.h>
 #include <gtest/gtest.h>
 
-namespace ws {
+namespace tremolo {
 TEST(JsonSerializer, SerializeToFile) {
   Parameters::Container container;
   Parameters parameters{container};
@@ -85,4 +85,4 @@ TEST(JsonSerializer, DontUpdateParametersWhenWaveformNameIsInvalid) {
   // EXPECT_FALSE(parameters.bypassed);
   // EXPECT_EQ(0, parameters.waveform.getIndex());
 }
-}  // namespace ws
+}  // namespace tremolo

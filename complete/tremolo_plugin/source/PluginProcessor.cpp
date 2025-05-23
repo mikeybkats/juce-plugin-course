@@ -1,5 +1,5 @@
 
-namespace ws {
+namespace tremolo {
 PluginProcessor::PluginProcessor(Parameters::Container parameterContainer)
     : AudioProcessor(
           BusesProperties()
@@ -162,10 +162,10 @@ void PluginProcessor::readAllLfoSamples(
 double PluginProcessor::getSampleRateThreadSafe() const noexcept {
   return currentSampleRate;
 }
-}  // namespace ws
+}  // namespace tremolo
 
 // This creates new instances of the plugin.
 // This function definition must be in the global namespace.
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-  return new ws::PluginProcessor();
+  return new tremolo::PluginProcessor();
 }

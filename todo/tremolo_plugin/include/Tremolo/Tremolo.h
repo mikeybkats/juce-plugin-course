@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ws {
+namespace tremolo {
 class Tremolo {
 public:
   void prepare(double sampleRate, int expectedMaxFramesPerBlock) {
@@ -34,4 +34,4 @@ public:
 private:
   // You should put class members and private functions here
 };
-}  // namespace ws
+}  // namespace tremolo

@@ -1,1 +1,1 @@
-namespace ws {}  // namespace ws
+namespace tremolo {}  // namespace tremolo

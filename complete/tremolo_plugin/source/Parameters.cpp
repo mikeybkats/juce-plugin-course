@@ -1,5 +1,5 @@
 
-namespace ws {
+namespace tremolo {
 namespace {
 juce::AudioParameterFloat& createModulationRateParameter(
     Parameters::Container& c) {
@@ -37,4 +37,4 @@ Parameters::Parameters(Container& parameterContainer)
     : rate{createModulationRateParameter(parameterContainer)},
       bypassed{createBypassedParameter(parameterContainer)},
       waveform{createWaveformParameter(parameterContainer)} {}
-}  // namespace ws
+}  // namespace tremolo
