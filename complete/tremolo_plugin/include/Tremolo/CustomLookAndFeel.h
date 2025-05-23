@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ws {
+namespace tremolo {
 class CustomLookAndFeel : public juce::LookAndFeel_V4 {
 public:
   enum class Colors : size_t { orange, paleBlue };
@@ -74,4 +74,4 @@ private:
 
   FontContainer fontContainer;
 };
-}  // namespace ws
+}  // namespace tremolo

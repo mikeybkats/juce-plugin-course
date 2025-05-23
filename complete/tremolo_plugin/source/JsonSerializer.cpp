@@ -10,7 +10,7 @@ struct SerializableParameters {
   std::string waveform;
 };
 
-SerializableParameters from(const ws::Parameters& p) {
+SerializableParameters from(const tremolo::Parameters& p) {
   return {
       .rate = p.rate.get(),
       .bypassed = p.bypassed.get(),
@@ -44,7 +44,7 @@ struct juce::SerialisationTraits<SerializableParameters> {
   }
 };
 
-namespace ws {
+namespace tremolo {
 void JsonSerializer::serialize(const Parameters& parameters,
                                juce::OutputStream& output) {
   const auto json = juce::ToVar::convert(from(parameters));
@@ -94,4 +94,4 @@ juce::Result JsonSerializer::deserialize(juce::InputStream& input,
 
   return juce::Result::ok();
 }
-}  // namespace ws
+}  // namespace tremolo

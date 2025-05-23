@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ws::detail {
+namespace tremolo::detail {
 template <typename T, size_t Size>
 class StridedQueue {
 public:
@@ -76,4 +76,4 @@ private:
   size_t elementIndex{0u};
   size_t stride{1u};
 };
-}  // namespace ws::detail
+}  // namespace tremolo::detail

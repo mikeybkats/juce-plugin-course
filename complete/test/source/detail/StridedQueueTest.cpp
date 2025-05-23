@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 
-namespace ws::detail {
+namespace tremolo::detail {
 TEST(StridedQueue, pushBack) {
   StridedQueue<int, 5> testee;
   testee.setStride(3u);
@@ -69,4 +69,4 @@ TEST(StridedQueue, pushBack) {
   ASSERT_EQ(80, testee.at(3u));
   ASSERT_EQ(90, testee.at(4u));
 }
-}  // namespace ws::detail
+}  // namespace tremolo::detail

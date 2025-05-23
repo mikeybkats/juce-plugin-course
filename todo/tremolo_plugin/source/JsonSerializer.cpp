@@ -1,4 +1,4 @@
-namespace ws {
+namespace tremolo {
 void JsonSerializer::serialize(const Parameters& parameters,
                                juce::OutputStream& output) {
   juce::ignoreUnused(parameters, output);
@@ -14,4 +14,4 @@ juce::Result JsonSerializer::deserialize(juce::InputStream& input,
 
   return juce::Result::fail("not implemented");
 }
-}  // namespace ws
+}  // namespace tremolo

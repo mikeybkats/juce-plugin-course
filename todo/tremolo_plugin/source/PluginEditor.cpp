@@ -1,4 +1,4 @@
-namespace ws {
+namespace tremolo {
 PluginEditor::PluginEditor(PluginProcessor& p) : AudioProcessorEditor(&p) {
   background.setImage(juce::ImageCache::getFromMemory(
       assets::RenderedBackground_png, assets::RenderedBackground_pngSize));
@@ -23,4 +23,4 @@ void PluginEditor::resized() {
 
   background.setBounds(bounds);
 }
-}  // namespace ws
+}  // namespace tremolo

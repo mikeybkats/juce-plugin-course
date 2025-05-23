@@ -4,7 +4,7 @@
 #include <wolfsound/file/wolfsound_WavFileWriter.hpp>
 #include <wolfsound/dsp/wolfsound_testSignals.hpp>
 
-namespace ws {
+namespace tremolo {
 namespace {
 void extractLfo(Tremolo& tremolo, juce::AudioBuffer<float>& bufferToUse) {
   juce::dsp::AudioBlock<float> block{bufferToUse};
@@ -131,4 +131,4 @@ TEST(Tremolo, SamplewiseAndChannelwiseProcessingYieldIdenticalResults) {
                 channelwiseBuffer.getSample(0, i), 1e-5f);
   }
 }
-}  // namespace ws
+}  // namespace tremolo

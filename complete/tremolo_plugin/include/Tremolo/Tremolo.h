@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ws {
+namespace tremolo {
 class Tremolo {
 public:
   enum class LfoWaveform : size_t {
@@ -152,4 +152,4 @@ private:
 
   SampleFifo<float> lfoSampleFifo;
 };
-}  // namespace ws
+}  // namespace tremolo

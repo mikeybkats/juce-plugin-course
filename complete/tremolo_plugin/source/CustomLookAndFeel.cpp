@@ -1,4 +1,4 @@
-namespace ws {
+namespace tremolo {
 juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
   static const std::array colors{
       juce::Colour{0xFFFFAA00},
@@ -241,4 +241,4 @@ void CustomLookAndFeel::drawButtonInset(
   g.setGradientFill(insetGradient);
   g.fillRoundedRectangle(bounds, 6.f);
 }
-}  // namespace ws
+}  // namespace tremolo

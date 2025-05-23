@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ws {
+namespace tremolo {
 struct GradientComponent : public juce::Component {
   juce::Colour topColour;
   juce::Colour bottomColour;
@@ -11,4 +11,4 @@ struct GradientComponent : public juce::Component {
     g.fillAll();
   }
 };
-}  // namespace ws
+}  // namespace tremolo

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ws {
+namespace tremolo {
 struct Parameters {
   using Container = std::vector<std::unique_ptr<juce::AudioProcessorParameter>>;
 
@@ -12,4 +12,4 @@ struct Parameters {
 
   JUCE_DECLARE_NON_COPYABLE(Parameters)
 };
-}  // namespace ws
+}  // namespace tremolo
