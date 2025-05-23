@@ -136,10 +136,7 @@ void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
 }
 
 juce::Font CustomLookAndFeel::getComboBoxFont(juce::ComboBox&) {
-  return juce::FontOptions{}
-      .withName("Inter")
-      .withStyle("Medium")
-      .withPointHeight(12.f);
+  return juce::FontOptions{fontContainer.interMedium}.withPointHeight(12.f);
 }
 
 void CustomLookAndFeel::positionComboBoxText(juce::ComboBox& comboBox,
@@ -161,10 +158,7 @@ juce::PopupMenu::Options CustomLookAndFeel::getOptionsForComboBoxPopupMenu(
 }
 
 juce::Font CustomLookAndFeel::getPopupMenuFont() {
-  return juce::FontOptions{}
-      .withName("Inter")
-      .withStyle("Medium")
-      .withPointHeight(12.f);
+  return juce::FontOptions{fontContainer.interMedium}.withPointHeight(12.f);
 }
 
 juce::Path CustomLookAndFeel::getTickShape(float) {
@@ -183,17 +177,14 @@ void CustomLookAndFeel::drawToggleButton(juce::Graphics& g,
     drawPlainButton(g, bounds);
     g.setColour(getColor(Colors::paleBlue));
     g.setFont(
-        juce::FontOptions{}.withName("Inter").withPointHeight(12.f).withStyle(
-            "Medium"));
+        juce::FontOptions{fontContainer.interMedium}.withPointHeight(12.f));
   } else {
     drawGradientButton(g, bounds, juce::Colour{0xFFFF901A},
                        juce::Colour{0xFFFFC300});
 
     const juce::Colour textColour{0xFF501A0B};
     g.setColour(textColour);
-    g.setFont(
-        juce::FontOptions{}.withName("Inter").withPointHeight(12.f).withStyle(
-            "Bold"));
+    g.setFont(juce::FontOptions{fontContainer.interBold}.withPointHeight(12.f));
   }
   g.drawText(button.getButtonText(), bounds, juce::Justification::centred,
              false);

@@ -50,11 +50,9 @@ public:
                         bool shouldDrawButtonAsDown) override;
 
 private:
-  class FontContainer {
-  public:
+  struct FontContainer {
     FontContainer();
 
-  private:
     juce::Typeface::Ptr interRegular;
     juce::Typeface::Ptr interBold;
     juce::Typeface::Ptr interMedium;
