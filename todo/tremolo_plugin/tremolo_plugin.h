@@ -38,7 +38,6 @@ END_JUCE_MODULE_DECLARATION
 
 #include "include/Tremolo/Parameters.h"
 #include "include/Tremolo/CustomLookAndFeel.h"
-#include "include/Tremolo/GradientComponent.h"
 #include "include/Tremolo/JsonSerializer.h"
 #include "include/Tremolo/Tremolo.h"
 #include "include/Tremolo/PluginProcessor.h"
