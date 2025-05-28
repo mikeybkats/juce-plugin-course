@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 
 namespace tremolo {
-TEST(JsonSerializer, SerializeToFile) {
+TEST(JsonSerializer, SerializeToString) {
   Parameters::Container container;
   Parameters parameters{container};
 
