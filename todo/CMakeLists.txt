@@ -1,11 +1,11 @@
 # Mandatory line, sets the minimum version of CMake that should be used with this repository.
 # 3.22 is the minimum CMake version required by JUCE.
+# 3.25 is required for the MSVC_DEBUG_INFORMATION_FORMAT feature to work.
 # To verify your version run
 # $ cmake --version
-cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
 set(CMAKE_POLICY_DEFAULT_CMP0141        NEW      CACHE STRING "" FORCE)
-set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT Embedded CACHE STRING "" FORCE)
 
 # Sets a few variables, like PROJECT_NAME.
 project(JucePluginDevelopmentCourseTremoloPlugin)
@@ -19,8 +19,10 @@ if(PROJECT_IS_TOP_LEVEL)
     set(CMAKE_CXX_STANDARD 20)
   endif()
 
-  # Link to C++ runtime statically
+  # Links to C++ runtime statically
   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+  # Embeds debug information
+  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT Embedded CACHE STRING "" FORCE)
 endif()
 
 # I like to download the dependencies to the same folder as the project.
