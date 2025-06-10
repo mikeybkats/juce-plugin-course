@@ -6,9 +6,9 @@ PluginProcessor::PluginProcessor(Parameters::Container parameterContainer)
               .withInput("Input", juce::AudioChannelSet::stereo(), true)
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)),
       parameters{parameterContainer} {
-  std::ranges::for_each(parameterContainer, [this](auto& parameter) {
+  for (auto& parameter : parameterContainer) {
     addParameter(parameter.release());
-  });
+  };
 }
 
 const juce::String PluginProcessor::getName() const {
