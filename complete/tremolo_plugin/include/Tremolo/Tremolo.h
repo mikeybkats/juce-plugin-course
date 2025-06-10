@@ -15,14 +15,14 @@ public:
   }
 
   void prepare(double sampleRate, int expectedMaxFramesPerBlock) {
-    const auto spec = juce::dsp::ProcessSpec{
+    const juce::dsp::ProcessSpec processSpec{
         .sampleRate = sampleRate,
         .maximumBlockSize =
             static_cast<juce::uint32>(expectedMaxFramesPerBlock),
         .numChannels = 1u,
     };
     for (auto& lfo : lfos) {
-      lfo.prepare(spec);
+      lfo.prepare(processSpec);
     }
     lfoSampleFifo.prepare(sampleRate);
     lfoTransitionSmoother.reset(sampleRate, 0.025 /* 25 milliseconds */);
