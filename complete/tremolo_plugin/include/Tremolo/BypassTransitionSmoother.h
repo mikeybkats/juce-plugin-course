@@ -45,27 +45,29 @@ public:
   }
 
   void setBypass(bool bypass) {
-    if (bypass != isBypassed) {
-      const auto startDryGain = bypass ? 0.f : 1.f;
-      const auto endDryGain = 1.f - startDryGain;
-
-      if (!isTransitioning()) {
-        // don't change start gain if previous transition didn't complete
-        dryGain.setCurrentAndTargetValue(startDryGain);
-      }
-      dryGain.setTargetValue(endDryGain);
-
-      const auto startWetGain = bypass ? 1.f : 0.f;
-      const auto endWetGain = 1.f - startWetGain;
-
-      if (!isTransitioning()) {
-        // don't change start gain if previous transition didn't complete
-        wetGain.setCurrentAndTargetValue(startWetGain);
-      }
-      wetGain.setTargetValue(endWetGain);
-
-      isTransition = true;
+    if (bypass == isBypassed) {
+      return;
     }
+
+    const auto startDryGain = bypass ? 0.f : 1.f;
+    const auto endDryGain = 1.f - startDryGain;
+
+    if (!isTransitioning()) {
+      // don't change start gain if previous transition didn't complete
+      dryGain.setCurrentAndTargetValue(startDryGain);
+    }
+    dryGain.setTargetValue(endDryGain);
+
+    const auto startWetGain = bypass ? 1.f : 0.f;
+    const auto endWetGain = 1.f - startWetGain;
+
+    if (!isTransitioning()) {
+      // don't change start gain if previous transition didn't complete
+      wetGain.setCurrentAndTargetValue(startWetGain);
+    }
+    wetGain.setTargetValue(endWetGain);
+
+    isTransition = true;
 
     isBypassed = bypass;
   }
