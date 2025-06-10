@@ -58,6 +58,10 @@
       "configurePreset": "default"
     },
     {
+      "name": "default-with-tests",
+      "configurePreset": "default-with-tests"
+    },
+    {
       "name": "ninja-debug",
       "configurePreset": "ninja-debug"
     },
@@ -76,8 +80,8 @@
   ],
   "testPresets": [
     {
-      "name": "default",
-      "configurePreset": "default",
+      "name": "default-with-tests",
+      "configurePreset": "default-with-tests",
       "output": { "outputOnFailure": true },
       "execution": {
         "noTestsAction": "error",
@@ -86,22 +90,22 @@
     },
     {
       "name": "ninja-debug",
-      "inherits": "default",
+      "inherits": "default-with-tests",
       "configurePreset": "ninja-debug"
     },
     {
       "name": "ninja-release",
-      "inherits": "default",
+      "inherits": "default-with-tests",
       "configurePreset": "ninja-release"
     },
     {
       "name": "vs",
-      "inherits": "default",
+      "inherits": "default-with-tests",
       "configurePreset": "vs"
     },
     {
       "name": "xcode",
-      "inherits": "default",
+      "inherits": "default-with-tests",
       "configurePreset": "xcode",
       "configuration": "Debug"
     }
