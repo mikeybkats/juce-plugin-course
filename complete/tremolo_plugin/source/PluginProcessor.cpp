@@ -70,6 +70,7 @@ void PluginProcessor::releaseResources() {
   // When playback stops, you can use this as an opportunity to free up any
   // spare memory, etc.
   tremolo.reset();
+  bypassTransitionSmoother.reset();
 }
 
 bool PluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const {
