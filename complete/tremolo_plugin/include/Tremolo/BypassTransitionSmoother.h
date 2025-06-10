@@ -1,6 +1,37 @@
 #pragma once
 
 namespace tremolo {
+/**
+ * Class facilitating transition to and from bypassed state.
+ *
+ * It allows 2 things:
+ *  - detecting that a bypass state transition takes place
+ *  - fade-in and fade-out of dry (unprocessed) and wet (processed) buffers
+ *    according to the transition type
+ *
+ * Use the following code in the processBlock() method of your plugin processor:
+ *
+ * @code
+ * //...
+ *
+ * bypassTransitionSmoother.setBypass(parameters.bypassed);
+ *
+ * if (bypassTransitionSmoother.isTransitioning()) {
+ *   bypassTransitionSmoother.setDryBuffer(buffer);
+ *
+ *   yourAudioEffectClassInstance.process(buffer);
+ *
+ *   bypassTransitionSmoother.mixToWetBuffer(buffer);
+ *
+ *   return;
+ * }
+ *
+ * // avoid processing if bypassed, process otherwise...
+ * @endcode
+ *
+ * Remember to call prepare() in prepareToPlay(),
+ * setBypass() in setStateInformation(), and reset() in releaseResources().
+ */
 class BypassTransitionSmoother {
 public:
   void prepare(int channelCount, int expectedMaxFramesPerBlock) {
