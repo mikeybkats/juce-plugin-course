@@ -83,16 +83,17 @@ private:
 class BypassTransitionSmoother {
 public:
   explicit BypassTransitionSmoother(double crossfadeLengthSecondsValue = 0.01)
-      : crossfadeLengthSeconds{crossfadeLengthSecondsValue} {}
+      : crossfadeLengthSeconds{crossfadeLengthSecondsValue} {
+    dryGain.setCurrentAndTargetValue(0.f);
+    wetGain.setCurrentAndTargetValue(1.f);
+  }
 
   void prepare(double sampleRate,
                int channelCount,
                int expectedMaxFramesPerBlock) {
     dryBuffer.setSize(channelCount, expectedMaxFramesPerBlock);
-    numSteps =
-        static_cast<int>(std::floor(crossfadeLengthSeconds * sampleRate));
     dryGain.reset(sampleRate, crossfadeLengthSeconds);
-    wetGain.reset(numSteps);
+    wetGain.reset(sampleRate, crossfadeLengthSeconds);
     reset();
   }
 
@@ -102,25 +103,7 @@ public:
     }
 
     dryGain.setTargetValue(bypass);
-
-    const auto startWetGain = bypass ? 1.f : 0.f;
-    const auto endWetGain = 1.f - startWetGain;
-
-    if (!isTransitioning()) {
-      // don't change start gain if previous transition didn't complete
-      wetGain.reset(numSteps);
-      wetGain.setCurrentAndTargetValue(startWetGain);
-    } else {
-      const auto currentValue = wetGain.getCurrentValue();
-      auto stepsLeftProportion = currentValue / 1.f;
-      if (juce::approximatelyEqual(endWetGain, 1.f)) {
-        stepsLeftProportion = 1.f - stepsLeftProportion;
-      }
-      const auto newNumSteps = static_cast<int>(stepsLeftProportion * numSteps);
-      wetGain.reset(newNumSteps);
-      wetGain.setCurrentAndTargetValue(currentValue);
-    }
-    wetGain.setTargetValue(endWetGain);
+    wetGain.setTargetValue(!bypass);
 
     isTransition = true;
 
@@ -170,11 +153,10 @@ public:
 
 private:
   double crossfadeLengthSeconds;
-  int numSteps{0};
   bool isBypassed = false;
   bool isTransition = false;
   juce::AudioBuffer<float> dryBuffer;
   FixedStepSmoothedValue<float> dryGain{0.f, 1.f};
-  juce::SmoothedValue<float> wetGain{0.f};
+  FixedStepSmoothedValue<float> wetGain{0.f, 1.f};
 };
 }  // namespace tremolo
