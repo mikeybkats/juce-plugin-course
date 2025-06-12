@@ -58,7 +58,17 @@ public:
 
     if (!isTransitioning()) {
       // don't change start gain if previous transition didn't complete
+      dryGain.reset(numSteps);
       dryGain.setCurrentAndTargetValue(startDryGain);
+    } else {
+      const auto currentValue = dryGain.getCurrentValue();
+      auto stepsLeftProportion = currentValue / 1.f;
+      if (juce::approximatelyEqual(endDryGain, 1.f)) {
+        stepsLeftProportion = 1.f - stepsLeftProportion;
+      }
+      const auto newNumSteps = static_cast<int>(stepsLeftProportion * numSteps);
+      dryGain.reset(newNumSteps);
+      dryGain.setCurrentAndTargetValue(currentValue);
     }
     dryGain.setTargetValue(endDryGain);
 
@@ -67,7 +77,17 @@ public:
 
     if (!isTransitioning()) {
       // don't change start gain if previous transition didn't complete
+      wetGain.reset(numSteps);
       wetGain.setCurrentAndTargetValue(startWetGain);
+    } else {
+      const auto currentValue = wetGain.getCurrentValue();
+      auto stepsLeftProportion = currentValue / 1.f;
+      if (juce::approximatelyEqual(endWetGain, 1.f)) {
+        stepsLeftProportion = 1.f - stepsLeftProportion;
+      }
+      const auto newNumSteps = static_cast<int>(stepsLeftProportion * numSteps);
+      wetGain.reset(newNumSteps);
+      wetGain.setCurrentAndTargetValue(currentValue);
     }
     wetGain.setTargetValue(endWetGain);
 
