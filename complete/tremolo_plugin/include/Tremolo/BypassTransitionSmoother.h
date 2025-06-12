@@ -101,12 +101,6 @@ public:
       return;
     }
 
-    const auto startDryGain = bypass ? 0.f : 1.f;
-
-    if (!isTransitioning()) {
-      // don't change start gain if previous transition didn't complete
-      dryGain.setCurrentAndTargetValue(startDryGain);
-    }
     dryGain.setTargetValue(bypass);
 
     const auto startWetGain = bypass ? 1.f : 0.f;
