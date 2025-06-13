@@ -4,6 +4,9 @@
 namespace tremolo {
 class BypassTransitionSmootherTest : public testing::Test {
 protected:
+  static constexpr auto dryValue = 0;
+  static constexpr auto wetValue = 10;
+
   void SetUp() override {
     constexpr auto sampleRate = 10;
     constexpr auto blockSize = sampleRate;
@@ -23,8 +26,6 @@ TEST_F(BypassTransitionSmootherTest, OffOnTransitionIsSmooth) {
   testee.setBypass(true);
   ASSERT_TRUE(testee.isTransitioning());
 
-  constexpr auto dryValue = 0;
-  constexpr auto wetValue = 10;
   auto block = getBlock();
   block.fill(dryValue);
   testee.setDryBuffer(buffer);
@@ -46,8 +47,6 @@ TEST_F(BypassTransitionSmootherTest, OnOffTransitionIsSmooth) {
 
   testee.setBypass(false);
   ASSERT_TRUE(testee.isTransitioning());
-  constexpr auto dryValue = 0;
-  constexpr auto wetValue = 10;
   auto block = getBlock();
   block.fill(dryValue);
   testee.setDryBuffer(buffer);
@@ -65,8 +64,6 @@ TEST_F(BypassTransitionSmootherTest, TogglingBypassMidOffOnTransitionIsSmooth) {
   testee.setBypass(true);
   ASSERT_TRUE(testee.isTransitioning());
 
-  constexpr auto dryValue = 0;
-  constexpr auto wetValue = 10;
   buffer.setSize(buffer.getNumChannels(), buffer.getNumSamples() / 2);
   auto block = getBlock();
   block.fill(dryValue);
