@@ -122,6 +122,11 @@ public:
   }
 
   void setDryBuffer(const juce::AudioBuffer<float>& buffer) noexcept {
+    if (!isTransitioning() && !isBypassed()) {
+      // plugin is operational: no need to store the dry buffer
+      return;
+    }
+
     jassert(buffer.getNumSamples() <= dryBuffer.getNumSamples());
     jassert(buffer.getNumChannels() <= dryBuffer.getNumChannels());
 
