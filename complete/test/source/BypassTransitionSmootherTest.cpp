@@ -12,7 +12,7 @@ protected:
     constexpr auto blockSize = sampleRate;
     constexpr auto channelCount = 1;
     testee.prepare(sampleRate, channelCount, blockSize);
-    testee.setBypass(false);
+    testee.setBypassForced(false);
     buffer.setSize(channelCount, blockSize);
   }
 
@@ -60,9 +60,7 @@ TEST_F(BypassTransitionSmootherTest, OffOnTransitionIsSmooth) {
  *  __/
  */
 TEST_F(BypassTransitionSmootherTest, OnOffTransitionIsSmooth) {
-  testee.setBypass(true);
-  // skip OFF -> ON transition
-  processTransitionBlock();
+  testee.setBypassForced(true);
   ASSERT_FALSE(testee.isTransitioning());
 
   testee.setBypass(false);
@@ -147,9 +145,7 @@ TEST_F(BypassTransitionSmootherTest, TogglingBypassMidOffOnTransitionIsSmooth) {
  * __/\__
  */
 TEST_F(BypassTransitionSmootherTest, TogglingBypassMidOnOffTransitionIsSmooth) {
-  testee.setBypass(true);
-  // ignore the OFF -> ON transition
-  processTransitionBlock();
+  testee.setBypassForced(true);
   ASSERT_FALSE(testee.isTransitioning());
 
   testee.setBypass(false);
