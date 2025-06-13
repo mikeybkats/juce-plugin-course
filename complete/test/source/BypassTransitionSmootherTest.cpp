@@ -30,6 +30,13 @@ protected:
   juce::AudioBuffer<float> buffer;
 };
 
+/** This test checks the smoothness of the cross-fade bypass OFF -> ON
+ *
+ * The expected output curve is
+ *  __
+ *    \
+ *     \__
+ */
 TEST_F(BypassTransitionSmootherTest, OffOnTransitionIsSmooth) {
   testee.setBypass(true);
   ASSERT_TRUE(testee.isTransitioning());
@@ -37,12 +44,20 @@ TEST_F(BypassTransitionSmootherTest, OffOnTransitionIsSmooth) {
   processTransitionBlock();
 
   EXPECT_FALSE(testee.isTransitioning());
+  // check downward slope 10 -> 0
   for (const auto i : std::views::iota(dryValue, wetValue)) {
     const auto expectedSample = wetValue - i - 1;
     EXPECT_NEAR(expectedSample, buffer.getSample(0, i), 0.0001f);
   }
 }
 
+/** This test checks the smoothness of the cross-fade bypass ON -> OFF
+ *
+ * The expected output curve is
+ *      __
+ *     /
+ *  __/
+ */
 TEST_F(BypassTransitionSmootherTest, OnOffTransitionIsSmooth) {
   testee.setBypass(true);
   testee.setDryBuffer(buffer);
@@ -55,12 +70,20 @@ TEST_F(BypassTransitionSmootherTest, OnOffTransitionIsSmooth) {
   processTransitionBlock();
 
   EXPECT_FALSE(testee.isTransitioning());
+  // check upward slope 0 -> 10
   for (const auto i : std::views::iota(dryValue, wetValue)) {
     const auto expectedSample = i + 1;
     EXPECT_NEAR(expectedSample, buffer.getSample(0, i), 0.0001f);
   }
 }
 
+/** This test checks that cross-fade is correctly handled when toggling the
+ * bypass OFF -> ON -> OFF (mid-transition)
+ *
+ * The expected output curve is
+ * __  __
+ *   \/
+ */
 TEST_F(BypassTransitionSmootherTest, TogglingBypassMidOffOnTransitionIsSmooth) {
   testee.setBypass(true);
   ASSERT_TRUE(testee.isTransitioning());
@@ -70,6 +93,7 @@ TEST_F(BypassTransitionSmootherTest, TogglingBypassMidOffOnTransitionIsSmooth) {
   processTransitionBlock();
 
   EXPECT_TRUE(testee.isTransitioning());
+  // check downward slope 10 -> 5
   for (const auto i : std::views::iota(dryValue, wetValue / 2)) {
     const auto expectedSample = wetValue - i - 1;
     EXPECT_NEAR(expectedSample, buffer.getSample(0, i), 0.0001f);
@@ -81,6 +105,7 @@ TEST_F(BypassTransitionSmootherTest, TogglingBypassMidOffOnTransitionIsSmooth) {
   processTransitionBlock();
 
   EXPECT_FALSE(testee.isTransitioning());
+  // check upward slope 5 -> 10
   for (const auto i : std::views::iota(wetValue / 2, wetValue)) {
     const auto expectedSample = i + 1;
     EXPECT_NEAR(expectedSample, buffer.getSample(0, i - wetValue / 2), 0.0001f);
