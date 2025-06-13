@@ -5,7 +5,8 @@ template <typename FloatType>
 class FixedStepRangedSmoothedValue
     : public juce::SmoothedValueBase<FixedStepRangedSmoothedValue<FloatType>> {
 public:
-  explicit FixedStepRangedSmoothedValue(juce::Range<FloatType> rangeToUse)
+  explicit FixedStepRangedSmoothedValue(
+      juce::Range<FloatType> rangeToUse) noexcept
       : range{rangeToUse} {
     jassert(range.getStart() < range.getEnd());
     jassert(!juce::approximatelyEqual(range.getStart(), range.getEnd()));
@@ -13,13 +14,13 @@ public:
     this->setCurrentAndTargetValue(range.getStart());
   }
 
-  void reset(double sampleRate, double rampLengthSeconds) {
+  void reset(double sampleRate, double rampLengthSeconds) noexcept {
     const auto rampLengthSamples =
         static_cast<int>(std::floor(rampLengthSeconds * sampleRate));
     step = range.getLength() / static_cast<FloatType>(rampLengthSamples);
   }
 
-  void setTargetValue(bool goToMax) {
+  void setTargetValue(bool goToMax) noexcept {
     this->target = goToMax ? range.getEnd() : range.getStart();
     step =
         (this->currentValue < this->target) ? std::abs(step) : -std::abs(step);
@@ -27,7 +28,7 @@ public:
         static_cast<int>(std::abs((this->currentValue - this->target) / step));
   }
 
-  FloatType getNextValue() {
+  FloatType getNextValue() noexcept {
     if (!this->isSmoothing()) {
       return this->target;
     }
@@ -41,6 +42,10 @@ public:
     }
 
     return this->currentValue;
+  }
+
+  [[nodiscard]] juce::Range<FloatType> getRange() const noexcept {
+    return range;
   }
 
 private:
@@ -83,8 +88,8 @@ class BypassTransitionSmoother {
 public:
   explicit BypassTransitionSmoother(double crossfadeLengthSecondsValue = 0.01)
       : crossfadeLengthSeconds{crossfadeLengthSecondsValue} {
-    dryGain.setCurrentAndTargetValue(0.f);
-    wetGain.setCurrentAndTargetValue(1.f);
+    dryGain.setCurrentAndTargetValue(dryGain.getRange().getStart());
+    wetGain.setCurrentAndTargetValue(wetGain.getRange().getEnd());
   }
 
   void prepare(double sampleRate,
