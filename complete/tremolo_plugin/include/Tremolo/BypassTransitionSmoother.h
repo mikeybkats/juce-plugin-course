@@ -6,7 +6,7 @@ class FixedStepRangedSmoothedValue
     : public juce::SmoothedValueBase<FixedStepRangedSmoothedValue<FloatType>> {
 public:
   FixedStepRangedSmoothedValue(FloatType minValue, FloatType maxValue)
-      : a{minValue}, b{maxValue} {
+      : a{minValue}, b{maxValue}, range{minValue, maxValue} {
     jassert(minValue < maxValue);
     jassert(!juce::approximatelyEqual(minValue, maxValue));
 
@@ -17,11 +17,11 @@ public:
   void reset(double sampleRate, double rampLengthSeconds) {
     const auto rampLengthSamples =
         static_cast<int>(std::floor(rampLengthSeconds * sampleRate));
-    step = (b - a) / static_cast<FloatType>(rampLengthSamples);
+    step = range.getLength() / static_cast<FloatType>(rampLengthSamples);
   }
 
   void setTargetValue(bool goToMax) {
-    this->target = goToMax ? b : a;
+    this->target = goToMax ? range.getEnd() : range.getStart();
     step =
         (this->currentValue < this->target) ? std::abs(step) : -std::abs(step);
     this->countdown =
@@ -47,6 +47,7 @@ public:
 private:
   FloatType a;
   FloatType b;
+  juce::Range<FloatType> range;
   FloatType step{0.f};
 };
 
