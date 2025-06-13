@@ -28,6 +28,11 @@ public:
         static_cast<int>(std::abs((this->currentValue - this->target) / step));
   }
 
+  void setCurrentAndTargetValueToExtreme(bool setToMax) noexcept {
+    this->setCurrentAndTargetValue(setToMax ? range.getEnd()
+                                            : range.getStart());
+  }
+
   FloatType getNextValue() noexcept {
     if (!this->isSmoothing()) {
       return this->target;
@@ -112,15 +117,18 @@ public:
     isBypassed = bypass;
   }
 
+  void setBypassForced(bool bypass) noexcept {
+    isBypassed = bypass;
+
+    dryGain.setCurrentAndTargetValueToExtreme(isBypassed);
+    wetGain.setCurrentAndTargetValueToExtreme(!isBypassed);
+  }
+
   [[nodiscard]] bool isTransitioning() const noexcept {
     return dryGain.isSmoothing() || wetGain.isSmoothing();
   }
 
   void setDryBuffer(const juce::AudioBuffer<float>& buffer) noexcept {
-    if (!isTransitioning()) {
-      return;
-    }
-
     jassert(buffer.getNumSamples() <= dryBuffer.getNumSamples());
     jassert(buffer.getNumChannels() <= dryBuffer.getNumChannels());
 
@@ -132,7 +140,8 @@ public:
   }
 
   void mixToWetBuffer(juce::AudioBuffer<float>& buffer) noexcept {
-    if (!isTransitioning()) {
+    if (!isTransitioning() && !isBypassed) {
+      // plugin is operational: no need to modify the wet buffer
       return;
     }
 

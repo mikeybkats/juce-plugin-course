@@ -159,7 +159,7 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
     DBG(result.getErrorMessage());
   }
 
-  bypassTransitionSmoother.setBypass(parameters.bypassed);
+  bypassTransitionSmoother.setBypassForced(parameters.bypassed);
 }
 
 Parameters& PluginProcessor::getParameters() noexcept {

@@ -147,4 +147,16 @@ TEST_F(BypassTransitionSmootherTest, TogglingBypassMidOnOffTransitionIsSmooth) {
     EXPECT_NEAR(expectedSample, buffer.getSample(0, i), 0.0001f);
   }
 }
+
+TEST_F(BypassTransitionSmootherTest, ForcingBypassValueSkipsTransition) {
+  testee.setBypassForced(true);
+  EXPECT_FALSE(testee.isTransitioning());
+  processTransitionBlock();
+  EXPECT_FALSE(testee.isTransitioning());
+  for (const auto sample :
+       std::span{buffer.getReadPointer(0),
+                 static_cast<size_t>(buffer.getNumSamples())}) {
+    EXPECT_FLOAT_EQ(dryValue, sample);
+  }
+}
 }  // namespace tremolo
