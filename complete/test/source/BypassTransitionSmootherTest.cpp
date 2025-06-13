@@ -148,7 +148,7 @@ TEST_F(BypassTransitionSmootherTest, TogglingBypassMidOnOffTransitionIsSmooth) {
   }
 }
 
-TEST_F(BypassTransitionSmootherTest, ForcingBypassValueSkipsTransition) {
+TEST_F(BypassTransitionSmootherTest, ForcingBypassOnSkipsTransition) {
   testee.setBypassForced(true);
   EXPECT_FALSE(testee.isTransitioning());
   processTransitionBlock();
@@ -157,6 +157,23 @@ TEST_F(BypassTransitionSmootherTest, ForcingBypassValueSkipsTransition) {
        std::span{buffer.getReadPointer(0),
                  static_cast<size_t>(buffer.getNumSamples())}) {
     EXPECT_FLOAT_EQ(dryValue, sample);
+  }
+}
+
+TEST_F(BypassTransitionSmootherTest, ForcingBypassOffSkipsTransition) {
+  testee.setBypass(true);
+  // ignore the OFF -> ON transition
+  processTransitionBlock();
+  ASSERT_FALSE(testee.isTransitioning());
+
+  testee.setBypassForced(false);
+  EXPECT_FALSE(testee.isTransitioning());
+  processTransitionBlock();
+  EXPECT_FALSE(testee.isTransitioning());
+  for (const auto sample :
+       std::span{buffer.getReadPointer(0),
+                 static_cast<size_t>(buffer.getNumSamples())}) {
+    EXPECT_FLOAT_EQ(wetValue, sample);
   }
 }
 }  // namespace tremolo
