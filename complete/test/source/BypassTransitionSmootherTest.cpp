@@ -111,4 +111,40 @@ TEST_F(BypassTransitionSmootherTest, TogglingBypassMidOffOnTransitionIsSmooth) {
     EXPECT_NEAR(expectedSample, buffer.getSample(0, i - wetValue / 2), 0.0001f);
   }
 }
+
+/** This test checks that cross-fade is correctly handled when toggling the
+ * bypass ON -> OFF -> ON (mid-transition)
+ *
+ * The expected output curve is
+ * __/\__
+ */
+TEST_F(BypassTransitionSmootherTest, TogglingBypassMidOnOffTransitionIsSmooth) {
+  testee.setBypass(true);
+  // ignore the OFF -> ON transition
+  processTransitionBlock();
+  ASSERT_FALSE(testee.isTransitioning());
+
+  testee.setBypass(false);
+  buffer.setSize(buffer.getNumChannels(), buffer.getNumSamples() / 2);
+  processTransitionBlock();
+
+  EXPECT_TRUE(testee.isTransitioning());
+  // check upward slope 0 -> 5
+  for (const auto i : std::views::iota(dryValue, wetValue / 2)) {
+    const auto expectedSample = i + 1;
+    EXPECT_NEAR(expectedSample, buffer.getSample(0, i), 0.0001f);
+  }
+
+  testee.setBypass(true);
+  EXPECT_TRUE(testee.isTransitioning());
+
+  processTransitionBlock();
+
+  EXPECT_FALSE(testee.isTransitioning());
+  // check downward slope 5 -> 0
+  for (const auto i : std::views::iota(dryValue, wetValue / 2)) {
+    const auto expectedSample = wetValue / 2 - i - 1;
+    EXPECT_NEAR(expectedSample, buffer.getSample(0, i), 0.0001f);
+  }
+}
 }  // namespace tremolo
