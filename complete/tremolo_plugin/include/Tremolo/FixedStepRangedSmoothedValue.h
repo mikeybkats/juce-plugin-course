@@ -1,6 +1,23 @@
 #pragma once
 
 namespace tremolo {
+/** @brief A SmoothedValue-like class that moves with a fixed step
+ * between 2 extreme values.
+ *
+ * This is used to provide a fixed smoothing curve instead of
+ * a precise smoothing length. In other words, the smoothed value
+ * always moves along a curve you can specify with the range
+ * and the ramp duration.
+ * The specified ramp duration is
+ * guaranteed only if the value is smoothed from one extreme
+ * to the other.
+ *
+ * If you set the value outside the specified range using
+ * setCurrentAndTargetValue(), the smoothing will
+ * progress along the specified curve.
+ *
+ * @see BypassTransitionSmoother
+ */
 template <typename FloatType>
 class FixedStepRangedSmoothedValue
     : public juce::SmoothedValueBase<FixedStepRangedSmoothedValue<FloatType>> {
