@@ -24,10 +24,11 @@ protected:
     testee.mixToWetBuffer(buffer);
   }
 
-  juce::dsp::AudioBlock<float> getBlock() { return buffer; }
-
   BypassTransitionSmoother testee{1.0};
   juce::AudioBuffer<float> buffer;
+
+private:
+  juce::dsp::AudioBlock<float> getBlock() { return buffer; }
 };
 
 /** This test checks the smoothness of the cross-fade bypass OFF -> ON
