@@ -61,7 +61,8 @@ public:
   }
 
   [[nodiscard]] bool isTransitioning() const noexcept {
-    return dryGain.isSmoothing() || wetGain.isSmoothing();
+    // no need to check wetGain; both gains move in tandem
+    return dryGain.isSmoothing();
   }
 
   void setDryBuffer(const juce::AudioBuffer<float>& buffer) noexcept {
