@@ -5,10 +5,13 @@
 class GuiThreadIdPrinting : public juce::Component {
 public:
   GuiThreadIdPrinting() {
-    const auto threadId = juce::String::toHexString(
-        std::bit_cast<juce::int64>(juce::Thread::getCurrentThreadId()));
+    DBG("Main component constructor thread ID: " << getCurrentThreadId());
+  }
 
-    DBG("Main component constructor thread ID: " << threadId);
+private:
+  [[nodiscard]] static juce::String getCurrentThreadId() {
+    return juce::String::toHexString(
+        std::bit_cast<juce::int64>(juce::Thread::getCurrentThreadId()));
   }
 };
 
