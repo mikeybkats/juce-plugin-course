@@ -30,7 +30,8 @@ namespace tremolo {
  * @endcode
  *
  * Remember to call prepare() in prepareToPlay(),
- * setBypass() in setStateInformation(), and reset() in releaseResources().
+ * setBypassForced() in setStateInformation(), and reset() in
+ * releaseResources().
  */
 class BypassTransitionSmoother {
 public:
@@ -41,23 +42,33 @@ public:
     reset();
   }
 
-  void prepare(double sampleRate,
-               int channelCount,
-               int expectedMaxFramesPerBlock) {
-    dryBuffer.setSize(channelCount, expectedMaxFramesPerBlock);
-    dryGain.reset(sampleRate, crossfadeLengthSeconds);
-    wetGain.reset(sampleRate, crossfadeLengthSeconds);
+  void prepare(juce::dsp::ProcessSpec spec) {
+    sampleRateHz = spec.sampleRate;
+    dryBuffer.setSize(static_cast<int>(spec.numChannels),
+                      static_cast<int>(spec.maximumBlockSize));
+    dryGain.reset(spec.sampleRate, crossfadeLengthSeconds);
+    wetGain.reset(spec.sampleRate, crossfadeLengthSeconds);
     reset();
   }
 
   void setBypass(bool bypass) noexcept {
-    dryGain.setTargetValueToExtreme(bypass);
-    wetGain.setTargetValueToExtreme(!bypass);
+    const auto current = dryGain.getCurrentValue();
+    const auto target = bypass ? 1.0f : 0.0f;
+    const auto duration = crossfadeLengthSeconds * std::abs(target - current);
+
+    dryGain.reset(sampleRateHz, duration);
+    wetGain.reset(sampleRateHz, duration);
+
+    dryGain.setCurrentAndTargetValue(current);
+    dryGain.setTargetValue(target);
+
+    wetGain.setCurrentAndTargetValue(1.0f - current);
+    wetGain.setTargetValue(1.0f - target);
   }
 
   void setBypassForced(bool bypass) noexcept {
-    dryGain.setCurrentAndTargetValueToExtreme(bypass);
-    wetGain.setCurrentAndTargetValueToExtreme(!bypass);
+    dryGain.setCurrentAndTargetValue(bypass ? 1.0f : 0.0f);
+    wetGain.setCurrentAndTargetValue(1.0f - dryGain.getTargetValue());
   }
 
   [[nodiscard]] bool isTransitioning() const noexcept {
@@ -102,9 +113,7 @@ public:
 
 private:
   [[nodiscard]] bool isBypassed() const noexcept {
-    // no need to check wetGain; both gains move in tandem
-    return juce::approximatelyEqual(dryGain.getTargetValue(),
-                                    dryGain.getRange().getEnd());
+    return juce::exactlyEqual(dryGain.getTargetValue(), 1.0f);
   }
 
   [[nodiscard]] bool shouldAvoidProcessing() const noexcept {
@@ -112,8 +121,9 @@ private:
   }
 
   double crossfadeLengthSeconds = 0.0;
+  double sampleRateHz = 0.0;
   juce::AudioBuffer<float> dryBuffer;
-  FixedStepRangedSmoothedValue<float> dryGain{{0.f, 1.f}};
-  FixedStepRangedSmoothedValue<float> wetGain{{0.f, 1.f}};
+  juce::LinearSmoothedValue<float> dryGain;
+  juce::LinearSmoothedValue<float> wetGain;
 };
 }  // namespace tremolo

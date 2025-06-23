@@ -11,7 +11,7 @@ protected:
     constexpr auto sampleRate = 10;
     constexpr auto blockSize = sampleRate;
     constexpr auto channelCount = 1;
-    testee.prepare(sampleRate, channelCount, blockSize);
+    testee.prepare({sampleRate, blockSize, channelCount});
     testee.setBypassForced(false);
     buffer.setSize(channelCount, blockSize);
   }
