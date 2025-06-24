@@ -7,7 +7,7 @@ template <typename SampleType>
 class SampleFifo {
 public:
   void prepare(double sampleRate) {
-    // we want to provide at least 10x audio block size so that we don't miss a
+    // we want to provide enough capacity so that we don't miss a
     // sample at low fps.
     const auto sampleCapacity = static_cast<int>(1.0 * sampleRate);
 

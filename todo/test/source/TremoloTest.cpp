@@ -1,3 +1,4 @@
+#include "TestUtils.h"
 #include <gtest/gtest.h>
 #include <tremolo_plugin/tremolo_plugin.h>
 
@@ -41,12 +42,7 @@ TEST(Tremolo, ExtractLfo) {
                                      : "triangleLfo.wav";
 
     wolfsound::WavFileWriter::writeToFile(
-        juce::File::getSpecialLocation(
-            juce::File::SpecialLocationType::currentExecutableFile)
-            .getParentDirectory()
-            .getChildFile(fileName)
-            .getFullPathName()
-            .toStdString(),
+        getFileOutputPath(fileName),
         juce::Span{buffer.getReadPointer(0),
                    static_cast<size_t>(buffer.getNumSamples())},
         wolfsound::Frequency{sampleRate});
@@ -87,12 +83,7 @@ TEST(Tremolo, LfoWaveformTransitionIsSmooth) {
                         blockSizeSamples);
 
   wolfsound::WavFileWriter::writeToFile(
-      juce::File::getSpecialLocation(
-          juce::File::SpecialLocationType::currentExecutableFile)
-          .getParentDirectory()
-          .getChildFile("smoothedLfo.wav")
-          .getFullPathName()
-          .toStdString(),
+      getFileOutputPath("smoothedLfo.wav"),
       juce::Span{outputBuffer.getReadPointer(0),
                  static_cast<size_t>(outputBuffer.getNumSamples())},
       wolfsound::Frequency{sampleRate});

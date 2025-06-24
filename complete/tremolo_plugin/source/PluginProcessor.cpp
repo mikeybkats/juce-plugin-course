@@ -60,12 +60,19 @@ void PluginProcessor::prepareToPlay(double sampleRate,
   currentSampleRate = sampleRate;
 
   tremolo.prepare(sampleRate, expectedMaxFramesPerBlock);
+
+  bypassTransitionSmoother.prepare(
+      {.sampleRate = sampleRate,
+       .maximumBlockSize = static_cast<uint32_t>(expectedMaxFramesPerBlock),
+       .numChannels = static_cast<uint32_t>(juce::jmax(
+           getTotalNumInputChannels(), getTotalNumOutputChannels()))});
 }
 
 void PluginProcessor::releaseResources() {
   // When playback stops, you can use this as an opportunity to free up any
   // spare memory, etc.
   tremolo.reset();
+  bypassTransitionSmoother.reset();
 }
 
 bool PluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const {
@@ -110,6 +117,15 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   tremolo.setLfoWaveform(
       static_cast<Tremolo::LfoWaveform>(parameters.waveform.getIndex()));
 
+  bypassTransitionSmoother.setBypass(parameters.bypassed);
+
+  if (bypassTransitionSmoother.isTransitioning()) {
+    bypassTransitionSmoother.setDryBuffer(buffer);
+    tremolo.process(buffer);
+    bypassTransitionSmoother.mixToWetBuffer(buffer);
+    return;
+  }
+
   if (parameters.bypassed) {
     // don't do any processing if the plugin is bypassed
     return;
@@ -143,6 +159,8 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
     // Currently, we just write the error message to the standard error stream.
     DBG(result.getErrorMessage());
   }
+
+  bypassTransitionSmoother.setBypassForced(parameters.bypassed);
 }
 
 Parameters& PluginProcessor::getParameters() noexcept {

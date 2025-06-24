@@ -28,7 +28,7 @@ private:
 
   void updateSamplesQueue(double timestampSeconds);
 
-  size_t getStride() const;
+  [[nodiscard]] size_t getStride() const;
 
   void samplesToPath();
 
@@ -41,7 +41,7 @@ private:
    *   (curve end X coordinate, -ylim) -> (component width, component height)
    *                                      (right-bottom corner)
    */
-  juce::AffineTransform getLfoCurveTransform() const;
+  [[nodiscard]] juce::AffineTransform getLfoCurveTransform() const;
 
   float curveWidth{4.f};
   juce::Colour curveColor{juce::Colours::black};
