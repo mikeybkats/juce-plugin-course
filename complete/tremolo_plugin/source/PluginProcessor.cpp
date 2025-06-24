@@ -119,20 +119,17 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
   bypassTransitionSmoother.setBypass(parameters.bypassed);
 
-  if (bypassTransitionSmoother.isTransitioning()) {
-    bypassTransitionSmoother.setDryBuffer(buffer);
-    tremolo.process(buffer);
-    bypassTransitionSmoother.mixToWetBuffer(buffer);
-    return;
-  }
-
-  if (parameters.bypassed) {
+  if (parameters.bypassed && !bypassTransitionSmoother.isTransitioning()) {
     // don't do any processing if the plugin is bypassed
     return;
   }
 
+  bypassTransitionSmoother.setDryBuffer(buffer);
+
   // apply tremolo
   tremolo.process(buffer);
+
+  bypassTransitionSmoother.mixToWetBuffer(buffer);
 }
 
 bool PluginProcessor::hasEditor() const {
