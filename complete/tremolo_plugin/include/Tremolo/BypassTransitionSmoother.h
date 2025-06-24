@@ -42,7 +42,7 @@ public:
     reset();
   }
 
-  void prepare(juce::dsp::ProcessSpec spec) {
+  void prepare(const juce::dsp::ProcessSpec& spec) {
     sampleRateHz = spec.sampleRate;
     dryBuffer.setSize(static_cast<int>(spec.numChannels),
                       static_cast<int>(spec.maximumBlockSize));
