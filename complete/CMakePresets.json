@@ -118,7 +118,8 @@
     {
       "name": "vs",
       "inherits": "default-with-tests",
-      "configurePreset": "vs"
+      "configurePreset": "vs",
+      "configuration": "Debug"
     },
     {
       "name": "xcode",

@@ -34,7 +34,13 @@ cpmaddpackage(
 )
 
 # Creates the test console application.
-add_executable(TremoloCoursePluginTest source/PluginProcessorTest.cpp source/JsonSerializerTest.cpp source/TremoloTest.cpp source/detail/StridedQueueTest.cpp)
+add_executable(TremoloCoursePluginTest
+  source/PluginProcessorTest.cpp
+  source/JsonSerializerTest.cpp
+  source/TremoloTest.cpp
+  source/detail/StridedQueueTest.cpp
+  source/BypassTransitionSmootherTest.cpp
+)
 
 # Configuration options that apply to the JUCE sources in the test target
 target_compile_definitions(TremoloCoursePluginTest
@@ -50,6 +56,7 @@ target_link_libraries(
     tremolo::tremolo_plugin
     GTest::gtest_main
     wolfsound::wolfsound_dsp_utils
+    juce::juce_recommended_warning_flags
 )
 
 # Adds googletest-specific CMake commands at our disposal.
