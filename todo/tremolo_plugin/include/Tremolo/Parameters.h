@@ -2,8 +2,6 @@
 
 namespace tremolo {
 struct Parameters {
-  using Container = std::vector<std::unique_ptr<juce::AudioProcessorParameter>>;
-
-  explicit Parameters(Container&);
+  explicit Parameters(juce::AudioProcessor&);
 };
 }  // namespace tremolo

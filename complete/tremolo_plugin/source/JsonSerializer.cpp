@@ -3,19 +3,7 @@ struct SerializableParameters {
   float rate;
   bool bypassed;
   std::string waveform;
-};
 
-SerializableParameters from(const tremolo::Parameters& p) {
-  return {
-      .rate = p.rate.get(),
-      .bypassed = p.bypassed.get(),
-      .waveform = p.waveform.getCurrentChoiceName().toStdString(),
-  };
-}
-}  // namespace
-
-template <>
-struct juce::SerialisationTraits<SerializableParameters> {
   static constexpr auto marshallingVersion = 1;
 
   template <typename Archive, typename T>
@@ -38,6 +26,15 @@ struct juce::SerialisationTraits<SerializableParameters> {
             named("modulationWaveform", p.waveform));
   }
 };
+
+SerializableParameters from(const tremolo::Parameters& p) {
+  return {
+      .rate = p.rate.get(),
+      .bypassed = p.bypassed.get(),
+      .waveform = p.waveform.getCurrentChoiceName().toStdString(),
+  };
+}
+}  // namespace
 
 namespace tremolo {
 void JsonSerializer::serialize(const Parameters& parameters,

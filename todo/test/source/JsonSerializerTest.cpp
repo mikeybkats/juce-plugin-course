@@ -3,8 +3,8 @@
 
 namespace tremolo {
 TEST(JsonSerializer, SerializeToString) {
-  Parameters::Container container;
-  Parameters parameters{container};
+  // PluginProcessor processor;
+  // auto& parameters = processor.getParameters();
 
   // parameters.rate = 10.f;
   // parameters.bypassed = true;
@@ -43,8 +43,8 @@ TEST(JsonSerializer, DeserializeFromString) {
       savedParameters.getCharPointer(),
       static_cast<size_t>(savedParameters.length()), false};
 
-  Parameters::Container container;
-  Parameters parameters{container};
+  // PluginProcessor processor;
+  // auto& parameters = processor.getParameters();
 
   const auto result = JsonSerializer::deserialize(inputStream, parameters);
 
@@ -70,8 +70,8 @@ TEST(JsonSerializer, DontUpdateParametersWhenWaveformNameIsInvalid) {
       savedParameters.getCharPointer(),
       static_cast<size_t>(savedParameters.length()), false};
 
-  Parameters::Container container;
-  Parameters parameters{container};
+  // PluginProcessor processor;
+  // auto& parameters = processor.getParameters();
   // parameters.waveform = 0;
   // parameters.bypassed = false;
   // parameters.rate = 5.f;

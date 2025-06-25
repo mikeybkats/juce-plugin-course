@@ -3,7 +3,7 @@
 namespace tremolo {
 class PluginProcessor : public juce::AudioProcessor {
 public:
-  explicit PluginProcessor(Parameters::Container parameterContainer = {});
+  PluginProcessor();
 
   void prepareToPlay(double sampleRate, int expectedMaxFramesPerBlock) override;
 
@@ -43,7 +43,7 @@ public:
   double getSampleRateThreadSafe() const noexcept;
 
 private:
-  Parameters parameters;
+  Parameters parameters{*this};
   Tremolo tremolo;
   BypassTransitionSmoother bypassTransitionSmoother;
   std::atomic<double> currentSampleRate{0.};

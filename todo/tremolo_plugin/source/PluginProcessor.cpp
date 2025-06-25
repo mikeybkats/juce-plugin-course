@@ -4,9 +4,7 @@ PluginProcessor::PluginProcessor()
     : AudioProcessor(
           BusesProperties()
               .withInput("Input", juce::AudioChannelSet::stereo(), true)
-              .withOutput("Output", juce::AudioChannelSet::stereo(), true)) {
-  // TODO: add parameters
-}
+              .withOutput("Output", juce::AudioChannelSet::stereo(), true)) {}
 
 const juce::String PluginProcessor::getName() const {
   return TREMOLO_PLUGIN_NAME;

@@ -1,15 +1,10 @@
 
 namespace tremolo {
-PluginProcessor::PluginProcessor(Parameters::Container parameterContainer)
+PluginProcessor::PluginProcessor()
     : AudioProcessor(
           BusesProperties()
               .withInput("Input", juce::AudioChannelSet::stereo(), true)
-              .withOutput("Output", juce::AudioChannelSet::stereo(), true)),
-      parameters{parameterContainer} {
-  for (auto& parameter : parameterContainer) {
-    addParameter(parameter.release());
-  };
-}
+              .withOutput("Output", juce::AudioChannelSet::stereo(), true)) {}
 
 const juce::String PluginProcessor::getName() const {
   return TREMOLO_PLUGIN_NAME;

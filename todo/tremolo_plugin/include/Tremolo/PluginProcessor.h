@@ -34,6 +34,8 @@ public:
   void setStateInformation(const void* data, int sizeInBytes) override;
 
 private:
+  // TODO: add parameters
+
   Tremolo tremolo;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
