@@ -1,13 +1,13 @@
 namespace tremolo {
 PluginEditor::PluginEditor(PluginProcessor& p)
     : AudioProcessorEditor(&p),
-      waveformAttachment{p.getParameters().waveform, waveformComboBox},
-      rateAttachment{p.getParameters().rate, rateSlider},
-      bypassAttachment{p.getParameters().bypassed, bypassButton},
+      waveformAttachment{p.getParameterRefs().waveform, waveformComboBox},
+      rateAttachment{p.getParameterRefs().rate, rateSlider},
+      bypassAttachment{p.getParameterRefs().bypassed, bypassButton},
       lfoVisualizer{
           [&p](juce::AudioBuffer<float>& b) { p.readAllLfoSamples(b); },
           [&p] { return p.getSampleRateThreadSafe(); },
-          [&p] { return p.getParameters().bypassed.get(); }} {
+          [&p] { return p.getParameterRefs().bypassed.get(); }} {
   background.setImage(juce::ImageCache::getFromMemory(
       assets::RenderedBackground_png, assets::RenderedBackground_pngSize));
   addAndMakeVisible(background);
@@ -20,7 +20,7 @@ PluginEditor::PluginEditor(PluginProcessor& p)
   waveformLabel.setColour(juce::Label::textColourId, sideFontColor);
   addAndMakeVisible(waveformLabel);
 
-  waveformComboBox.addItemList(p.getParameters().waveform.choices, 1);
+  waveformComboBox.addItemList(p.getParameterRefs().waveform.choices, 1);
   waveformAttachment.sendInitialUpdate();
   addAndMakeVisible(waveformComboBox);
 

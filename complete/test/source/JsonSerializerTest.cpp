@@ -4,7 +4,7 @@
 namespace tremolo {
 TEST(JsonSerializer, SerializeToString) {
   PluginProcessor processor;
-  auto& parameters = processor.getParameters();
+  auto& parameters = processor.getParameterRefs();
 
   parameters.rate = 10.f;
   parameters.bypassed = true;
@@ -44,7 +44,7 @@ TEST(JsonSerializer, DeserializeFromString) {
       static_cast<size_t>(savedParameters.length()), false};
 
   PluginProcessor processor;
-  auto& parameters = processor.getParameters();
+  auto& parameters = processor.getParameterRefs();
 
   const auto result = JsonSerializer::deserialize(inputStream, parameters);
 
@@ -71,7 +71,7 @@ TEST(JsonSerializer, DontUpdateParametersWhenWaveformNameIsInvalid) {
       static_cast<size_t>(savedParameters.length()), false};
 
   PluginProcessor processor;
-  auto& parameters = processor.getParameters();
+  auto& parameters = processor.getParameterRefs();
   parameters.waveform = 0;
   parameters.bypassed = false;
   parameters.rate = 5.f;
