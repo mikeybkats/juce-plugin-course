@@ -29,6 +29,26 @@ namespace tremolo {
  * // avoid processing if bypassed, process otherwise...
  * @endcode
  *
+ * Alternatively, you can unconditionally call setDryBuffer() and
+ * mixToWetBuffer(), like this:
+ *
+ * @code
+ * //...
+ *
+ * bypassTransitionSmoother.setBypass(parameters.bypassed);
+ *
+ * if (parameters.bypassed && !bypassTransitionSmoother.isTransitioning()) {
+ *   // avoid processing if the plugin is bypassed
+ *   return;
+ * }
+ *
+ * bypassTransitionSmoother.setDryBuffer(buffer);
+ * yourAudioEffectClassInstance.process(buffer);
+ * bypassTransitionSmoother.mixToWetBuffer(buffer);
+ *
+ * // no more processing necessary
+ * @endcode
+ *
  * Remember to call prepare() in prepareToPlay(),
  * setBypassForced() in setStateInformation(), and reset() in
  * releaseResources().
