@@ -18,6 +18,10 @@ function(course_add_example_app)
   target_include_directories(${target} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 endfunction()
 
+if(WIN32)
+  set(CMAKE_OBJECT_PATH_MAX 260)
+endif()
+
 add_subdirectory(Coordinates)
 add_subdirectory(GuiThreadIdPrinting)
 add_subdirectory(GuiAndAudioThreadIdPrinting)
