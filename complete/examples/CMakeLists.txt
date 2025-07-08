@@ -19,7 +19,7 @@ function(course_add_example_app)
 endfunction()
 
 if(WIN32)
-  set(CMAKE_OBJECT_PATH_MAX 260)
+  set(CMAKE_OBJECT_PATH_MAX 280)
 endif()
 
 add_subdirectory(Coordinates)
