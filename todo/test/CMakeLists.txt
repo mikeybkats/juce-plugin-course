@@ -34,7 +34,12 @@ cpmaddpackage(
 )
 
 # Creates the test console application.
-add_executable(TremoloCoursePluginTest source/PluginProcessorTest.cpp source/JsonSerializerTest.cpp source/TremoloTest.cpp)
+add_executable(TremoloCoursePluginTest
+  source/BypassTransitionSmootherTest.cpp
+  source/PluginProcessorTest.cpp
+  # source/JsonSerializerTest.cpp
+  source/TremoloTest.cpp
+)
 
 # Configuration options that apply to the JUCE sources in the test target
 target_compile_definitions(TremoloCoursePluginTest

@@ -3,12 +3,12 @@
 
 namespace tremolo {
 TEST(JsonSerializer, SerializeToString) {
-  // PluginProcessor processor;
-  // auto& parameters = processor.getParameters();
+  PluginProcessor processor;
+  auto& parameters = processor.getParameterRefs();
 
-  // parameters.rate = 10.f;
-  // parameters.bypassed = true;
-  // parameters.waveform = 1;
+  parameters.rate = 10.f;
+  parameters.bypassed = true;
+  parameters.waveform = 1;
 
   const juce::String expectedOutput =
       u8R"({
@@ -43,16 +43,16 @@ TEST(JsonSerializer, DeserializeFromString) {
       savedParameters.getCharPointer(),
       static_cast<size_t>(savedParameters.length()), false};
 
-  // PluginProcessor processor;
-  // auto& parameters = processor.getParameters();
+  PluginProcessor processor;
+  auto& parameters = processor.getParameterRefs();
 
   const auto result = JsonSerializer::deserialize(inputStream, parameters);
 
   EXPECT_TRUE(result.wasOk());
-  // EXPECT_FLOAT_EQ(parameters.rate, 10.f);
-  // EXPECT_TRUE(parameters.bypassed);
-  // EXPECT_EQ(juce::String{"Triangle"},
-  //           parameters.waveform.getCurrentChoiceName());
+  EXPECT_FLOAT_EQ(parameters.rate, 10.f);
+  EXPECT_TRUE(parameters.bypassed);
+  EXPECT_EQ(juce::String{"Triangle"},
+            parameters.waveform.getCurrentChoiceName());
 }
 
 TEST(JsonSerializer, DontUpdateParametersWhenWaveformNameIsInvalid) {
@@ -70,19 +70,20 @@ TEST(JsonSerializer, DontUpdateParametersWhenWaveformNameIsInvalid) {
       savedParameters.getCharPointer(),
       static_cast<size_t>(savedParameters.length()), false};
 
-  // PluginProcessor processor;
-  // auto& parameters = processor.getParameters();
-  // parameters.waveform = 0;
-  // parameters.bypassed = false;
-  // parameters.rate = 5.f;
+  PluginProcessor processor;
+  auto& parameters = processor.getParameterRefs();
+
+  parameters.waveform = 0;
+  parameters.bypassed = false;
+  parameters.rate = 5.f;
 
   // when
   const auto result = JsonSerializer::deserialize(inputStream, parameters);
 
   // then
   EXPECT_TRUE(result.failed());
-  // EXPECT_FLOAT_EQ(parameters.rate, 5.f);
-  // EXPECT_FALSE(parameters.bypassed);
-  // EXPECT_EQ(0, parameters.waveform.getIndex());
+  EXPECT_FLOAT_EQ(parameters.rate.get(), 5.f);
+  EXPECT_FALSE(parameters.bypassed.get());
+  EXPECT_EQ(0, parameters.waveform.getIndex());
 }
 }  // namespace tremolo

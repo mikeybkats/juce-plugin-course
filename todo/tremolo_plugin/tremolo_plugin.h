@@ -39,5 +39,6 @@ END_JUCE_MODULE_DECLARATION
 #include "include/Tremolo/CustomLookAndFeel.h"
 #include "include/Tremolo/JsonSerializer.h"
 #include "include/Tremolo/Tremolo.h"
+#include "include/Tremolo/BypassTransitionSmoother.h"
 #include "include/Tremolo/PluginProcessor.h"
 #include "include/Tremolo/PluginEditor.h"

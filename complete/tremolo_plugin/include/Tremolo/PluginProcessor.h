@@ -33,7 +33,7 @@ public:
   void getStateInformation(juce::MemoryBlock& destData) override;
   void setStateInformation(const void* data, int sizeInBytes) override;
 
-  [[nodiscard]] Parameters& getParameters() noexcept;
+  [[nodiscard]] Parameters& getParameterRefs() noexcept;
   juce::AudioProcessorParameter* getBypassParameter() const noexcept override;
 
   void readAllLfoSamples(juce::AudioBuffer<float>& bufferToFill);

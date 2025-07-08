@@ -49,14 +49,14 @@ TEST_F(BypassTransitionIsSmoothTest, ExerciseAllSegments) {
     blockCount++;
   };
 
-  testee.getParameters().bypassed = false;
+  testee.getParameterRefs().bypassed = false;
   process();  // bypass OFF
 
-  testee.getParameters().bypassed = true;
+  testee.getParameterRefs().bypassed = true;
   process();  // transition OFF -> ON
   process();  // bypass ON
 
-  testee.getParameters().bypassed = false;
+  testee.getParameterRefs().bypassed = false;
   process();  // transition ON -> OFF
   process();  // bypass OFF
 

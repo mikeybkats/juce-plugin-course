@@ -58,8 +58,6 @@ public:
   explicit BypassTransitionSmoother(double crossfadeLengthSecondsValue = 0.01)
       : crossfadeLengthSeconds{crossfadeLengthSecondsValue} {
     jassert(0.0 < crossfadeLengthSeconds);
-
-    reset();
   }
 
   void prepare(const juce::dsp::ProcessSpec& spec) {
@@ -68,14 +66,9 @@ public:
                       static_cast<int>(spec.maximumBlockSize));
     dryGain.reset(spec.sampleRate, crossfadeLengthSeconds);
     wetGain.reset(spec.sampleRate, crossfadeLengthSeconds);
-    reset();
   }
 
   void setBypass(bool bypass) noexcept {
-    if (bypass == isBypassed()) {
-      return;
-    }
-
     const auto current = dryGain.getCurrentValue();
     const auto target = bypass ? 1.0f : 0.0f;
     const auto duration = crossfadeLengthSeconds * std::abs(target - current);
@@ -100,11 +93,6 @@ public:
   }
 
   void setDryBuffer(const juce::AudioBuffer<float>& buffer) noexcept {
-    if (shouldAvoidProcessing()) {
-      // plugin is operational: no need to store the dry buffer
-      return;
-    }
-
     jassert(buffer.getNumSamples() <= dryBuffer.getNumSamples());
     jassert(buffer.getNumChannels() <= dryBuffer.getNumChannels());
 
@@ -116,11 +104,6 @@ public:
   }
 
   void mixToWetBuffer(juce::AudioBuffer<float>& buffer) noexcept {
-    if (shouldAvoidProcessing()) {
-      // plugin is operational: no need to modify the wet buffer
-      return;
-    }
-
     jassert(buffer.getNumSamples() <= dryBuffer.getNumSamples());
     jassert(buffer.getNumChannels() <= dryBuffer.getNumChannels());
 
@@ -136,14 +119,6 @@ public:
   }
 
 private:
-  [[nodiscard]] bool isBypassed() const noexcept {
-    return juce::exactlyEqual(dryGain.getTargetValue(), 1.0f);
-  }
-
-  [[nodiscard]] bool shouldAvoidProcessing() const noexcept {
-    return !isTransitioning() && !isBypassed();
-  }
-
   double crossfadeLengthSeconds = 0.0;
   double sampleRateHz = 0.0;
   juce::LinearSmoothedValue<float> dryGain{0.f};

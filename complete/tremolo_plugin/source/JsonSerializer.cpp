@@ -2,7 +2,7 @@ namespace {
 struct SerializableParameters {
   float rate;
   bool bypassed;
-  std::string waveform;
+  juce::String waveform;
 
   static constexpr auto marshallingVersion = 1;
 
@@ -31,7 +31,7 @@ SerializableParameters from(const tremolo::Parameters& p) {
   return {
       .rate = p.rate.get(),
       .bypassed = p.bypassed.get(),
-      .waveform = p.waveform.getCurrentChoiceName().toStdString(),
+      .waveform = p.waveform.getCurrentChoiceName(),
   };
 }
 }  // namespace
