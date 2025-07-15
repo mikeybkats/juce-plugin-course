@@ -7,12 +7,11 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-unix:
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
-        # preset: [ninja-debug, ninja-release]
-        preset: [ninja-debug]
+        os: [ubuntu-latest]
+        preset: [ninja-debug, ninja-release]
 
     runs-on: ${{ matrix.os }}
 
@@ -37,14 +36,10 @@ jobs:
                libwebkit2gtk-4.1-dev \
                libglu1-mesa-dev mesa-common-dev
 
-    - uses: ilammy/msvc-dev-cmd@v1 # use MSVC on Windows not minGW
-
     - name: Install ninja-build tool
-      if: matrix.os != 'windows-latest'
       uses: seanmiddleditch/gha-setup-ninja@v5
 
     - name: Cache ninja-build
-      if: matrix.os != 'windows-latest'
       uses: actions/cache@v4
       with:
         key: ${{ runner.os }}-ninja-build
@@ -61,43 +56,46 @@ jobs:
         key: ${{ runner.os }}-libs-${{ hashFiles('complete/CMakeLists.txt') }}-${{ hashFiles('complete/test/CMakeLists.txt') }}
 
     - name: Configure CMake
-      if: matrix.os != 'windows-latest'
       working-directory: ${{ github.workspace }}/complete
       run: cmake --preset ${{ matrix.preset }}
 
     - name: Build
-      if: matrix.os != 'windows-latest'
       working-directory: ${{ github.workspace }}/complete
       run: cmake --build --preset ${{ matrix.preset }}
 
     - name: Test
-      if: matrix.os != 'windows-latest'
       working-directory: ${{github.workspace}}/complete
       run: ctest --preset ${{ matrix.preset }}
 
-    - name: Configure CMake (Windows)
-      if: matrix.os == 'windows-latest'
+  build-windows:
+    strategy:
+      matrix:
+        os: [windows-latest]
+        config: [Debug, Release]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: ilammy/msvc-dev-cmd@v1 # use MSVC on Windows not minGW
+
+    - uses: actions/checkout@v4
+
+    - name: Cache dependencies
+      id: cache-libs
+      uses: actions/cache@v4
+      with:
+        path: complete/libs
+        key: ${{ runner.os }}-libs-${{ hashFiles('complete/CMakeLists.txt') }}-${{ hashFiles('complete/test/CMakeLists.txt') }}
+
+    - name: Configure CMake
       working-directory: ${{ github.workspace }}/complete
       run: cmake --preset vs
 
-    - name: Build Debug (Windows)
-      if: matrix.os == 'windows-latest'
+    - name: Build
       working-directory: ${{ github.workspace }}/complete
-      run: cmake --build --preset vs --config Debug
+      run: cmake --build --preset vs --config ${{ matrix.config }}
 
-    - name: Build Release (Windows)
-      if: matrix.os == 'windows-latest'
+    - name: Test
       working-directory: ${{ github.workspace }}/complete
-      run: cmake --build --preset vs --config Release
-
-    - name: Test Debug (Windows)
-      if: matrix.os == 'windows-latest'
-      working-directory: ${{ github.workspace }}/complete
-      run: ctest --preset vs -C Debug
-
-    - name: Test Release (Windows)
-      if: matrix.os == 'windows-latest'
-      working-directory: ${{ github.workspace }}/complete
-      run: ctest --preset vs -C Release
-
+      run: ctest --preset vs -C ${{ matrix.config }}
 
