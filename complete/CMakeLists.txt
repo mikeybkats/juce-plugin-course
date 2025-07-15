@@ -134,6 +134,11 @@ target_link_libraries(
 # In Visual Studio this command provides a nice grouping of source files in "filters".
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
+option(BUILD_EXAMPLES "When on, the supplied example apps will be added as targets and built" OFF)
+if(BUILD_EXAMPLES)
+  add_subdirectory(examples)
+endif()
+
 option(BUILD_TESTS "When on, will download the GoogleTest framework and add the automated tests project" OFF)
 if(BUILD_TESTS)
   # This command allows running tests from the "build" folder (the one where CMake generates the project to).

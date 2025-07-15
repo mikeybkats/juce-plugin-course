@@ -23,6 +23,14 @@
       }
     },
     {
+      "name": "default-with-examples",
+      "inherits": "default-with-tests",
+      "binaryDir": "cmake-build-with-examples",
+      "cacheVariables": {
+        "BUILD_EXAMPLES": "ON"
+      }
+    },
+    {
       "name": "ninja-debug",
       "generator": "Ninja",
       "binaryDir": "ninja-debug-build",
@@ -30,6 +38,7 @@
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "CMAKE_BUILD_TYPE": "Debug",
         "BUILD_TESTS": "ON",
+        "BUILD_EXAMPLES": "ON",
         "WARNINGS_AS_ERRORS": "ON"
       }
     },
@@ -44,7 +53,12 @@
     {
       "name": "vs",
       "generator": "Visual Studio 17 2022",
-      "binaryDir": "vs-build"
+      "binaryDir": "vs-build",
+      "cacheVariables": {
+        "BUILD_TESTS": "ON",
+        "BUILD_EXAMPLES": "ON",
+        "WARNINGS_AS_ERRORS": "ON"
+      }
     },
     {
       "name": "xcode",
@@ -60,6 +74,10 @@
     {
       "name": "default-with-tests",
       "configurePreset": "default-with-tests"
+    },
+    {
+      "name": "default-with-examples",
+      "configurePreset": "default-with-examples"
     },
     {
       "name": "ninja-debug",
@@ -87,6 +105,11 @@
         "noTestsAction": "error",
         "stopOnFailure": false
       }
+    },
+    {
+      "name": "default-with-examples",
+      "inherits": "default-with-tests",
+      "configurePreset": "default-with-tests"
     },
     {
       "name": "ninja-debug",

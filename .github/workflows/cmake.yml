@@ -7,10 +7,10 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-unix:
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [ubuntu-latest]
         preset: [ninja-debug, ninja-release]
 
     runs-on: ${{ matrix.os }}
@@ -35,8 +35,6 @@ jobs:
                libx11-dev libxcomposite-dev libxcursor-dev libxext-dev libxinerama-dev libxrandr-dev libxrender-dev \
                libwebkit2gtk-4.1-dev \
                libglu1-mesa-dev mesa-common-dev
-
-    - uses: ilammy/msvc-dev-cmd@v1 # use MSVC on Windows not minGW
 
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v5
@@ -68,4 +66,36 @@ jobs:
     - name: Test
       working-directory: ${{github.workspace}}/complete
       run: ctest --preset ${{ matrix.preset }}
+
+  build-windows:
+    strategy:
+      matrix:
+        os: [windows-latest]
+        config: [Debug, Release]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: ilammy/msvc-dev-cmd@v1 # use MSVC on Windows not minGW
+
+    - uses: actions/checkout@v4
+
+    - name: Cache dependencies
+      id: cache-libs
+      uses: actions/cache@v4
+      with:
+        path: complete/libs
+        key: ${{ runner.os }}-libs-${{ hashFiles('complete/CMakeLists.txt') }}-${{ hashFiles('complete/test/CMakeLists.txt') }}
+
+    - name: Configure CMake
+      working-directory: ${{ github.workspace }}/complete
+      run: cmake --preset vs
+
+    - name: Build
+      working-directory: ${{ github.workspace }}/complete
+      run: cmake --build --preset vs --config ${{ matrix.config }}
+
+    - name: Test
+      working-directory: ${{ github.workspace }}/complete
+      run: ctest --preset vs -C ${{ matrix.config }}
 
