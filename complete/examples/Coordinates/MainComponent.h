@@ -3,7 +3,7 @@
 
 class MainComponent : public juce::Component {
 public:
-  MainComponent() { setBounds(0, 0, 400, 300); }
+  MainComponent() { setBounds(0, 0, 400, 400); }
 
   void paint(juce::Graphics& g) override {
     g.setColour(juce::Colours::red);
