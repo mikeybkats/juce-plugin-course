@@ -44,7 +44,11 @@
     {
       "name": "vs",
       "generator": "Visual Studio 17 2022",
-      "binaryDir": "vs-build"
+      "binaryDir": "vs-build",
+      "cacheVariables": {
+        "BUILD_TESTS": "ON",
+        "WARNINGS_AS_ERRORS": "ON"
+      }
     },
     {
       "name": "xcode",
