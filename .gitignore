@@ -12,6 +12,7 @@ ninja-debug-build/
 ninja-release-build/
 done.md
 todo.md
+diff_todo_complete.sh
 
 # Prerequisites
 *.d
