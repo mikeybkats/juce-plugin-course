@@ -59,7 +59,6 @@ PluginEditor::PluginEditor(PluginProcessor& p)
   lfoVisualizer.setBackgroundColor(juce::Colours::transparentBlack);
   addAndMakeVisible(lfoVisualizer);
 
-  // set the look and feel AFTER configuring all child components
   setLookAndFeel(&lookAndFeel);
 
   // Make sure that before the constructor has finished, you've set the
