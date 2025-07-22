@@ -79,8 +79,7 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
   const auto knobBounds = bounds.reduced(4.f);
 
   auto knobFill = juce::ColourGradient::vertical(
-      juce::Colour{0xFF4A7090}, knobBounds.getY(), juce::Colour{0xFF060F1C},
-      knobBounds.getY() + knobBounds.getHeight());
+      juce::Colour{0xFF4A7090}, juce::Colour{0xFF060F1C}, knobBounds);
   knobFill.addColour(0.29, juce::Colour{0xFF396086});
   knobFill.addColour(0.75, juce::Colour{0xFF2C3648});
   g.setGradientFill(knobFill);
@@ -211,8 +210,7 @@ void CustomLookAndFeel::drawPlainButton(
 
   const auto buttonBounds = bounds.reduced(buttonInsetWidth);
   auto buttonGradient = juce::ColourGradient::vertical(
-      juce::Colour{0xFF4A7090}, buttonBounds.getY(), juce::Colour{0xFF324258},
-      buttonBounds.getBottom());
+      juce::Colour{0xFF4A7090}, juce::Colour{0xFF324258}, buttonBounds);
   buttonGradient.addColour(0.73, juce::Colour{0xFF315160});
   g.setGradientFill(buttonGradient);
   g.fillRoundedRectangle(buttonBounds, buttonCornerSize);
@@ -225,8 +223,8 @@ void CustomLookAndFeel::drawGradientButton(juce::Graphics& g,
   drawButtonInset(g, bounds);
 
   const auto buttonBounds = bounds.reduced(buttonInsetWidth);
-  const auto buttonGradient = juce::ColourGradient::vertical(
-      topColor, buttonBounds.getY(), bottomColor, buttonBounds.getBottom());
+  const auto buttonGradient =
+      juce::ColourGradient::vertical(topColor, bottomColor, buttonBounds);
   g.setGradientFill(buttonGradient);
   g.fillRoundedRectangle(buttonBounds, buttonCornerSize);
 }
@@ -235,8 +233,7 @@ void CustomLookAndFeel::drawButtonInset(
     juce::Graphics& g,
     const juce::Rectangle<float>& bounds) const {
   auto insetGradient = juce::ColourGradient::vertical(
-      juce::Colour{0xFF22232C}, 0.f, juce::Colour{0xFF263235},
-      bounds.getHeight());
+      juce::Colour{0xFF22232C}, juce::Colour{0xFF263235}, bounds);
   insetGradient.addColour(0.35, juce::Colour{0xFF303538});
   g.setGradientFill(insetGradient);
   g.fillRoundedRectangle(bounds, 6.f);
