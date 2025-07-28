@@ -62,16 +62,6 @@ private:
     juce::Typeface::Ptr interMedium;
   };
 
-  void drawBlueGradientButton(juce::Graphics&,
-                              const juce::Rectangle<float>& bounds) const;
-  void drawOrangeGradientButton(juce::Graphics&,
-                                const juce::Rectangle<float>& bounds) const;
-  void drawButtonInset(juce::Graphics&,
-                       const juce::Rectangle<float>& bounds) const;
-  void drawGradientButton(juce::Graphics&,
-                          const juce::Rectangle<float>& bounds,
-                          const juce::ColourGradient& gradient) const;
-
   FontContainer fontContainer;
 };
 }  // namespace tremolo
