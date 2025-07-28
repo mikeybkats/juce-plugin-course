@@ -117,7 +117,6 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
 
 namespace {
 constexpr auto buttonInsetWidth = 2.f;
-constexpr auto buttonCornerSize = 4;
 }  // namespace
 
 void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
@@ -211,8 +210,7 @@ void CustomLookAndFeel::drawBlueGradientButton(
   auto buttonGradient = juce::ColourGradient::vertical(
       juce::Colour{0xFF4A7090}, juce::Colour{0xFF324258}, bounds);
   buttonGradient.addColour(0.73, juce::Colour{0xFF315160});
-  g.setGradientFill(buttonGradient);
-  g.fillRoundedRectangle(bounds, buttonCornerSize);
+  drawGradientButton(g, bounds, buttonGradient);
 }
 
 void CustomLookAndFeel::drawOrangeGradientButton(
@@ -220,8 +218,7 @@ void CustomLookAndFeel::drawOrangeGradientButton(
     const juce::Rectangle<float>& bounds) const {
   const auto buttonGradient = juce::ColourGradient::vertical(
       juce::Colour{0xFFFF901A}, juce::Colour{0xFFFFC300}, bounds);
-  g.setGradientFill(buttonGradient);
-  g.fillRoundedRectangle(bounds, buttonCornerSize);
+  drawGradientButton(g, bounds, buttonGradient);
 }
 
 void CustomLookAndFeel::drawButtonInset(
@@ -232,5 +229,13 @@ void CustomLookAndFeel::drawButtonInset(
   insetGradient.addColour(0.35, juce::Colour{0xFF303538});
   g.setGradientFill(insetGradient);
   g.fillRoundedRectangle(bounds, 6.f);
+}
+
+void CustomLookAndFeel::drawGradientButton(
+    juce::Graphics& g,
+    const juce::Rectangle<float>& bounds,
+    const juce::ColourGradient& gradient) const {
+  g.setGradientFill(gradient);
+  g.fillRoundedRectangle(bounds, 4.f);
 }
 }  // namespace tremolo
