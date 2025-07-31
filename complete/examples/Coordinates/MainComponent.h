@@ -1,9 +1,9 @@
 #pragma once
 #include <juce_gui_basics/juce_gui_basics.h>
 
-class MainComponent : public juce::Component {
+class Coordinates : public juce::Component {
 public:
-  MainComponent() { setBounds(0, 0, 400, 400); }
+  Coordinates() { setBounds(0, 0, 400, 400); }
 
   void paint(juce::Graphics& g) override {
     g.setColour(juce::Colours::red);
@@ -26,3 +26,5 @@ private:
   juce::Rectangle<float> rect1;
   juce::Rectangle<float> rect2;
 };
+
+using MainComponent = Coordinates;
