@@ -38,7 +38,7 @@ cpmaddpackage(
   NAME
     JUCE
   GIT_TAG
-    8.0.7
+    8.0.8
   GITHUB_REPOSITORY
     juce-framework/JUCE
   SOURCE_DIR
