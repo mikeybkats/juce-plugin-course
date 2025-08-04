@@ -55,13 +55,7 @@ public:
                         bool shouldDrawButtonAsDown) override;
 
 private:
-  struct FontContainer {
-    FontContainer();
-
-    juce::Typeface::Ptr interBold;
-    juce::Typeface::Ptr interMedium;
-  };
-
-  FontContainer fontContainer;
+  [[nodiscard]] static juce::FontOptions interMedium();
+  [[nodiscard]] static juce::FontOptions interBold();
 };
 }  // namespace tremolo

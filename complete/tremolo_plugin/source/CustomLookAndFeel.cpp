@@ -41,17 +41,6 @@ juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
   return colors.at(juce::toUnderlyingType(colorName));
 }
 
-CustomLookAndFeel::FontContainer::FontContainer()
-    : interBold{juce::Typeface::createSystemTypefaceFor(
-          assets::InterBold_ttf,
-          assets::InterBold_ttfSize)},
-      interMedium{juce::Typeface::createSystemTypefaceFor(
-          assets::InterMedium_ttf,
-          assets::InterMedium_ttfSize)} {
-  // used to set the font of the default standalone plugin window
-  getDefaultLookAndFeel().setDefaultSansSerifTypeface(interMedium);
-}
-
 CustomLookAndFeel::CustomLookAndFeel() {
   setColour(juce::ComboBox::textColourId, getColor(Colors::paleBlue));
   setColour(juce::Label::textColourId, getColor(Colors::paleBlue));
@@ -60,10 +49,14 @@ CustomLookAndFeel::CustomLookAndFeel() {
   setColour(juce::PopupMenu::highlightedTextColourId, juce::Colour{0xFF0C131E});
   setColour(juce::PopupMenu::highlightedBackgroundColourId,
             getColor(Colors::orange));
+
+  // used to set the font of the default standalone plugin window
+  getDefaultLookAndFeel().setDefaultSansSerifTypeface(
+      interMedium().getTypeface());
 }
 
 juce::Font CustomLookAndFeel::getSideLabelsFont() const {
-  return juce::FontOptions{fontContainer.interMedium}.withPointHeight(10.f);
+  return interMedium().withPointHeight(10.f);
 }
 
 juce::BorderSize<int> CustomLookAndFeel::getLabelBorderSize(juce::Label&) {
@@ -71,7 +64,7 @@ juce::BorderSize<int> CustomLookAndFeel::getLabelBorderSize(juce::Label&) {
 }
 
 juce::Font CustomLookAndFeel::getRateLabelFont() const {
-  return juce::FontOptions{fontContainer.interBold}.withPointHeight(12.f);
+  return interBold().withPointHeight(12.f);
 }
 
 void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
@@ -168,7 +161,7 @@ void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
 }
 
 juce::Font CustomLookAndFeel::getComboBoxFont(juce::ComboBox&) {
-  return juce::FontOptions{fontContainer.interMedium}.withPointHeight(12.f);
+  return interMedium().withPointHeight(12.f);
 }
 
 void CustomLookAndFeel::positionComboBoxText(juce::ComboBox& comboBox,
@@ -191,7 +184,7 @@ juce::PopupMenu::Options CustomLookAndFeel::getOptionsForComboBoxPopupMenu(
 }
 
 juce::Font CustomLookAndFeel::getPopupMenuFont() {
-  return juce::FontOptions{fontContainer.interMedium}.withPointHeight(12.f);
+  return interMedium().withPointHeight(12.f);
 }
 
 juce::Path CustomLookAndFeel::getTickShape(float) {
@@ -212,16 +205,27 @@ void CustomLookAndFeel::drawToggleButton(juce::Graphics& g,
   if (!button.getToggleState()) {
     drawBlueGradientButton(g, buttonBounds);
     g.setColour(getColor(Colors::paleBlue));
-    g.setFont(
-        juce::FontOptions{fontContainer.interMedium}.withPointHeight(12.f));
+    g.setFont(interMedium().withPointHeight(12.f));
   } else {
     drawOrangeGradientButton(g, buttonBounds);
 
     const juce::Colour textColour{0xFF501A0B};
     g.setColour(textColour);
-    g.setFont(juce::FontOptions{fontContainer.interBold}.withPointHeight(12.f));
+    g.setFont(interBold().withPointHeight(12.f));
   }
   g.drawText(button.getButtonText(), bounds, juce::Justification::centred,
              false);
+}
+
+juce::FontOptions CustomLookAndFeel::interMedium() {
+  static const auto result = juce::Typeface::createSystemTypefaceFor(
+      assets::InterMedium_ttf, assets::InterMedium_ttfSize);
+  return juce::FontOptions{result};
+}
+
+juce::FontOptions CustomLookAndFeel::interBold() {
+  static const auto result = juce::Typeface::createSystemTypefaceFor(
+      assets::InterBold_ttf, assets::InterBold_ttfSize);
+  return juce::FontOptions{result};
 }
 }  // namespace tremolo
