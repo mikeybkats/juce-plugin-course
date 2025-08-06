@@ -149,15 +149,15 @@ void CustomLookAndFeel::drawComboBox(juce::Graphics& g,
   const auto buttonBounds = boxBounds.reduced(buttonInsetWidth);
   drawBlueGradientButton(g, buttonBounds);
 
-  auto arrowZone = boxBounds.reduced(10.f, 11.f);
-  arrowZone.removeFromLeft(104);
-  juce::Path path;
-  path.startNewSubPath(arrowZone.getTopLeft());
-  path.lineTo(arrowZone.getCentreX(), arrowZone.getBottom());
-  path.lineTo(arrowZone.getTopRight());
+  auto arrowBounds = boxBounds.reduced(10.f, 11.f);
+  arrowBounds.removeFromLeft(104);
+  juce::Path arrow;
+  arrow.startNewSubPath(arrowBounds.getTopLeft());
+  arrow.lineTo(arrowBounds.getCentreX(), arrowBounds.getBottom());
+  arrow.lineTo(arrowBounds.getTopRight());
 
   g.setColour(getColor(Colors::paleBlue));
-  g.fillPath(path);
+  g.fillPath(arrow);
 }
 
 juce::Font CustomLookAndFeel::getComboBoxFont(juce::ComboBox&) {
