@@ -16,7 +16,7 @@ if(PROJECT_IS_TOP_LEVEL)
   if (NOT CMAKE_CXX_STANDARD)
     # Always use the newest C++ standard on green-field projects if possible.
     # C++ 20 is a good baseline.
-    set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_STANDARD 23)
   endif()
 
   # Links to C++ runtime statically
