@@ -37,9 +37,9 @@
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_COMPILE_WARNING_AS_ERROR": "ON",
         "BUILD_TESTS": "ON",
-        "BUILD_EXAMPLES": "ON",
-        "WARNINGS_AS_ERRORS": "ON"
+        "BUILD_EXAMPLES": "ON"
       }
     },
     {
@@ -55,9 +55,9 @@
       "generator": "Visual Studio 17 2022",
       "binaryDir": "vs-build",
       "cacheVariables": {
+        "CMAKE_COMPILE_WARNING_AS_ERROR": "ON",
         "BUILD_TESTS": "ON",
-        "BUILD_EXAMPLES": "ON",
-        "WARNINGS_AS_ERRORS": "ON"
+        "BUILD_EXAMPLES": "ON"
       }
     },
     {

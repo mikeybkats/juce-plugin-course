@@ -94,12 +94,8 @@ set(GCC_WARNINGS
     -Wno-maybe-uninitialized
 )
 
-option(WARNINGS_AS_ERRORS "Treat warnings as errors; This is helpful to avoid easy-to-overlook mistakes" OFF)
-if(WARNINGS_AS_ERRORS)
-  message(TRACE "Warnings are treated as errors")
-  list(APPEND CLANG_WARNINGS -Werror)
-  list(APPEND GCC_WARNINGS -Werror)
-  list(APPEND MSVC_WARNINGS /WX)
+if(CMAKE_COMPILE_WARNING_AS_ERROR)
+  message(STATUS "Warnings are treated as errors")
 endif()
 
 if(MSVC)
