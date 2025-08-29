@@ -462,3 +462,4 @@ FodyWeavers.xsd
 # IntelliJ
 .idea
 **/cmake-build*
+**/cmake-*-build
