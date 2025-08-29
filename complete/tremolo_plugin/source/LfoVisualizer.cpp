@@ -8,7 +8,7 @@ LfoVisualizer::LfoVisualizer(ReadAllLfoSamples readSamples,
       getCurrentSampleRate{std::move(getRate)},
       isBypassed{std::move(getIsBypassed)} {
   // preallocate
-  buffer.setSize(1, static_cast<int>(getRate()));
+  buffer.setSize(1, static_cast<int>(getCurrentSampleRate()));
 
   samplesToPath();
 }
