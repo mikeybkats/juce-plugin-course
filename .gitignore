@@ -8,6 +8,7 @@ release-build/
 out/
 vs-build/
 cmake-build/
+cmake-*-build/
 ninja-debug-build/
 ninja-release-build/
 done.md
@@ -462,4 +463,3 @@ FodyWeavers.xsd
 # IntelliJ
 .idea
 **/cmake-build*
-**/cmake-*-build
