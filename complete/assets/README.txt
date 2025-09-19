@@ -1,4 +1,4 @@
-This is a VST3 audio plugin named X developed by Y.
+This is a VST3 audio plugin named Tremolo developed by Jan Wilczek.
 
 To install it on your system:
 
