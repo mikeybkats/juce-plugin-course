@@ -7,6 +7,12 @@ cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
 set(CMAKE_POLICY_DEFAULT_CMP0141        NEW      CACHE STRING "" FORCE)
 
+# Sets the minimum deployment target
+# macOS 10.11 is the minimum required by JUCE
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11" CACHE STRING "" FORCE)
+# Builds a binary that works on Apple Silicon (arm64) and Intel-based Macs
+set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "" FORCE)
+
 # Sets a few variables, like PROJECT_NAME.
 project(JucePluginDevelopmentCourseTremoloPlugin)
 
