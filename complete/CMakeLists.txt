@@ -137,6 +137,18 @@ target_link_libraries(
     juce::juce_recommended_warning_flags
 )
 
+# Zip the .vst3 bundle with the README.txt file
+get_target_property(VST3_BUNDLE_PATH TremoloCoursePlugin_VST3 JUCE_PLUGIN_ARTEFACT_FILE)
+cmake_path(GET VST3_BUNDLE_PATH PARENT_PATH VST3_BUNDLE_OUTPUT_DIR)
+add_custom_command(
+  TARGET TremoloCoursePlugin_VST3
+  POST_BUILD
+  WORKING_DIRECTORY ${VST3_BUNDLE_OUTPUT_DIR}
+  # For some reason, if the README.txt is in a different directory, zipping it fails, thus, we need to copy it first
+  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/assets/README.txt" ${VST3_BUNDLE_OUTPUT_DIR}
+  COMMAND ${CMAKE_COMMAND} -E tar cvf "${VST3_BUNDLE_OUTPUT_DIR}/Tremolo.zip" --format=zip -- "${VST3_BUNDLE_PATH}" README.txt
+)
+
 # In Visual Studio this command provides a nice grouping of source files in "filters".
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
