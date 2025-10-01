@@ -1,0 +1,12 @@
+libs/
+build/
+xcode-build/
+release-build/
+out/
+vs-build/
+cmake-build/
+cmake-build-*/
+cmake-*-build/
+ninja-debug-build/
+ninja-release-build/
+
