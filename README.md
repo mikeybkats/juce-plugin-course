@@ -1,6 +1,7 @@
-# Tremolo
+# Tremolo Audio Plugin 
 
-![Cmake workflow success badge](https://github.com/JanWilczek/audio-plugin-template/actions/workflows/cmake.yml/badge.svg)
+Plugin project for the Official JUCE Audio Plugin Development Course
+
 
 ## Usage
 
