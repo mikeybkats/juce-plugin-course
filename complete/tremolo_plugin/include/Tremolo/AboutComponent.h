@@ -4,9 +4,12 @@ namespace tremolo {
 class AboutComponent : public juce::Component {
 public:
   AboutComponent() {
-    // popup.setAllowedPlacement(juce::BubbleComponent::BubblePlacement::below);
-    // getParentComponent()->addAndMakeVisible(popup);
-    // addChildComponent(popup);
+    popup.setAllowedPlacement(juce::BubbleComponent::BubblePlacement::below);
+    popup.setAlwaysOnTop(true);
+    popup.addToDesktop(0);
+
+    text.setColour(juce::Colours::orange);
+    text.setJustification(juce::Justification::centred);
   }
 
   void paint(juce::Graphics& g) override {
@@ -18,23 +21,15 @@ public:
   }
 
   void mouseEnter(const juce::MouseEvent& event) override {
-    popup.reset(new juce::BubbleMessageComponent);
-    popup->setAllowedPlacement(juce::BubbleComponent::BubblePlacement::below);
-    popup->setAlwaysOnTop(true);
-    popup->addToDesktop(0);
-
-    juce::AttributedString text{"message"};
-    text.setColour(juce::Colours::orange);
-    text.setJustification(juce::Justification::centred);
-
-    popup->showAt(this, text, 0, false);
+    popup.showAt(this, text, 0, false);
   }
 
   void mouseExit(const juce::MouseEvent& event) override {
-    popup->setVisible(false);
+    popup.setVisible(false);
   }
 
 private:
-  std::unique_ptr<juce::BubbleMessageComponent> popup;
+  juce::BubbleMessageComponent popup;
+  juce::AttributedString text{"message"};
 };
 }  // namespace tremolo
