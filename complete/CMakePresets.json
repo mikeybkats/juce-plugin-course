@@ -38,6 +38,14 @@
       }
     },
     {
+      "name": "release-with-tests",
+      "binaryDir": "cmake-release-build-with-tests",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BUILD_TESTS": "ON"
+      }
+    },
+    {
       "name": "release-with-debug-info",
       "binaryDir": "cmake-release-with-debug-info-build",
       "cacheVariables": {
@@ -99,6 +107,11 @@
       "configuration": "Release"
     },
     {
+      "name": "release-with-tests",
+      "configurePreset": "release-with-tests",
+      "configuration": "Release"
+    },
+    {
       "name": "release-with-debug-info",
       "configurePreset": "release-with-debug-info",
       "configuration": "RelWithDebInfo"
@@ -134,6 +147,11 @@
       "name": "default-with-examples",
       "inherits": "default-with-tests",
       "configurePreset": "default-with-tests"
+    },
+    {
+      "name": "release-with-tests",
+      "inherits": "default-with-tests",
+      "configurePreset": "release-with-tests"
     },
     {
       "name": "ninja-debug",
