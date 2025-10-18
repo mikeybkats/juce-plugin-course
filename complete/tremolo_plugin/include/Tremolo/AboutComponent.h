@@ -8,7 +8,8 @@ public:
     popup.setAlwaysOnTop(true);
     popup.addToDesktop(0);
 
-    text.setColour(juce::Colours::orange);
+    text.setColour(
+        CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::paleBlue));
     text.setJustification(juce::Justification::centred);
   }
 
@@ -28,6 +29,8 @@ public:
 
 private:
   juce::BubbleMessageComponent popup;
-  juce::AttributedString text{"message"};
+  juce::AttributedString text{JucePlugin_Manufacturer
+                              "\n" JucePlugin_Name "\n" __DATE__ " " __TIME__
+                              " v" JucePlugin_VersionString};
 };
 }  // namespace tremolo
