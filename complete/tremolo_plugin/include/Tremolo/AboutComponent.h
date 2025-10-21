@@ -1,9 +1,9 @@
 #pragma once
 
 namespace tremolo {
-class About : private juce::MouseListener {
+class MessageOnClick : private juce::MouseListener {
 public:
-  About(juce::Component& clickTarget, juce::String messageOnClick)
+  MessageOnClick(juce::Component& clickTarget, juce::String messageOnClick)
       : target{clickTarget}, message{std::move(messageOnClick)} {
     popup.setAllowedPlacement(juce::BubbleComponent::BubblePlacement::below);
     popup.setAlwaysOnTop(true);
@@ -15,7 +15,7 @@ public:
     target.addMouseListener(this, true);
   }
 
-  ~About() override { target.removeMouseListener(this); }
+  ~MessageOnClick() override { target.removeMouseListener(this); }
 
   void mouseDown(const juce::MouseEvent&) override { displayPopup(); }
 
@@ -43,6 +43,6 @@ private:
   juce::AttributedString message;
   juce::BubbleMessageComponent popup;
 
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(About)
+  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MessageOnClick)
 };
 }  // namespace tremolo
