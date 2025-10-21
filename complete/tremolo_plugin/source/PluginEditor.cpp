@@ -7,7 +7,8 @@ PluginEditor::PluginEditor(PluginProcessor& p)
       lfoVisualizer{
           [&p](juce::AudioBuffer<float>& b) { p.readAllLfoSamples(b); },
           [&p] { return p.getSampleRateThreadSafe(); },
-          [&p] { return p.getParameterRefs().bypassed.get(); }} {
+          [&p] { return p.getParameterRefs().bypassed.get(); }},
+      about{logo} {
   background.setImage(juce::ImageCache::getFromMemory(
       assets::Background_png, assets::Background_pngSize));
   addAndMakeVisible(background);
@@ -58,8 +59,6 @@ PluginEditor::PluginEditor(PluginProcessor& p)
       lookAndFeel.getColor(CustomLookAndFeel::Colors::orange));
   lfoVisualizer.setBackgroundColor(juce::Colours::transparentBlack);
   addAndMakeVisible(lfoVisualizer);
-
-  addAndMakeVisible(about);
 
   setLookAndFeel(&lookAndFeel);
 
@@ -123,9 +122,5 @@ void PluginEditor::resized() {
   bypassLabelBounds.removeFromLeft(396);
 
   bypassLabel.setBounds(bypassLabelBounds);
-
-  constexpr auto aboutSize = 20;
-  about.setBounds(
-      getLocalBounds().removeFromRight(aboutSize).removeFromTop(aboutSize));
 }
 }  // namespace tremolo
