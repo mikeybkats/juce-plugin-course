@@ -3,10 +3,13 @@
 namespace tremolo {
 class MessageOnClick : private juce::MouseListener {
 public:
-  MessageOnClick(juce::Component& clickTarget, juce::String messageOnClick)
+  MessageOnClick(juce::Component& topLevelComponent,
+                 juce::Component& clickTarget,
+                 juce::String messageOnClick)
       : target{clickTarget}, message{std::move(messageOnClick)} {
     popup.setAllowedPlacement(juce::BubbleComponent::BubblePlacement::below);
     popup.setAlwaysOnTop(true);
+    topLevelComponent.addChildComponent(popup);
 
     message.setColour(
         CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::paleBlue));
@@ -21,21 +24,8 @@ public:
 
 private:
   void displayPopup() {
-    addPopupToTargetParent();
-
     if (!popup.isVisible()) {
       popup.showAt(&target, message, 0, true);
-    }
-  }
-
-  void addPopupToTargetParent() {
-    if (popup.getParentComponent() == nullptr) {
-      if (auto* parent = target.getParentComponent()) {
-        parent->addChildComponent(popup);
-      } else {
-        DBG("Cannot display the popup; no parent of the target.");
-        jassertfalse;
-      }
     }
   }
 
