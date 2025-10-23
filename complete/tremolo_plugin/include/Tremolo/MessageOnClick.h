@@ -17,7 +17,7 @@ public:
 
   ~MessageOnClick() override { target.removeMouseListener(this); }
 
-  void mouseDown(const juce::MouseEvent&) override { displayPopup(); }
+  void mouseDoubleClick(const juce::MouseEvent&) override { displayPopup(); }
 
 private:
   void displayPopup() {
