@@ -6,10 +6,11 @@ public:
   MessageOnClick(juce::Component& topLevelComponent,
                  juce::Component& clickTarget,
                  juce::String messageOnClick)
-      : target{clickTarget}, message{std::move(messageOnClick)} {
+      : parent{topLevelComponent},
+        target{clickTarget},
+        message{std::move(messageOnClick)} {
     popup.setAllowedPlacement(juce::BubbleComponent::BubblePlacement::below);
     popup.setAlwaysOnTop(true);
-    topLevelComponent.addChildComponent(popup);
 
     message.setColour(
         CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::paleBlue));
@@ -24,11 +25,15 @@ public:
 
 private:
   void displayPopup() {
+    // only the first call to addChildComponent() has an effect
+    parent.addChildComponent(popup);
+
     if (!popup.isVisible()) {
       popup.showAt(&target, message, 0, true);
     }
   }
 
+  juce::Component& parent;
   juce::Component& target;
   juce::AttributedString message;
   juce::BubbleMessageComponent popup;
