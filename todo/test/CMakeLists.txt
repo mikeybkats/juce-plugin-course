@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.22)
-
 project(TremoloCoursePluginTest)
 
 # Signals to CMake that we want to run tests from this directory.
