@@ -58,7 +58,7 @@ void LfoVisualizer::updateSamplesQueue(double timestampSeconds) {
   const auto newAvailableSamples = buffer.getNumSamples();
 
   if (isBypassed()) {
-    const auto secondsPassed = timestampSeconds - lastTimestampSeconds.value();
+    const auto secondsPassed = timestampSeconds - *lastTimestampSeconds;
     const auto samplesPassed =
         static_cast<size_t>(getCurrentSampleRate() * secondsPassed);
     lfoSamplesToPlot.pushBackZeros(samplesPassed);
