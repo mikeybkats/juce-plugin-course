@@ -36,3 +36,7 @@ cmake --build --preset default
 
 The first run will take the most time because the dependencies (CPM and JUCE) need to be downloaded.
 
+## License
+
+We use the incredibly liberal ["Unlicense" license](LICENSE.md). You can basically do whatever you want with the code.
+
