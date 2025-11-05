@@ -130,6 +130,10 @@ private:
   static constexpr auto modulationDepth = 0.4f;
 
   static float triangle(float phase) {
+    // offset the phase by pi/2 to return 0 if phase equals 0
+    // (otherwise, the waveform starts at 1)
+    phase -= juce::MathConstants<float>::halfPi;
+
     // Source:
     // https://thewolfsound.com/sine-saw-square-triangle-pulse-basic-waveforms-in-synthesis/#triangle
     const auto ft = phase / juce::MathConstants<float>::twoPi;
