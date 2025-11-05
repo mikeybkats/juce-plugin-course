@@ -107,15 +107,18 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
     buffer.clear(channelToClear, 0, buffer.getNumSamples());
   }
 
+  const auto bypassedAndNotTransitioning =
+      parameters.bypassed.get() && !bypassTransitionSmoother.isTransitioning();
+
   // update the parameters
-  tremolo.setModulationRate(parameters.rate);
+  tremolo.setModulationRate(parameters.rate, bypassedAndNotTransitioning);
   tremolo.setLfoWaveform(
-      static_cast<Tremolo::LfoWaveform>(parameters.waveform.getIndex()));
+      static_cast<Tremolo::LfoWaveform>(parameters.waveform.getIndex()),
+      bypassedAndNotTransitioning);
 
   bypassTransitionSmoother.setBypass(parameters.bypassed);
 
-  if (parameters.bypassed.get() &&
-      !bypassTransitionSmoother.isTransitioning()) {
+  if (bypassedAndNotTransitioning) {
     // avoid processing if the plugin is bypassed
     return;
   }
