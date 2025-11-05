@@ -131,6 +131,7 @@ private:
 
   static float triangle(float phase) {
     // offset the phase by pi/2 to return 0 if phase equals 0
+    // and match the sine waveform
     // (otherwise, the waveform starts at 1)
     phase -= juce::MathConstants<float>::halfPi;
 
@@ -162,7 +163,10 @@ private:
   }
 
   std::array<juce::dsp::Oscillator<float>, 2u> lfos{
-      juce::dsp::Oscillator<float>{[](auto phase) { return std::sin(phase); }},
+      juce::dsp::Oscillator<float>{[](auto phase) {
+        // start phase is -pi -> change it to 0 to match the mathematical sine
+        return std::sin(phase + juce::MathConstants<float>::pi);
+      }},
       juce::dsp::Oscillator<float>{triangle}};
 
   LfoWaveform currentLfo = LfoWaveform::sine;
