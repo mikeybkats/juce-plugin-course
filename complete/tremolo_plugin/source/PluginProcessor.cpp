@@ -154,6 +154,9 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
   }
 
   bypassTransitionSmoother.setBypassForced(parameters.bypassed);
+  tremolo.setLfoWaveform(
+      static_cast<Tremolo::LfoWaveform>(parameters.waveform.getIndex()), true);
+  tremolo.setModulationRate(parameters.rate, true);
 }
 
 Parameters& PluginProcessor::getParameterRefs() noexcept {

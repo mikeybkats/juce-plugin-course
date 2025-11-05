@@ -31,16 +31,20 @@ public:
     lfoSamples.resize(4u * static_cast<size_t>(expectedMaxFramesPerBlock));
   }
 
-  void setModulationRate(float rateHz) noexcept {
+  void setModulationRate(float rateHz, bool force = false) noexcept {
     for (auto& lfo : lfos) {
-      lfo.setFrequency(rateHz);
+      lfo.setFrequency(rateHz, force);
     }
   }
 
-  void setLfoWaveform(LfoWaveform waveform) {
+  void setLfoWaveform(LfoWaveform waveform, bool force = false) {
     jassert(waveform == LfoWaveform::sine || waveform == LfoWaveform::triangle);
 
     lfoToSet = waveform;
+
+    if (force) {
+      currentLfo = waveform;
+    }
   }
 
   void process(juce::AudioBuffer<float>& buffer) noexcept {
