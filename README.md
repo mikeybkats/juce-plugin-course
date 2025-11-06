@@ -11,7 +11,7 @@
 
 <img alt="Tremolo user interface" src="docs/UI.png" width="512px">
 
-Tremolo audio plugin project used for the Official JUCE Audio Plugin Development Course 🎓
+Tremolo audio plugin project used for the [Official JUCE Audio Plugin Development Course](https://www.wolfsoundacademy.com/juce) 🎓
 
 ![JUCE audio plugin development course logo](docs/JUCE_Course_logo.svg)
 
@@ -51,7 +51,7 @@ You need to have the following software installed your machine:
 
 ## 🚀 Getting Started
 
-**Detailed instructions on the setup process are described in the course.**
+**Detailed instructions on the setup process [are described in the course.](https://www.wolfsoundacademy.com/juce)**
 
 1. Click “Use this template” on GitHub to create your own copy and begin your project.
 2. Clone **your repository** locally.
