@@ -1,6 +1,8 @@
 #pragma once
 
 namespace tremolo {
+enum class ApplySmoothing { no, yes };
+
 class Tremolo {
 public:
   enum class LfoWaveform : size_t {
@@ -8,7 +10,7 @@ public:
     triangle = 1,
   };
 
-  Tremolo() { setModulationRateHz(5.f, true); }
+  Tremolo() { setModulationRateHz(5.f, ApplySmoothing::no); }
 
   void prepare(double sampleRate, int expectedMaxFramesPerBlock) {
     const juce::dsp::ProcessSpec processSpec{
@@ -27,26 +29,20 @@ public:
     lfoSamples.resize(4u * static_cast<size_t>(expectedMaxFramesPerBlock));
   }
 
-  /**
-   * @param rateHz
-   * @param force if true, transition smoothing is skipped
-   */
-  void setModulationRateHz(float rateHz, bool force = false) noexcept {
+  void setModulationRateHz(float rateHz,
+                           ApplySmoothing applySmoothing) noexcept {
+    const auto force = applySmoothing == ApplySmoothing::no;
     for (auto& lfo : lfos) {
       lfo.setFrequency(rateHz, force);
     }
   }
 
-  /**
-   * @param waveform
-   * @param force if true, transition smoothing is skipped
-   */
-  void setLfoWaveform(LfoWaveform waveform, bool force = false) {
+  void setLfoWaveform(LfoWaveform waveform, ApplySmoothing applySmoothing) {
     jassert(waveform == LfoWaveform::sine || waveform == LfoWaveform::triangle);
 
     lfoToSet = waveform;
 
-    if (force) {
+    if (applySmoothing == ApplySmoothing::no) {
       currentLfo = waveform;
     }
   }
