@@ -1,4 +1,5 @@
 
+#include "tremolo_plugin/include/Tremolo/Tremolo.h"
 namespace tremolo {
 PluginProcessor::PluginProcessor()
     : AudioProcessor(
@@ -107,16 +108,26 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
     buffer.clear(channelToClear, 0, buffer.getNumSamples());
   }
 
+  const auto bypassedAndNotTransitioning =
+      parameters.bypassed.get() && !bypassTransitionSmoother.isTransitioning();
+  const auto applySmoothing =
+      bypassedAndNotTransitioning ? ApplySmoothing::no : ApplySmoothing::yes;
+
   // update the parameters
-  tremolo.setModulationRate(parameters.rate);
+  // Skip smoothing if fully bypassed to avoid LFO waveform morphing
+  // when parameters change under bypass ON.
+  // For example, if the LFO waveform is the sine, and the user selects
+  // the triangle under bypass ON, they will see a curved triangle slope
+  // on toggling bypass OFF, which is unexpected.
+  tremolo.setModulationRateHz(parameters.rate, applySmoothing);
   tremolo.setLfoWaveform(
-      static_cast<Tremolo::LfoWaveform>(parameters.waveform.getIndex()));
+      static_cast<Tremolo::LfoWaveform>(parameters.waveform.getIndex()),
+      applySmoothing);
 
   bypassTransitionSmoother.setBypass(parameters.bypassed);
 
-  if (parameters.bypassed.get() &&
-      !bypassTransitionSmoother.isTransitioning()) {
-    // avoid processing if the plugin is bypassed
+  if (bypassedAndNotTransitioning) {
+    // avoid processing if the plugin is fully bypassed
     return;
   }
 
@@ -153,7 +164,16 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
     DBG(result.getErrorMessage());
   }
 
+  // Skip smoothing to avoid LFO waveform morphing
+  // when loading a project or a preset.
+  // For example, the default LFO waveform is the sine. If the project or preset
+  // has the triangle selected, the user will see a curved triangle slope
+  // on load, which is unexpected.
   bypassTransitionSmoother.setBypassForced(parameters.bypassed);
+  tremolo.setLfoWaveform(
+      static_cast<Tremolo::LfoWaveform>(parameters.waveform.getIndex()),
+      ApplySmoothing::no);
+  tremolo.setModulationRateHz(parameters.rate, ApplySmoothing::no);
 }
 
 Parameters& PluginProcessor::getParameterRefs() noexcept {

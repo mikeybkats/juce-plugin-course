@@ -1,6 +1,8 @@
 #pragma once
 
 namespace tremolo {
+enum class ApplySmoothing { no, yes };
+
 class Tremolo {
 public:
   enum class LfoWaveform : size_t {
@@ -8,11 +10,7 @@ public:
     triangle = 1,
   };
 
-  Tremolo() {
-    for (auto& lfo : lfos) {
-      lfo.setFrequency(5.f /* Hz */, true);
-    }
-  }
+  Tremolo() { setModulationRateHz(5.f, ApplySmoothing::no); }
 
   void prepare(double sampleRate, int expectedMaxFramesPerBlock) {
     const juce::dsp::ProcessSpec processSpec{
@@ -31,16 +29,24 @@ public:
     lfoSamples.resize(4u * static_cast<size_t>(expectedMaxFramesPerBlock));
   }
 
-  void setModulationRate(float rateHz) noexcept {
+  void setModulationRateHz(
+      float rateHz,
+      ApplySmoothing applySmoothing = ApplySmoothing::yes) noexcept {
+    const auto force = applySmoothing == ApplySmoothing::no;
     for (auto& lfo : lfos) {
-      lfo.setFrequency(rateHz);
+      lfo.setFrequency(rateHz, force);
     }
   }
 
-  void setLfoWaveform(LfoWaveform waveform) {
+  void setLfoWaveform(LfoWaveform waveform,
+                      ApplySmoothing applySmoothing = ApplySmoothing::yes) {
     jassert(waveform == LfoWaveform::sine || waveform == LfoWaveform::triangle);
 
     lfoToSet = waveform;
+
+    if (applySmoothing == ApplySmoothing::no) {
+      currentLfo = waveform;
+    }
   }
 
   void process(juce::AudioBuffer<float>& buffer) noexcept {
@@ -118,9 +124,14 @@ private:
   static constexpr auto modulationDepth = 0.4f;
 
   static float triangle(float phase) {
+    // offset the phase by pi/2 to return 0 if phase equals 0
+    // and match the sine waveform
+    // (otherwise, the waveform starts at 1)
+    const auto offsetPhase = phase - juce::MathConstants<float>::halfPi;
+
     // Source:
     // https://thewolfsound.com/sine-saw-square-triangle-pulse-basic-waveforms-in-synthesis/#triangle
-    const auto ft = phase / juce::MathConstants<float>::twoPi;
+    const auto ft = offsetPhase / juce::MathConstants<float>::twoPi;
     return 4.f * std::abs(ft - std::floor(ft + 0.5f)) - 1.f;
   }
 
@@ -146,7 +157,10 @@ private:
   }
 
   std::array<juce::dsp::Oscillator<float>, 2u> lfos{
-      juce::dsp::Oscillator<float>{[](auto phase) { return std::sin(phase); }},
+      juce::dsp::Oscillator<float>{[](auto phase) {
+        // start phase is -pi -> change it to 0 to match the mathematical sine
+        return std::sin(phase + juce::MathConstants<float>::pi);
+      }},
       juce::dsp::Oscillator<float>{triangle}};
 
   LfoWaveform currentLfo = LfoWaveform::sine;
