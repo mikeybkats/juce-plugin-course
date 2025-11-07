@@ -111,8 +111,11 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
       parameters.bypassed.get() && !bypassTransitionSmoother.isTransitioning();
 
   // update the parameters
-  // force updates (=skip transitions) if fully bypassed to avoid peculiar
-  // behavior when parameters change under bypass ON
+  // Force updates (=skip transitions) if fully bypassed to avoid smoothing
+  // when parameters change under bypass ON.
+  // For example, if the LFO waveform is the sine, and the user selects
+  // the triangle under bypass ON, they will see a curved triangle slope
+  // on toggling bypass OFF, which is unexpected.
   tremolo.setModulationRateHz(parameters.rate, bypassedAndNotTransitioning);
   tremolo.setLfoWaveform(
       static_cast<Tremolo::LfoWaveform>(parameters.waveform.getIndex()),
@@ -158,8 +161,11 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
     DBG(result.getErrorMessage());
   }
 
-  // force updates (=skip transitions) to avoid peculiar behavior
-  // when loading a project or a preset
+  // Force updates (=skip transitions) to avoid smoothing
+  // when loading a project or a preset.
+  // For example, the default LFO waveform is the sine. If the project or preset
+  // has the triangle selected, the user will see a curved triangle slope
+  // on load, which is unexpected.
   bypassTransitionSmoother.setBypassForced(parameters.bypassed);
   tremolo.setLfoWaveform(
       static_cast<Tremolo::LfoWaveform>(parameters.waveform.getIndex()), true);
