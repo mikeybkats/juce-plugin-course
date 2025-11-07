@@ -29,15 +29,17 @@ public:
     lfoSamples.resize(4u * static_cast<size_t>(expectedMaxFramesPerBlock));
   }
 
-  void setModulationRateHz(float rateHz,
-                           ApplySmoothing applySmoothing) noexcept {
+  void setModulationRateHz(
+      float rateHz,
+      ApplySmoothing applySmoothing = ApplySmoothing::yes) noexcept {
     const auto force = applySmoothing == ApplySmoothing::no;
     for (auto& lfo : lfos) {
       lfo.setFrequency(rateHz, force);
     }
   }
 
-  void setLfoWaveform(LfoWaveform waveform, ApplySmoothing applySmoothing) {
+  void setLfoWaveform(LfoWaveform waveform,
+                      ApplySmoothing applySmoothing = ApplySmoothing::yes) {
     jassert(waveform == LfoWaveform::sine || waveform == LfoWaveform::triangle);
 
     lfoToSet = waveform;
