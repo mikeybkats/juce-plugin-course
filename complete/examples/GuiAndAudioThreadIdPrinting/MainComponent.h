@@ -34,8 +34,10 @@ public:
     DBG("prepareToPlay() thread ID: " << getCurrentThreadId());
   }
 
-  void getNextAudioBlock(const juce::AudioSourceChannelInfo&) override {
+  void getNextAudioBlock(const juce::AudioSourceChannelInfo& info) override {
     DBG("getNextAudioBlock() thread ID: " << getCurrentThreadId());
+
+    info.clearActiveBufferRegion();
   }
 
   void releaseResources() override {
