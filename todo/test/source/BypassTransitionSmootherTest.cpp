@@ -1,5 +1,6 @@
 #include <tremolo_plugin/tremolo_plugin.h>
 #include <gtest/gtest.h>
+#include <span>
 
 namespace tremolo {
 class BypassTransitionSmootherTest : public testing::Test {
