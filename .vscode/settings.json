@@ -1,0 +1,13 @@
+{
+  "cmake.sourceDirectory": "/Users/michaelbarakat/projects/tremolo-juce-course/todo",
+  "cmake.cmakePath": "/opt/homebrew/bin/cmake",
+  "terminal.integrated.env.osx": {
+    "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:${env:PATH}"
+  },
+  "terminal.integrated.automationProfile.osx": {
+    "path": "/bin/zsh",
+    "env": {
+      "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:${env:PATH}"
+    }
+  }
+}

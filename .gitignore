@@ -1,6 +1,5 @@
 .DS_Store
 .vs
-.vscode
 libs/
 build/
 xcode-build/

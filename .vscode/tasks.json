@@ -1,0 +1,265 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "cmake: configure todo default",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S",
+        "${workspaceFolder}/todo",
+        "-B",
+        "${workspaceFolder}/todo/cmake-build",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "cmake: build todo default",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["--build", "${workspaceFolder}/todo/cmake-build"],
+      "dependsOn": "cmake: configure todo default",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "cmake: build todo standalone default",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/todo/cmake-build",
+        "--target",
+        "TremoloCoursePlugin_Standalone"
+      ],
+      "dependsOn": "cmake: configure todo default",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "cmake: configure todo ninja-debug",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S",
+        "${workspaceFolder}/todo",
+        "-B",
+        "${workspaceFolder}/todo/ninja-debug-build",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        "-DCMAKE_COMPILE_WARNING_AS_ERROR=ON",
+        "-DBUILD_TESTS=ON"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "cmake: build todo ninja-debug",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["--build", "${workspaceFolder}/todo/ninja-debug-build"],
+      "dependsOn": "cmake: configure todo ninja-debug",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "cmake: build todo standalone ninja-debug",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/todo/ninja-debug-build",
+        "--target",
+        "TremoloCoursePlugin_Standalone"
+      ],
+      "dependsOn": "cmake: configure todo ninja-debug",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "cmake: configure todo ninja-release",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S",
+        "${workspaceFolder}/todo",
+        "-B",
+        "${workspaceFolder}/todo/ninja-release-build",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        "-DCMAKE_COMPILE_WARNING_AS_ERROR=ON",
+        "-DBUILD_TESTS=ON"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "cmake: build todo ninja-release",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["--build", "${workspaceFolder}/todo/ninja-release-build"],
+      "dependsOn": "cmake: configure todo ninja-release",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "cmake: build todo standalone ninja-release",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/todo/ninja-release-build",
+        "--target",
+        "TremoloCoursePlugin_Standalone"
+      ],
+      "dependsOn": "cmake: configure todo ninja-release",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "cmake: configure complete default",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S",
+        "${workspaceFolder}/complete",
+        "-B",
+        "${workspaceFolder}/complete/cmake-build",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "cmake: build complete default",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["--build", "${workspaceFolder}/complete/cmake-build"],
+      "dependsOn": "cmake: configure complete default",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "cmake: configure complete ninja-debug",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S",
+        "${workspaceFolder}/complete",
+        "-B",
+        "${workspaceFolder}/complete/ninja-debug-build",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        "-DCMAKE_COMPILE_WARNING_AS_ERROR=ON",
+        "-DBUILD_TESTS=ON",
+        "-DBUILD_EXAMPLES=ON"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "cmake: build complete ninja-debug",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["--build", "${workspaceFolder}/complete/ninja-debug-build"],
+      "dependsOn": "cmake: configure complete ninja-debug",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "cmake: configure complete ninja-release",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S",
+        "${workspaceFolder}/complete",
+        "-B",
+        "${workspaceFolder}/complete/ninja-release-build",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        "-DCMAKE_COMPILE_WARNING_AS_ERROR=ON",
+        "-DBUILD_TESTS=ON",
+        "-DBUILD_EXAMPLES=ON"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "cmake: build complete ninja-release",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["--build", "${workspaceFolder}/complete/ninja-release-build"],
+      "dependsOn": "cmake: configure complete ninja-release",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "diag: shell — env & cmake (repo root)",
+      "type": "shell",
+      "command": "echo \"== PWD ==\" && pwd && echo \"== uname ==\" && uname -m && echo \"== command -v cmake ==\" && command -v cmake && echo \"== cmake --version (PATH) ==\" && cmake --version && echo \"== type cmake (zsh) ==\" && (type cmake 2>/dev/null || true) && echo \"== SHELL ==\" && echo \"$SHELL\"",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "diag: shell — cmake --preset default (cwd=complete)",
+      "type": "shell",
+      "command": "cmake --preset=default",
+      "options": {
+        "cwd": "${workspaceFolder}/complete"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "diag: shell — same command, login zsh (-lc)",
+      "type": "shell",
+      "command": "cd \"${workspaceFolder}/complete\" && cmake --preset=default",
+      "options": {
+        "shell": {
+          "executable": "/bin/zsh",
+          "args": ["-lc"]
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "diag: shell build complete default (explicit -S/-B, no preset)",
+      "type": "shell",
+      "command": "cmake -S \"${workspaceFolder}/complete\" -B \"${workspaceFolder}/complete/cmake-build\" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && cmake --build \"${workspaceFolder}/complete/cmake-build\"",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "diag: shell build complete default (cmake --preset chain)",
+      "type": "shell",
+      "command": "cd \"${workspaceFolder}/complete\" && cmake --preset=default && cmake --build --preset=default",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}
