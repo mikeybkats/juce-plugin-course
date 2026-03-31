@@ -168,6 +168,23 @@
       "problemMatcher": ["$gcc"]
     },
     {
+      "label": "host: open REAPER",
+      "type": "shell",
+      "command": "open -a \"REAPER\"",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "debug: prepare REAPER (complete ninja-debug)",
+      "dependsOrder": "sequence",
+      "dependsOn": ["cmake: build complete ninja-debug", "host: open REAPER"],
+      "problemMatcher": []
+    },
+    {
       "label": "cmake: configure complete ninja-release",
       "type": "shell",
       "command": "cmake",

@@ -80,7 +80,7 @@
       "preLaunchTask": "cmake: build todo ninja-release"
     },
     {
-      "name": "Tremolo Complete (ninja-debug)",
+      "name": "Tremolo Complete Standalone (ninja-debug)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/complete/ninja-debug-build/TremoloCoursePlugin_artefacts/Debug/Standalone/Tremolo.app/Contents/MacOS/Tremolo",
@@ -119,7 +119,7 @@
       "preLaunchTask": "cmake: build complete ninja-debug"
     },
     {
-      "name": "Tremolo Complete (ninja-release)",
+      "name": "Tremolo Complete Standalone (ninja-release)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/complete/ninja-release-build/TremoloCoursePlugin_artefacts/Release/Standalone/Tremolo.app/Contents/MacOS/Tremolo",
@@ -156,6 +156,22 @@
       "MIMode": "lldb",
       "targetArchitecture": "arm64",
       "preLaunchTask": "cmake: build complete ninja-release"
+    },
+    {
+      "name": "Tremolo Complete AU (REAPER attach)",
+      "type": "lldb",
+      "request": "attach",
+      "program": "/Applications/REAPER.app/Contents/MacOS/REAPER",
+      "waitFor": true,
+      "preLaunchTask": "debug: prepare REAPER (complete ninja-debug)"
+    },
+    {
+      "name": "Tremolo Complete VST3 (REAPER attach)",
+      "type": "lldb",
+      "request": "attach",
+      "program": "/Applications/REAPER.app/Contents/MacOS/REAPER",
+      "waitFor": true,
+      "preLaunchTask": "debug: prepare REAPER (complete ninja-debug)"
     }
   ]
 }

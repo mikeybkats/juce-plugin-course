@@ -1,0 +1,29 @@
+If:
+  PathMatch: .*/complete/tremolo_plugin/.*\.(h|hpp|cpp)
+CompileFlags:
+  Add:
+    - -std=gnu++2b
+    - -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1
+    - -DDEBUG=1
+    - -I/Users/michaelbarakat/projects/tremolo-juce-course/complete
+    - -I/Users/michaelbarakat/projects/tremolo-juce-course/complete/libs/juce/modules
+    - -DTREMOLO_PLUGIN_NAME=\"Tremolo\"
+
+---
+If:
+  PathMatch: .*/todo/tremolo_plugin/.*\.(h|hpp|cpp)
+CompileFlags:
+  Add:
+    - -std=gnu++2b
+    - -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1
+    - -DDEBUG=1
+    - -I/Users/michaelbarakat/projects/tremolo-juce-course/todo
+    - -I/Users/michaelbarakat/projects/tremolo-juce-course/todo/libs/juce/modules
+    - -DTREMOLO_PLUGIN_NAME=\"Tremolo\"
+
+---
+If:
+  PathMatch: .*/(complete|todo)/tremolo_plugin/.*\.(h|hpp|cpp)
+Diagnostics:
+  Suppress:
+    - unused-includes
