@@ -145,6 +145,7 @@ bool PluginProcessor::hasEditor() const {
 
 // This function will be called to create an instance of the editor
 juce::AudioProcessorEditor* PluginProcessor::createEditor() {
+  // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
   return new PluginEditor(*this);
 }
 
@@ -161,6 +162,7 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
   if (result.failed()) {
     // Notify the user that reading parameters failed.
     // Currently, we just write the error message to the standard error stream.
+    // NOLINTNEXTLINE(cppcoreguidelines-avoid-do-while)
     DBG(result.getErrorMessage());
   }
 
@@ -198,5 +200,6 @@ double PluginProcessor::getSampleRateThreadSafe() const noexcept {
 // This creates new instances of the plugin.
 // This function definition must be in the global namespace.
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
+  // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
   return new tremolo::PluginProcessor();
 }
