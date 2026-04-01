@@ -1,5 +1,18 @@
 #pragma once
 
+#include <juce_audio_basics/juce_audio_basics.h>
+#include <juce_core/juce_core.h>
+#include <juce_dsp/juce_dsp.h>
+
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <cstddef>
+#include <ranges>
+#include <vector>
+
+#include "SampleFifo.h"
+
 namespace tremolo {
 enum class ApplySmoothing { no, yes };
 
