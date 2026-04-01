@@ -1,5 +1,12 @@
+Diagnostics:
+  UnusedIncludes: None
+  Suppress:
+    - cppcoreguidelines-owning-memory
+    - cppcoreguidelines-avoid-do-while
+
+---
 If:
-  PathMatch: .*/complete/tremolo_plugin/.*\.(h|hpp|cpp)
+  PathMatch: (^|.*/)complete/tremolo_plugin/.*\.(h|hpp|cpp)
 CompileFlags:
   Add:
     - -std=gnu++2b
@@ -7,11 +14,12 @@ CompileFlags:
     - -DDEBUG=1
     - -I/Users/michaelbarakat/projects/tremolo-juce-course/complete
     - -I/Users/michaelbarakat/projects/tremolo-juce-course/complete/libs/juce/modules
-    - -DTREMOLO_PLUGIN_NAME=\"Tremolo\"
+    - -I/Users/michaelbarakat/projects/tremolo-juce-course/complete/cmake-build/juce_binarydata_tremolo_plugin_assets/JuceLibraryCode
+    - '-DTREMOLO_PLUGIN_NAME="Tremolo"'
 
 ---
 If:
-  PathMatch: .*/todo/tremolo_plugin/.*\.(h|hpp|cpp)
+  PathMatch: (^|.*/)todo/tremolo_plugin/.*\.(h|hpp|cpp)
 CompileFlags:
   Add:
     - -std=gnu++2b
@@ -19,11 +27,6 @@ CompileFlags:
     - -DDEBUG=1
     - -I/Users/michaelbarakat/projects/tremolo-juce-course/todo
     - -I/Users/michaelbarakat/projects/tremolo-juce-course/todo/libs/juce/modules
-    - -DTREMOLO_PLUGIN_NAME=\"Tremolo\"
+    - -I/Users/michaelbarakat/projects/tremolo-juce-course/todo/cmake-build/juce_binarydata_tremolo_plugin_assets/JuceLibraryCode
+    - '-DTREMOLO_PLUGIN_NAME="Tremolo"'
 
----
-If:
-  PathMatch: .*/(complete|todo)/tremolo_plugin/.*\.(h|hpp|cpp)
-Diagnostics:
-  Suppress:
-    - unused-includes

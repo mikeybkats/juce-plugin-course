@@ -1,21 +1,28 @@
 {
   "cmake.sourceDirectory": "/Users/michaelbarakat/projects/tremolo-juce-course/complete",
   "cmake.cmakePath": "/opt/homebrew/bin/cmake",
+  "cmake.configureEnvironment": {
+    "LDFLAGS": ""
+  },
+  "cmake.buildEnvironment": {
+    "LDFLAGS": ""
+  },
+  "C_Cpp.intelliSenseEngine": "disabled",
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-  "C_Cpp.default.compileCommands": "/Users/michaelbarakat/projects/tremolo-juce-course/complete/ninja-debug-build/compile_commands.json",
-  "C_Cpp.default.includePath": [
-    "/Users/michaelbarakat/projects/tremolo-juce-course/complete/**"
-  ],
   "clangd.arguments": [
-    "--compile-commands-dir=/Users/michaelbarakat/projects/tremolo-juce-course/complete/ninja-debug-build"
+    "--background-index",
+    "--header-insertion=never",
+    "--completion-style=detailed"
   ],
   "terminal.integrated.env.osx": {
-    "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:${env:PATH}"
+    "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:${env:PATH}",
+    "LDFLAGS": ""
   },
   "terminal.integrated.automationProfile.osx": {
     "path": "/bin/zsh",
     "env": {
-      "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:${env:PATH}"
+      "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:${env:PATH}",
+      "LDFLAGS": ""
     }
   }
 }
