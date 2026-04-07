@@ -1,5 +1,5 @@
 {
-  "cmake.sourceDirectory": "/Users/michaelbarakat/projects/tremolo-juce-course/complete",
+  "cmake.sourceDirectory": "/Users/michaelbarakat/projects/tremolo-juce-course/todo",
   "cmake.cmakePath": "/opt/homebrew/bin/cmake",
   "cmake.configureEnvironment": {
     "LDFLAGS": ""

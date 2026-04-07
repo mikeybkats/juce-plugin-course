@@ -3,6 +3,7 @@ Diagnostics:
   Suppress:
     - cppcoreguidelines-owning-memory
     - cppcoreguidelines-avoid-do-while
+    - readability-convert-member-functions-to-static
 
 ---
 If:
@@ -11,11 +12,70 @@ CompileFlags:
   Add:
     - -std=gnu++2b
     - -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1
+    - -DJUCE_MODULE_AVAILABLE_juce_core=1
+    - -DJUCE_MODULE_AVAILABLE_juce_events=1
+    - -DJUCE_MODULE_AVAILABLE_juce_graphics=1
+    - -DJUCE_MODULE_AVAILABLE_juce_audio_basics=1
+    - -DJUCE_MODULE_AVAILABLE_juce_gui_basics=1
+    - -DJUCE_MODULE_AVAILABLE_juce_audio_processors=1
+    - -DJUCE_MODULE_AVAILABLE_juce_dsp=1
     - -DDEBUG=1
     - -I/Users/michaelbarakat/projects/tremolo-juce-course/complete
     - -I/Users/michaelbarakat/projects/tremolo-juce-course/complete/libs/juce/modules
     - -I/Users/michaelbarakat/projects/tremolo-juce-course/complete/cmake-build/juce_binarydata_tremolo_plugin_assets/JuceLibraryCode
     - '-DTREMOLO_PLUGIN_NAME="Tremolo"'
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/libs/juce/modules/juce_core/juce_core.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/libs/juce/modules/juce_events/juce_events.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/libs/juce/modules/juce_graphics/juce_graphics.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/libs/juce/modules/juce_audio_basics/juce_audio_basics.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/libs/juce/modules/juce_gui_basics/juce_gui_basics.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/libs/juce/modules/juce_audio_processors/juce_audio_processors.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/libs/juce/modules/juce_dsp/juce_dsp.h
+    - -include
+    - ranges
+    - -include
+    - vector
+    - -include
+    - memory
+    - -include
+    - functional
+    - -include
+    - algorithm
+    - -include
+    - array
+    - -include
+    - cmath
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/cmake-build/juce_binarydata_tremolo_plugin_assets/JuceLibraryCode/TremoloPluginAssets.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/tremolo_plugin/include/Tremolo/Parameters.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/tremolo_plugin/include/Tremolo/Tremolo.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/tremolo_plugin/include/Tremolo/BypassTransitionSmoother.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/tremolo_plugin/include/Tremolo/CustomLookAndFeel.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/tremolo_plugin/include/Tremolo/detail/StridedQueue.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/tremolo_plugin/include/Tremolo/SampleFifo.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/tremolo_plugin/include/Tremolo/JsonSerializer.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/tremolo_plugin/include/Tremolo/LfoVisualizer.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/tremolo_plugin/include/Tremolo/MessageOnClick.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/tremolo_plugin/include/Tremolo/PluginProcessor.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/complete/tremolo_plugin/include/Tremolo/PluginEditor.h
 
 ---
 If:
@@ -24,9 +84,58 @@ CompileFlags:
   Add:
     - -std=gnu++2b
     - -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1
+    - -DJUCE_MODULE_AVAILABLE_juce_core=1
+    - -DJUCE_MODULE_AVAILABLE_juce_events=1
+    - -DJUCE_MODULE_AVAILABLE_juce_graphics=1
+    - -DJUCE_MODULE_AVAILABLE_juce_audio_basics=1
+    - -DJUCE_MODULE_AVAILABLE_juce_gui_basics=1
+    - -DJUCE_MODULE_AVAILABLE_juce_audio_processors=1
+    - -DJUCE_MODULE_AVAILABLE_juce_dsp=1
     - -DDEBUG=1
     - -I/Users/michaelbarakat/projects/tremolo-juce-course/todo
     - -I/Users/michaelbarakat/projects/tremolo-juce-course/todo/libs/juce/modules
     - -I/Users/michaelbarakat/projects/tremolo-juce-course/todo/cmake-build/juce_binarydata_tremolo_plugin_assets/JuceLibraryCode
     - '-DTREMOLO_PLUGIN_NAME="Tremolo"'
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/libs/juce/modules/juce_core/juce_core.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/libs/juce/modules/juce_events/juce_events.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/libs/juce/modules/juce_graphics/juce_graphics.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/libs/juce/modules/juce_audio_basics/juce_audio_basics.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/libs/juce/modules/juce_gui_basics/juce_gui_basics.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/libs/juce/modules/juce_audio_processors/juce_audio_processors.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/libs/juce/modules/juce_dsp/juce_dsp.h
+    - -include
+    - ranges
+    - -include
+    - vector
+    - -include
+    - memory
+    - -include
+    - functional
+    - -include
+    - algorithm
+    - -include
+    - array
+    - -include
+    - cmath
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/tremolo_plugin/include/Tremolo/Parameters.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/tremolo_plugin/include/Tremolo/Tremolo.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/tremolo_plugin/include/Tremolo/BypassTransitionSmoother.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/tremolo_plugin/include/Tremolo/CustomLookAndFeel.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/tremolo_plugin/include/Tremolo/JsonSerializer.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/tremolo_plugin/include/Tremolo/PluginProcessor.h
+    - -include
+    - /Users/michaelbarakat/projects/tremolo-juce-course/todo/tremolo_plugin/include/Tremolo/PluginEditor.h
 
